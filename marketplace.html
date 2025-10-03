@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace | E-Cure Earth</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
+                E-Cure Earth
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="impacts.html">Impacts</a>
+                <a href="collectors.html">Collectors</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="auth.html">Login</a>
+                <a href="auth.html?signup=true" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Marketplace Header -->
+    <section class="marketplace-header full-width-section">
+        <div class="container">
+            <h1>Electronics Marketplace</h1>
+            <p>Buy and sell used electronics with trusted community members</p>
+        </div>
+    </section>
+
+    <!-- Marketplace Filters -->
+    <section class="marketplace-filters full-width-section">
+        <div class="container">
+            <div class="filter-group">
+                <label for="category">Category:</label>
+                <select id="category">
+                    <option value="all">All Categories</option>
+                    <option value="laptops">Laptops</option>
+                    <option value="phones">Phones</option>
+                    <option value="tablets">Tablets</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="location">Location:</label>
+                <select id="location">
+                    <option value="all">All Areas</option>
+                    <option value="north">North Region</option>
+                    <option value="south">South Region</option>
+                    <option value="east">East Region</option>
+                    <option value="west">West Region</option>
+                </select>
+            </div>
+            <button class="btn btn-primary">Apply Filters</button>
+            <button class="btn btn-secondary" id="add-listing">+ Add Listing</button>
+        </div>
+    </section>
+
+    <!-- Marketplace Listings -->
+    <section class="marketplace-listings full-width-section">
+        <div class="container">
+            <div class="listing-grid">
+                <!-- Listing 1 -->
+                <div class="listing-card">
+                    <div class="listing-image">
+                        <img src="laptop.jpeg" alt="Used Laptop">
+                        <span class="listing-price">$250</span>
+                    </div>
+                    <div class="listing-details">
+                        <h3>Dell Latitude Laptop</h3>
+                        <p class="listing-description">2-year old laptop in good condition. i5 processor, 8GB RAM, 256GB SSD.</p>
+                        <div class="listing-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> North Region</span>
+                            <span><i class="fas fa-calendar-alt"></i> Posted 3 days ago</span>
+                        </div>
+                        <button class="btn btn-primary">Contact Seller</button>
+                    </div>
+                </div>
+
+                <!-- Listing 2 -->
+                <div class="listing-card">
+                    <div class="listing-image">
+                        <img src="smartphone.jpeg" alt="Used Smartphone">
+                        <span class="listing-price">$120</span>
+                    </div>
+                    <div class="listing-details">
+                        <h3>Samsung Galaxy S9</h3>
+                        <p class="listing-description">Good condition, minor scratches. Includes charger and case.</p>
+                        <div class="listing-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> West Region</span>
+                            <span><i class="fas fa-calendar-alt"></i> Posted 1 week ago</span>
+                        </div>
+                        <button class="btn btn-primary">Contact Seller</button>
+                    </div>
+                </div>
+
+                <!-- Listing 3 -->
+                <div class="listing-card">
+                    <div class="listing-image">
+                        <img src="tablet.jpeg" alt="Used Tablet">
+                        <span class="listing-price">$80</span>
+                    </div>
+                    <div class="listing-details">
+                        <h3>iPad Air 2</h3>
+                        <p class="listing-description">Works perfectly, battery life still good. No accessories included.</p>
+                        <div class="listing-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> East Region</span>
+                            <span><i class="fas fa-calendar-alt"></i> Posted 2 days ago</span>
+                        </div>
+                        <button class="btn btn-primary">Contact Seller</button>
+                    </div>
+                </div>
+
+                <!-- Listing 4 -->
+                <div class="listing-card">
+                    <div class="listing-image">
+                        <img src="monitor.jpeg" alt="Used Monitor">
+                        <span class="listing-price">$60</span>
+                    </div>
+                    <div class="listing-details">
+                        <h3>24" Dell Monitor</h3>
+                        <p class="listing-description">1080p display, works perfectly. HDMI and VGA inputs.</p>
+                        <div class="listing-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> South Region</span>
+                            <span><i class="fas fa-calendar-alt"></i> Posted 5 days ago</span>
+                        </div>
+                        <button class="btn btn-primary">Contact Seller</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Listing Modal -->
+    <div class="modal" id="listing-modal">
+        <div class="modal-content">
+            <span class="close-modal">×</span>
+            <h2>Add New Listing</h2>
+            <form id="listing-form">
+                <div class="form-group">
+                    <label for="listing-title">Title*</label>
+                    <input type="text" id="listing-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="listing-category">Category*</label>
+                    <select id="listing-category" required>
+                        <option value="">Select Category</option>
+                        <option value="laptops">Laptops</option>
+                        <option value="phones">Phones</option>
+                        <option value="tablets">Tablets</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="listing-price">Price ($)*</label>
+                    <input type="number" id="listing-price" required>
+                </div>
+                <div class="form-group">
+                    <label for="listing-location">Location*</label>
+                    <select id="listing-location" required>
+                        <option value="">Select Location</option>
+                        <option value="north">North Region</option>
+                        <option value="south">South Region</option>
+                        <option value="east">East Region</option>
+                        <option value="west">West Region</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="listing-description">Description*</label>
+                    <textarea id="listing-description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="listing-images">Upload Images (max 3)</label>
+                    <input type="file" id="listing-images" multiple accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Listing</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="new-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>E-Cure Earth</h3>
+                    <p>Committed to sustainable e-waste management since 2020.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="collectors.html">Collectors</a></li>
+                        <li><a href="impacts.html">Impacts</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>E-Cure Earth © 2025 | Sustainable E-Waste Solutions</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('category').addEventListener('change', (e) => {
+            const category = e.target.value;
+            filterListings(category);
+        });
+
+        function filterListings(category) {
+            document.querySelectorAll('.listing-card').forEach(card => {
+                card.style.display = 
+                    (category === 'all' || card.dataset.category === category) 
+                    ? 'block' : 'none';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('listing-modal');
+            const addBtn = document.getElementById('add-listing');
+            const closeBtn = document.querySelector('.close-modal');
+            
+            addBtn.addEventListener('click', function() {
+                modal.style.display = 'block';
+            });
+            
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('listing-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Your listing has been submitted for review!');
+                modal.style.display = 'none';
+                this.reset();
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

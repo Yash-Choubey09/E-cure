@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | E-Cure Earth</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <div class="logo">
+                <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
+                E-Cure Earth
+            </div>
+        </div>
+
+        <div class="auth-wrapper">
+            <div class="auth-toggle">
+                <button id="showSigninBtn" class="toggle-btn active">Sign In</button>
+                <button id="showSignupBtn" class="toggle-btn">Sign Up</button>
+            </div>
+
+            <!-- Sign In Form -->
+            <div class="form-container sign-in-container" id="signin-form">
+                <form id="loginForm">
+                    <h1>Sign In</h1>
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="loginEmail" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="loginPassword" placeholder="Password" required>
+                            <i class="fas fa-eye toggle-password" id="toggleLoginPassword"></i>
+                        </div>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div class="form-container sign-up-container" id="signup-form" style="display:none;">
+                <form id="signupForm">
+                    <h1>Create Account</h1>
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="signupName" placeholder="Full Name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="signupEmail" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="signupPassword" placeholder="Password" required>
+                            <i class="fas fa-eye toggle-password" id="toggleSignupPassword"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="signupConfirm" placeholder="Confirm Password" required>
+                            <i class="fas fa-eye toggle-password" id="toggleSignupConfirm"></i>
+                        </div>
+                        <small class="error-message hidden">Passwords don't match!</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="new-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>E-Cure Earth</h3>
+                    <p>Committed to sustainable e-waste management since 2020.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="collectors.html">Collectors</a></li>
+                        <li><a href="impacts.html">Impacts</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>E-Cure Earth © 2025 | Sustainable E-Waste Solutions</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle between Sign In and Sign Up forms
+        const signinForm = document.getElementById('signin-form');
+        const signupForm = document.getElementById('signup-form');
+        const showSigninBtn = document.getElementById('showSigninBtn');
+        const showSignupBtn = document.getElementById('showSignupBtn');
+
+        showSigninBtn.addEventListener('click', () => {
+            signinForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            showSigninBtn.classList.add('active');
+            showSignupBtn.classList.remove('active');
+        });
+
+        showSignupBtn.addEventListener('click', () => {
+            signupForm.style.display = 'block';
+            signinForm.style.display = 'none';
+            showSignupBtn.classList.add('active');
+            showSigninBtn.classList.remove('active');
+        });
+
+        // Show/Hide Password
+        function togglePasswordVisibility(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId);
+            toggleIcon.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                toggleIcon.classList.toggle('fa-eye');
+                toggleIcon.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        togglePasswordVisibility('loginPassword', 'toggleLoginPassword');
+        togglePasswordVisibility('signupPassword', 'toggleSignupPassword');
+        togglePasswordVisibility('signupConfirm', 'toggleSignupConfirm');
+
+        // Form Submission (basic validation)
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirm').value;
+            const errorMessage = document.querySelector('.error-message');
+            if (password !== confirmPassword) {
+                errorMessage.classList.remove('hidden');
+            } else {
+                errorMessage.classList.add('hidden');
+                alert('Account created successfully!');
+                this.reset();
+                showSigninBtn.click();
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Logged in successfully!');
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

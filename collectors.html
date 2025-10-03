@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Collectors | E-Cure Earth</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
+                E-Cure Earth
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="marketplace.html">Marketplace</a>
+                <a href="impacts.html">Impacts</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="auth.html">Login</a>
+                <a href="auth.html?signup=true" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Collectors Header -->
+    <section class="collectors-header full-width-section">
+        <div class="container">
+            <h1>Find Certified E-Waste Collectors</h1>
+            <p>Locate authorized collection centers near you for responsible e-waste disposal</p>
+        </div>
+    </section>
+
+    <!-- Collector Search -->
+    <section class="collector-search full-width-section">
+        <div class="container">
+            <div class="search-box">
+                <input type="text" placeholder="Enter your location or ZIP code">
+                <button class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="search-filters">
+                <div class="filter-option">
+                    <input type="checkbox" id="pickup" checked>
+                    <label for="pickup">Offers Pickup</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="data-destruction" checked>
+                    <label for="data-destruction">Data Destruction</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="certified" checked>
+                    <label for="certified">Certified Recyclers</label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collectors Map -->
+    <section class="collectors-map full-width-section">
+        <div class="container">
+            <div id="collector-map"></div>
+        </div>
+    </section>
+
+    <!-- Collectors List -->
+    <section class="collectors-list full-width-section">
+        <div class="container">
+            <h2>Collection Centers Near You</h2>
+            <div class="collector-cards">
+                <!-- Collector 1 -->
+                <div class="collector-card">
+                    <div class="collector-info">
+                        <h3>Green E-Waste Center</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Eco Drive, North Region</p>
+                        <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                        <p><i class="fas fa-clock"></i> Mon-Fri: 9AM-5PM, Sat: 10AM-2PM</p>
+                        <div class="collector-badges">
+                            <span class="badge pickup"><i class="fas fa-truck"></i> Pickup Available</span>
+                            <span class="badge certified"><i class="fas fa-certificate"></i> Certified</span>
+                        </div>
+                    </div>
+                    <div class="collector-actions">
+                        <button class="btn btn-primary"><i class="fas fa-directions"></i> Directions</button>
+                        <button class="btn btn-secondary"><i class="fas fa-phone"></i> Call</button>
+                    </div>
+                </div>
+
+                <!-- Collector 2 -->
+                <div class="collector-card">
+                    <div class="collector-info">
+                        <h3>Eco Recycling Facility</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 456 Green Ave, East Region</p>
+                        <p><i class="fas fa-phone"></i> (555) 987-6543</p>
+                        <p><i class="fas fa-clock"></i> 24/7 Drop-off Available</p>
+                        <div class="collector-badges">
+                            <span class="badge data"><i class="fas fa-shield-alt"></i> Data Destruction</span>
+                            <span class="badge certified"><i class="fas fa-certificate"></i> Certified</span>
+                        </div>
+                    </div>
+                    <div class="collector-actions">
+                        <button class="btn btn-primary"><i class="fas fa-directions"></i> Directions</button>
+                        <button class="btn btn-secondary"><i class="fas fa-phone"></i> Call</button>
+                    </div>
+                </div>
+
+                <!-- Collector 3 -->
+                <div class="collector-card">
+                    <div class="collector-info">
+                        <h3>Tech Renewal Hub</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 789 Circuit Blvd, West Region</p>
+                        <p><i class="fas fa-phone"></i> (555) 456-7890</p>
+                        <p><i class="fas fa-clock"></i> Mon-Sat: 8AM-6PM</p>
+                        <div class="collector-badges">
+                            <span class="badge pickup"><i class="fas fa-truck"></i> Pickup Available</span>
+                            <span class="badge data"><i class="fas fa-shield-alt"></i> Data Destruction</span>
+                        </div>
+                    </div>
+                    <div class="collector-actions">
+                        <button class="btn btn-primary"><i class="fas fa-directions"></i> Directions</button>
+                        <button class="btn btn-secondary"><i class="fas fa-phone"></i> Call</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="new-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>E-Cure Earth</h3>
+                    <p>Committed to sustainable e-waste management since 2020.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="collectors.html">Collectors</a></li>
+                        <li><a href="impacts.html">Impacts</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>E-Cure Earth © 2025 | Sustainable E-Waste Solutions</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const map = L.map('collector-map').setView([51.505, -0.09], 13);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            const greenCenter = L.marker([51.5, -0.09]).addTo(map)
+                .bindPopup('<b>Green E-Waste Center</b><br>123 Eco Drive<br>Mon-Fri: 9AM-5PM');
+            
+            const ecoFacility = L.marker([51.51, -0.1]).addTo(map)
+                .bindPopup('<b>Eco Recycling Facility</b><br>456 Green Ave<br>24/7 Drop-off');
+            
+            const techHub = L.marker([51.49, -0.08]).addTo(map)
+                .bindPopup('<b>Tech Renewal Hub</b><br>789 Circuit Blvd<br>Mon-Sat: 8AM-6PM');
+            
+            const group = new L.featureGroup([greenCenter, ecoFacility, techHub]);
+            map.fitBounds(group.getBounds());
+            
+            document.querySelectorAll('.collector-card').forEach((card, index) => {
+                card.addEventListener('click', function() {
+                    const markers = [greenCenter, ecoFacility, techHub];
+                    markers[index].openPopup();
+                    map.setView(markers[index].getLatLng(), 15);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

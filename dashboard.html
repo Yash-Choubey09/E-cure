@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | E-Cure Earth</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo">
+                        <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
+                        E-Cure Earth
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <h4 id="username">User</h4>
+                            <p>Member</p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="marketplace.html"><i class="fas fa-exchange-alt"></i> Marketplace</a></li>
+                        <li><a href="collectors.html"><i class="fas fa-map-marker-alt"></i> Find Collectors</a></li>
+                        <li><a href="#"><i class="fas fa-history"></i> Recycling History</a></li>
+                        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="dashboard-header">
+                    <h1>Welcome Back, <span id="user-greeting">User</span>!</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="add-device-btn"><i class="fas fa-plus"></i> Add Device</button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Devices Recycled</h3>
+                            <p id="devices-count">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-weight-hanging"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Weight</h3>
+                            <p id="weight-count">0 kg</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>CO₂ Saved</h3>
+                            <p id="co2-count">0 kg</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2>Quick Actions</h2>
+                    <div class="action-buttons">
+                        <a href="collectors.html" class="action-btn">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule Pickup</span>
+                        </a>
+                        <a href="marketplace.html" class="action-btn">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Sell Device</span>
+                        </a>
+                        <a href="impacts.html" class="action-btn">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Learn Impacts</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="new-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h3>E-Cure Earth</h3>
+                        <p>Committed to sustainable e-waste management since 2020.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="index.html#about">About Us</a></li>
+                            <li><a href="marketplace.html">Marketplace</a></li>
+                            <li><a href="collectors.html">Collectors</a></li>
+                            <li><a href="impacts.html">Impacts</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Follow Us</h3>
+                        <div class="social-links">
+                            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>E-Cure Earth © 2025 | Sustainable E-Waste Solutions</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

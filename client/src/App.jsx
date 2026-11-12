@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, BarChart3, BookOpen, CalendarCheck, CheckCircle2, CircleUserRound, FlaskConical, Leaf, MapPinned, Menu, Moon, Recycle, ShieldCheck, Sparkles, Sun, Truck, X } from 'lucide-react';
+import { ArrowRight, BarChart3, BookOpen, CalendarCheck, CheckCircle2, CircleUserRound, ExternalLink, FlaskConical, Leaf, LocateFixed, MapPinned, Menu, Moon, Recycle, Search, ShieldCheck, Sparkles, Sun, Truck, X } from 'lucide-react';
 import { apiUrl } from './config';
 
 const demoListings = [
@@ -16,6 +16,129 @@ const features = [
   [CalendarCheck, 'Doorstep pickup', 'Book a convenient collection for your home or business in a few thoughtful clicks.'],
   [Sparkles, 'Earn green points', 'Turn every responsible hand-off into rewards for your next sustainable choice.']
 ];
+
+const fallbackCollectors = [
+  { id: 'fallback-delhi', name: 'EcoTech Recycling Hub', location: 'Delhi NCR', badge: 'R2v3 Certified', lat: 28.6139, lon: 77.209, source: 'E-Cure network' },
+  { id: 'fallback-mumbai', name: 'GreenCycle Processing Center', location: 'Mumbai', badge: 'ISO 14001', lat: 19.076, lon: 72.8777, source: 'E-Cure network' },
+  { id: 'fallback-bengaluru', name: 'Urban Miners Zero-Waste', location: 'Bengaluru', badge: 'e-Stewards', lat: 12.9716, lon: 77.5946, source: 'E-Cure network' }
+];
+
+function mapEmbedUrl(lat, lon) {
+  const delta = 0.12;
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}&layer=mapnik&marker=${lat}%2C${lon}`;
+}
+
+function getBrowserLocation() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) return reject(new Error('Geolocation is not supported by this browser.'));
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => resolve({ lat: coords.latitude, lon: coords.longitude }),
+      () => reject(new Error('Location access was not available. Search by city or postcode instead.')),
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+    );
+  });
+}
+
+async function fetchWithTimeout(url, options = {}, timeout = 10000) {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), timeout);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
+function distanceInKm(from, to) {
+  const radians = (value) => value * Math.PI / 180;
+  const latDelta = radians(to.lat - from.lat);
+  const lonDelta = radians(to.lon - from.lon);
+  const a = Math.sin(latDelta / 2) ** 2 + Math.cos(radians(from.lat)) * Math.cos(radians(to.lat)) * Math.sin(lonDelta / 2) ** 2;
+  return Math.round(6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+}
+
+function CollectorMap() {
+  const [query, setQuery] = useState('');
+  const [center, setCenter] = useState({ lat: 20.5937, lon: 78.9629 });
+  const [collectors, setCollectors] = useState(fallbackCollectors);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [searched, setSearched] = useState(false);
+
+  async function searchCollectors(event, useCurrentLocation = false) {
+    event?.preventDefault();
+    setLoading(true);
+    setError('');
+    let location = null;
+    try {
+      location = useCurrentLocation || !query.trim() ? await getBrowserLocation() : null;
+      if (!location) {
+        const geocodeResponse = await fetchWithTimeout(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query.trim())}`, { headers: { Accept: 'application/json' } });
+        if (!geocodeResponse.ok) throw new Error('The location search service is unavailable.');
+        const places = await geocodeResponse.json();
+        if (!places.length) throw new Error('That location could not be found. Try a nearby city or postcode.');
+        location = { lat: Number(places[0].lat), lon: Number(places[0].lon) };
+      }
+
+      const overpassQuery = `[out:json][timeout:20];(nwr["amenity"="recycling"](around:15000,${location.lat},${location.lon});nwr["shop"~"electronics|computer|mobile_phone"](around:15000,${location.lat},${location.lon}););out center tags;`;
+      const placesResponse = await fetchWithTimeout(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`, { headers: { Accept: 'application/json' } }, 15000);
+      if (!placesResponse.ok) throw new Error('The local seller directory is temporarily unavailable.');
+      const placesData = await placesResponse.json();
+      const results = placesData.elements.map((place) => {
+        const lat = place.lat ?? place.center?.lat;
+        const lon = place.lon ?? place.center?.lon;
+        const tags = place.tags || {};
+        return { id: `${place.type}-${place.id}`, name: tags.name || 'Local electronics seller', location: tags['addr:city'] || tags['addr:street'] || 'Nearby', badge: tags.amenity === 'recycling' ? 'Recycling point' : 'Electronics seller', lat, lon, distance: distanceInKm(location, { lat, lon }), source: 'OpenStreetMap' };
+      }).filter((place) => Number.isFinite(place.lat) && Number.isFinite(place.lon)).sort((a, b) => a.distance - b.distance).slice(0, 6);
+      setCenter(location);
+      setCollectors(results);
+      setSearched(true);
+      if (!results.length) setError('No sellers or recycling points were found within 15 km. Try a wider city search.');
+    } catch (requestError) {
+      if (location) {
+        try {
+          const fallbackQuery = query.trim() ? `electronics recycling ${query.trim()}` : `electronics recycling near ${location.lat},${location.lon}`;
+          const directoryResponse = await fetchWithTimeout(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&addressdetails=1&q=${encodeURIComponent(fallbackQuery)}`, { headers: { Accept: 'application/json' } });
+          if (directoryResponse.ok) {
+            const directoryPlaces = await directoryResponse.json();
+            const directoryResults = directoryPlaces.map((place) => ({ id: `nominatim-${place.place_id}`, name: place.name || 'Local electronics seller', location: place.display_name?.split(',').slice(0, 2).join(',') || 'Nearby', badge: 'OpenStreetMap directory', lat: Number(place.lat), lon: Number(place.lon), distance: distanceInKm(location, { lat: Number(place.lat), lon: Number(place.lon) }), source: 'OpenStreetMap' })).filter((place) => Number.isFinite(place.lat) && Number.isFinite(place.lon));
+            if (directoryResults.length) {
+              setCenter(location);
+              setCollectors(directoryResults);
+              setSearched(true);
+              return;
+            }
+          }
+        } catch {
+          // Keep the primary directory error when the secondary public endpoint also fails.
+        }
+      }
+      setError(requestError.name === 'AbortError' ? 'The seller directory took too long to respond. Please try again or search another location.' : requestError.message || 'Unable to find local sellers right now.');
+      setCollectors(fallbackCollectors);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return <div className="collector-tool">
+    <form className="collector-search" onSubmit={searchCollectors}>
+      <div className="search-field"><Search size={16} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search city or postcode" aria-label="Search city or postcode" /></div>
+      <button className="button button-primary" type="submit" disabled={loading}>{loading ? 'Searching...' : 'Find sellers'}</button>
+      <button className="button button-secondary location-button" type="button" onClick={(event) => searchCollectors(event, true)} disabled={loading}><LocateFixed size={15} /> Use my location</button>
+    </form>
+    {error && <p className="collector-error" role="status">{error}</p>}
+    <div className="collector-layout">
+      <div className="collector-map glass-card">
+        <iframe title="OpenStreetMap seller map" src={mapEmbedUrl(center.lat, center.lon)} loading="lazy" />
+        <a className="map-credit" href={`https://www.openstreetmap.org/?mlat=${center.lat}&mlon=${center.lon}#map=12/${center.lat}/${center.lon}`} target="_blank" rel="noreferrer">Open larger map <ExternalLink size={12} /></a>
+      </div>
+      <div className="collector-list">
+        {collectors.map((collector) => <a className="collector-row glass-card" href={`https://www.openstreetmap.org/?mlat=${collector.lat}&mlon=${collector.lon}#map=17/${collector.lat}/${collector.lon}`} target="_blank" rel="noreferrer" key={collector.id}><span className="collector-icon"><ShieldCheck size={18} /></span><div><strong>{collector.name}</strong><small>{collector.location} · {collector.badge}{collector.distance !== undefined ? ` · ${collector.distance} km away` : ''}</small><em>{collector.source}</em></div><ExternalLink size={15} /></a>)}
+        {!collectors.length && searched && <div className="collector-empty glass-card">No matching sellers yet. Try another location.</div>}
+      </div>
+    </div>
+  </div>;
+}
 
 function HomePage({ navigate }) {
   const [listings, setListings] = useState(demoListings);
@@ -141,7 +264,7 @@ function HomePage({ navigate }) {
 
         <section className="impact-section section-block" id="carbon-calculator"><div className="section-wrap impact-layout"><div className="section-intro reveal"><p className="eyebrow"><BarChart3 size={15} /> Carbon calculator</p><h2>See the good <span>add up.</span></h2><p>Model your next recovery cycle and turn avoided waste into a number your whole team can feel.</p></div><div className="calculator glass-card reveal">{Object.entries({ laptops: 'Laptops', phones: 'Phones', servers: 'Servers' }).map(([key, label]) => <label key={key}><span>{label}<b>{counts[key]} units</b></span><input type="range" min="0" max={key === 'servers' ? 10 : 50} value={counts[key]} onChange={(event) => setCounts({ ...counts, [key]: Number(event.target.value) })} /></label>)}<div className="metric-row"><div><strong>{impact.co2.toLocaleString()}</strong><small>kg CO2e avoided</small></div><div><strong>{impact.weight.toFixed(1)}</strong><small>kg materials recovered</small></div><div><strong>${impact.value.toLocaleString()}</strong><small>estimated value</small></div></div></div></div></section>
 
-        <section className="section-wrap section-block collectors-section" id="collectors-map"><div className="section-intro reveal"><p className="eyebrow"><MapPinned size={15} /> Certified network</p><h2>Find a collector <span>near you.</span></h2><p>Our verified network makes the handoff simple, safe, and trackable.</p></div><div className="collector-layout"><div className="collector-map glass-card"><div className="map-grid" /><div className="map-route route-one" /><div className="map-route route-two" />{[['Delhi NCR', '82 active devices', 'top: 28%; left: 55%'], ['Mumbai', '41 active devices', 'top: 58%; left: 28%'], ['Bengaluru', '36 active devices', 'top: 70%; left: 64%']].map(([city, status, position]) => <div className="map-pin" style={{ ...Object.fromEntries(position.split('; ').map((item) => item.split(': '))) }} key={city}><span><MapPinned size={14} /></span><strong>{city}</strong><small>{status}</small></div>)}</div><div className="collector-list">{[['EcoTech Recycling Hub', 'Delhi NCR', 'R2v3 Certified'], ['GreenCycle Processing Center', 'Mumbai', 'ISO 14001'], ['Urban Miners Zero-Waste', 'Bengaluru', 'e-Stewards']].map(([name, location, badge]) => <article className="collector-row glass-card" key={name}><span className="collector-icon"><ShieldCheck size={18} /></span><div><strong>{name}</strong><small>{location} · {badge}</small></div><ArrowRight size={15} /></article>)}</div></div></section>
+        <section className="section-wrap section-block collectors-section" id="collectors-map"><div className="section-intro reveal"><p className="eyebrow"><MapPinned size={15} /> Live seller directory</p><h2>Find a seller <span>near you.</span></h2><p>Search real nearby electronics sellers and recycling points using OpenStreetMap data, then open directions in a larger map.</p></div><CollectorMap /></section>
 
         <section className="science-section section-block" id="science"><div className="section-wrap science-layout"><div className="section-intro reveal"><p className="eyebrow"><FlaskConical size={15} /> The science of circularity</p><h2>Less waste. <span>More useful life.</span></h2><p>Keeping a device in use avoids the embedded carbon of manufacturing a replacement and recovers valuable materials from the loop.</p></div><div className="science-cards"><article className="science-card reveal"><strong>70%</strong><span>of a device&apos;s carbon footprint can happen before it reaches your hands.</span></article><article className="science-card reveal"><strong>17.4kg</strong><span>of e-waste was generated per person globally in the last measured year.</span></article><article className="science-card reveal"><strong>98%</strong><span>material recovery is possible when devices enter a certified process.</span></article></div></div></section>
 

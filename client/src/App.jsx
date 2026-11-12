@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, BarChart3, CalendarCheck, CheckCircle2, CircleUserRound, Leaf, Menu, Recycle, ShieldCheck, Sparkles, Truck, X } from 'lucide-react';
+import { apiUrl } from './config';
 
 const demoListings = [
   { _id: 'demo-1', title: 'Refurbished Field Laptop', category: 'Computing', condition: 'Grade A', price: 420, impact: '12.8 kg CO2e avoided', image: 'laptop.jpeg', seller: 'GreenLoop Studio' },
@@ -26,7 +27,7 @@ function App() {
   const [counts, setCounts] = useState({ phones: 12, laptops: 6, servers: 1 });
 
   useEffect(() => {
-    fetch('/api/listings')
+    fetch(apiUrl('/api/listings'))
       .then((response) => response.ok ? response.json() : demoListings)
       .then(setListings)
       .catch(() => setListings(demoListings));
@@ -67,7 +68,7 @@ function App() {
 
   async function submitAuth(event) {
     event.preventDefault();
-    const endpoint = authMode === 'register' ? '/api/auth/register' : '/api/auth/login';
+    const endpoint = apiUrl(authMode === 'register' ? '/api/auth/register' : '/api/auth/login');
     const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(auth) });
     const data = await response.json();
     if (!response.ok) return showToast(data.message || 'Unable to complete that request.');

@@ -18,3 +18,7 @@ E-Cure Earth is a full-stack MERN circular hardware marketplace and impact ledge
 The React client runs at `http://localhost:5173` and proxies `/api` requests to the Express server at `http://localhost:5000`. If MongoDB is unavailable, the marketplace remains available in read-only demo mode; registration, login, and publishing listings require MongoDB.
 
 The original static pages and media remain in the repository as legacy references while the React client becomes the primary application experience.
+
+## Deploy
+
+For the planned split deployment, create a Render web service from the repository using [`render.yaml`](./render.yaml), then set its `MONGODB_URI` to a MongoDB Atlas connection string. Create a Vercel project with `client/` as its root directory, set `VITE_API_URL` to the Render service URL, and deploy using [`client/vercel.json`](./client/vercel.json).

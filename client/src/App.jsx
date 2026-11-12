@@ -148,6 +148,7 @@ function HomePage({ navigate }) {
   const [toast, setToast] = useState('');
   const [auth, setAuth] = useState({ email: '', password: '', name: '' });
   const [counts, setCounts] = useState({ phones: 12, laptops: 6, servers: 1 });
+  const [wordmarkLens, setWordmarkLens] = useState({ visible: false, x: 50, y: 50 });
   const [session, setSession] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('eCureSession')) || null;
@@ -250,9 +251,12 @@ function HomePage({ navigate }) {
             <span className="reference-sticker sticker-gold"><b>-6.2t CO₂</b> Scope 3 Mitigated</span>
             <span className="reference-node node-chd">CHD</span>
             <span className="reference-node node-blr">BLR</span>
-            <div className="reference-frame">
+            <div className="reference-frame" onMouseEnter={() => setWordmarkLens({ ...wordmarkLens, visible: true })} onMouseLeave={() => setWordmarkLens({ ...wordmarkLens, visible: false })} onMouseMove={(event) => {
+              const bounds = event.currentTarget.getBoundingClientRect();
+              setWordmarkLens({ visible: true, x: ((event.clientX - bounds.left) / bounds.width) * 100, y: ((event.clientY - bounds.top) / bounds.height) * 100 });
+            }}>
               <span className="frame-label">● FRAME // E-CURE.SPEC [HOVER TO X-RAY]</span>
-              <div className="reference-inner-frame"><span className="reference-wordmark">E-CURE</span><i>●</i></div>
+              <div className="reference-inner-frame"><span className="reference-wordmark">E-CURE</span><i>●</i><span className={`reference-hover-lens${wordmarkLens.visible ? ' is-visible' : ''}`} style={{ left: `${wordmarkLens.x}%`, top: `${wordmarkLens.y}%` }}><b>E-CURE</b><small>SCANNER // X-RAY</small></span></div>
               <span className="scanner-pill">● SCANNER // VERIFIED</span>
             </div>
             <span className="reference-sticker sticker-sage">◈ 2,400 KG TRACKED</span>

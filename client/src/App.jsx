@@ -25,6 +25,13 @@ function App() {
   const [toast, setToast] = useState('');
   const [auth, setAuth] = useState({ email: '', password: '', name: '' });
   const [counts, setCounts] = useState({ phones: 12, laptops: 6, servers: 1 });
+  const [session, setSession] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('eCureSession')) || null;
+    } catch {
+      return null;
+    }
+  });
 
   useEffect(() => {
     fetch(apiUrl('/api/listings'))
@@ -73,8 +80,29 @@ function App() {
     const data = await response.json();
     if (!response.ok) return showToast(data.message || 'Unable to complete that request.');
     localStorage.setItem('eCureSession', JSON.stringify(data));
+    setSession(data);
     setAuthOpen(false);
     showToast(`Welcome, ${data.user.name}. Your green console is ready.`);
+  }
+
+  async function demoLogin() {
+    try {
+      const response = await fetch(apiUrl('/api/auth/demo-login'), { method: 'POST' });
+      const data = await response.json();
+      if (!response.ok) return showToast(data.message || 'Demo login is unavailable.');
+      localStorage.setItem('eCureSession', JSON.stringify(data));
+      setSession(data);
+      setAuthOpen(false);
+      showToast('Demo mode active. Welcome, Demo Explorer.');
+    } catch {
+      showToast('The server is unavailable. Please try again in a moment.');
+    }
+  }
+
+  function signOut() {
+    localStorage.removeItem('eCureSession');
+    setSession(null);
+    showToast('You have been signed out.');
   }
 
   return (
@@ -85,7 +113,7 @@ function App() {
         <button className="menu-button" aria-label="Toggle navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'}>
           <a href="#about" onClick={() => setMenuOpen(false)}>Why us</a><a href="#process" onClick={() => setMenuOpen(false)}>How it works</a><a href="#impact" onClick={() => setMenuOpen(false)}>Impact</a><a href="#marketplace" onClick={() => setMenuOpen(false)}>Marketplace</a>
-          <button className="button button-primary button-small" onClick={() => setAuthOpen(true)}><CircleUserRound size={15} /> Sign in</button>
+          {session ? <><span className="session-pill"><CircleUserRound size={15} /> {session.user.name}</span><button className="button button-secondary button-small" onClick={signOut}>Sign out</button></> : <button className="button button-primary button-small" onClick={() => setAuthOpen(true)}><CircleUserRound size={15} /> Sign in</button>}
         </nav>
       </header>
 
@@ -110,7 +138,7 @@ function App() {
 
       <footer className="site-footer section-wrap"><a className="brand" href="#home"><span className="brand-mark"><Leaf size={19} /></span><span>E-Cure <em>Earth</em><small>grow a circular future</small></span></a><p>© 2026 E-Cure Earth. Responsible technology, responsibly handled.</p><div className="footer-links"><a href="#about">About</a><a href="#process">Mission</a><a href="#marketplace">Marketplace</a></div></footer>
       {toast && <div className="toast"><CheckCircle2 size={17} /> {toast}</div>}
-      {authOpen && <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && setAuthOpen(false)}><form className="auth-card glass-card" onSubmit={submitAuth}><button type="button" className="modal-close" onClick={() => setAuthOpen(false)}><X /></button><p className="eyebrow"><Leaf size={15} /> Welcome to the green network</p><h2>{authMode === 'register' ? 'Plant your account.' : 'Welcome back.'}</h2>{authMode === 'register' && <input required placeholder="Your name" value={auth.name} onChange={(event) => setAuth({ ...auth, name: event.target.value })} />}<input required type="email" placeholder="Email address" value={auth.email} onChange={(event) => setAuth({ ...auth, email: event.target.value })} /><input required minLength="8" type="password" placeholder="Password (8+ characters)" value={auth.password} onChange={(event) => setAuth({ ...auth, password: event.target.value })} /><button className="button button-primary" type="submit">{authMode === 'register' ? 'Create account' : 'Sign in'} <ArrowRight size={16} /></button><button type="button" className="switch-auth" onClick={() => setAuthMode(authMode === 'register' ? 'login' : 'register')}>{authMode === 'register' ? 'Already a member? Sign in' : 'New here? Register your org'}</button></form></div>}
+      {authOpen && <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && setAuthOpen(false)}><form className="auth-card glass-card" onSubmit={submitAuth}><button type="button" className="modal-close" onClick={() => setAuthOpen(false)}><X /></button><p className="eyebrow"><Leaf size={15} /> Welcome to the green network</p><h2>{authMode === 'register' ? 'Plant your account.' : 'Welcome back.'}</h2>{authMode === 'register' && <input required placeholder="Your name" value={auth.name} onChange={(event) => setAuth({ ...auth, name: event.target.value })} />}<input required type="email" placeholder="Email address" value={auth.email} onChange={(event) => setAuth({ ...auth, email: event.target.value })} /><input required minLength="8" type="password" placeholder="Password (8+ characters)" value={auth.password} onChange={(event) => setAuth({ ...auth, password: event.target.value })} /><button className="button button-primary" type="submit">{authMode === 'register' ? 'Create account' : 'Sign in'} <ArrowRight size={16} /></button>{authMode === 'login' && <><div className="auth-divider"><span>or</span></div><button type="button" className="button demo-button" onClick={demoLogin}>Continue with demo account</button><p className="demo-hint">No database account required</p></>}<button type="button" className="switch-auth" onClick={() => setAuthMode(authMode === 'register' ? 'login' : 'register')}>{authMode === 'register' ? 'Already a member? Sign in' : 'New here? Register your org'}</button></form></div>}
     </div>
   );
 }

@@ -121,6 +121,11 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+app.post('/api/auth/demo-login', (req, res) => {
+  const user = { _id: 'demo-user', name: 'Demo Explorer', email: 'demo@ecure.earth' };
+  res.json({ token: createToken(user), user: { name: user.name, email: user.email }, demo: true });
+});
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(clientDist));
   app.get('*', (req, res) => res.sendFile(path.join(clientDist, 'index.html')));

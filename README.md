@@ -23,4 +23,4 @@ The dedicated sign-in page separates **Buyer** and **Lister** roles. It includes
 
 ## Deploy
 
-For the planned split deployment, create a Render web service from the repository using [`render.yaml`](./render.yaml), then set its `MONGODB_URI` to a MongoDB Atlas connection string. Create a Vercel project with `client/` as its root directory, set `VITE_API_URL` to the Render service URL, and deploy using [`client/vercel.json`](./client/vercel.json).
+For the planned split deployment, create a Render web service from the repository using [`render.yaml`](./render.yaml), then set its `MONGODB_URI` to a MongoDB Atlas connection string. Create a Vercel project connected to the `main` branch with `client/` as its root directory, set `VITE_API_URL` to the Render service URL, and deploy using [`client/vercel.json`](./client/vercel.json). Vercel should use `npm run build` and `dist` as the output directory; each push to `main` will then rebuild the latest frontend.

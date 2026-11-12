@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketplace | E-Cure Earth</title>
+    <title>Enterprise Marketplace | E-Cure Earth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <div class="container">
-            <div class="logo">
+            <a href="index.html" class="logo">
                 <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
-                E-Cure Earth
-            </div>
+                <span>E-Cure<span style="color: var(--primary-light);">.</span>Earth</span>
+            </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="impacts.html">Impacts</a>
@@ -33,8 +35,9 @@
     <!-- Marketplace Header -->
     <section class="marketplace-header full-width-section">
         <div class="container">
-            <h1>Electronics Marketplace</h1>
-            <p>Buy and sell used electronics with trusted community members</p>
+            <span class="section-tag">Circular Economy Exchange</span>
+            <h1>Enterprise Hardware Marketplace</h1>
+            <p>Exchange, acquire, and repurpose certified enterprise-grade IT equipment with verified carbon savings.</p>
         </div>
     </section>
 
@@ -42,28 +45,28 @@
     <section class="marketplace-filters full-width-section">
         <div class="container">
             <div class="filter-group">
-                <label for="category">Category:</label>
+                <label for="category"><i class="fas fa-filter"></i> Category:</label>
                 <select id="category">
                     <option value="all">All Categories</option>
-                    <option value="laptops">Laptops</option>
-                    <option value="phones">Phones</option>
-                    <option value="tablets">Tablets</option>
-                    <option value="accessories">Accessories</option>
-                    <option value="other">Other</option>
+                    <option value="laptops">Laptops & Workstations</option>
+                    <option value="phones">Smartphones & Handhelds</option>
+                    <option value="tablets">Tablets & Displays</option>
+                    <option value="accessories">Enterprise Components</option>
+                    <option value="other">Other Hardware</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label for="location">Location:</label>
+                <label for="location"><i class="fas fa-map-marker-alt"></i> Region:</label>
                 <select id="location">
-                    <option value="all">All Areas</option>
-                    <option value="north">North Region</option>
-                    <option value="south">South Region</option>
-                    <option value="east">East Region</option>
-                    <option value="west">West Region</option>
+                    <option value="all">All Global Regions</option>
+                    <option value="north">North Region (Hub A)</option>
+                    <option value="south">South Region (Hub B)</option>
+                    <option value="east">East Region (Hub C)</option>
+                    <option value="west">West Region (Hub D)</option>
                 </select>
             </div>
-            <button class="btn btn-primary">Apply Filters</button>
-            <button class="btn btn-secondary" id="add-listing">+ Add Listing</button>
+            <button class="btn btn-primary"><i class="fas fa-check"></i> Filter</button>
+            <button class="btn btn-secondary" id="add-listing" style="margin-left: auto;"><i class="fas fa-plus"></i> List Hardware Asset</button>
         </div>
     </section>
 
@@ -74,118 +77,102 @@
                 <!-- Listing 1 -->
                 <div class="listing-card">
                     <div class="listing-image">
-                        <img src="laptop.jpeg" alt="Used Laptop">
+                        <img src="laptop.jpeg" alt="Enterprise Laptop">
                         <span class="listing-price">$250</span>
                     </div>
                     <div class="listing-details">
-                        <h3>Dell Latitude Laptop</h3>
-                        <p class="listing-description">2-year old laptop in good condition. i5 processor, 8GB RAM, 256GB SSD.</p>
+                        <h3>Dell Latitude 7400 Series</h3>
+                        <p class="listing-description">Certified refurbished business ultrabook. Core i5 8th Gen, 16GB DDR4, 256GB NVMe SSD. Zero faults detected.</p>
                         <div class="listing-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> North Region</span>
-                            <span><i class="fas fa-calendar-alt"></i> Posted 3 days ago</span>
+                            <span><i class="fas fa-location-dot"></i> North Region</span>
+                            <span><i class="fas fa-clock"></i> 2d ago</span>
                         </div>
-                        <button class="btn btn-primary">Contact Seller</button>
+                        <button class="btn btn-primary"><i class="fas fa-handshake"></i> Initiate Purchase</button>
                     </div>
                 </div>
 
                 <!-- Listing 2 -->
                 <div class="listing-card">
                     <div class="listing-image">
-                        <img src="smartphone.jpeg" alt="Used Smartphone">
-                        <span class="listing-price">$120</span>
+                        <img src="smartphone.jpeg" alt="Enterprise Smartphone">
+                        <span class="listing-price">$140</span>
                     </div>
                     <div class="listing-details">
-                        <h3>Samsung Galaxy S9</h3>
-                        <p class="listing-description">Good condition, minor scratches. Includes charger and case.</p>
+                        <h3>Samsung Galaxy S-Fleet Model</h3>
+                        <p class="listing-description">Enterprise decommissioned unit. Battery health 92%, fully wiped per NIST 800-88 sanitization standards.</p>
                         <div class="listing-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> West Region</span>
-                            <span><i class="fas fa-calendar-alt"></i> Posted 1 week ago</span>
+                            <span><i class="fas fa-location-dot"></i> South Region</span>
+                            <span><i class="fas fa-clock"></i> 4d ago</span>
                         </div>
-                        <button class="btn btn-primary">Contact Seller</button>
+                        <button class="btn btn-primary"><i class="fas fa-handshake"></i> Initiate Purchase</button>
                     </div>
                 </div>
 
                 <!-- Listing 3 -->
                 <div class="listing-card">
                     <div class="listing-image">
-                        <img src="tablet.jpeg" alt="Used Tablet">
-                        <span class="listing-price">$80</span>
+                        <img src="monitor.jpeg" alt="UltraSharp IPS Monitor">
+                        <span class="listing-price">$95</span>
                     </div>
                     <div class="listing-details">
-                        <h3>iPad Air 2</h3>
-                        <p class="listing-description">Works perfectly, battery life still good. No accessories included.</p>
+                        <h3>Dell UltraSharp 24" IPS Display</h3>
+                        <p class="listing-description">Full HD edge-to-edge bezel, adjustable ergonomic stand, DisplayPort + HDMI hub. Pristine panel.</p>
                         <div class="listing-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> East Region</span>
-                            <span><i class="fas fa-calendar-alt"></i> Posted 2 days ago</span>
+                            <span><i class="fas fa-location-dot"></i> East Region</span>
+                            <span><i class="fas fa-clock"></i> 1w ago</span>
                         </div>
-                        <button class="btn btn-primary">Contact Seller</button>
+                        <button class="btn btn-primary"><i class="fas fa-handshake"></i> Initiate Purchase</button>
                     </div>
                 </div>
 
                 <!-- Listing 4 -->
                 <div class="listing-card">
                     <div class="listing-image">
-                        <img src="monitor.jpeg" alt="Used Monitor">
-                        <span class="listing-price">$60</span>
+                        <img src="tablet.jpeg" alt="Business Tablet">
+                        <span class="listing-price">$180</span>
                     </div>
                     <div class="listing-details">
-                        <h3>24" Dell Monitor</h3>
-                        <p class="listing-description">1080p display, works perfectly. HDMI and VGA inputs.</p>
+                        <h3>iPad 9th Gen 64GB Space Gray</h3>
+                        <p class="listing-description">Factory unlocked, tested diagnostic score 98/100, includes OEM wall adapter and reinforced protective casing.</p>
                         <div class="listing-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> South Region</span>
-                            <span><i class="fas fa-calendar-alt"></i> Posted 5 days ago</span>
+                            <span><i class="fas fa-location-dot"></i> West Region</span>
+                            <span><i class="fas fa-clock"></i> 5d ago</span>
                         </div>
-                        <button class="btn btn-primary">Contact Seller</button>
+                        <button class="btn btn-primary"><i class="fas fa-handshake"></i> Initiate Purchase</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Add Listing Modal -->
-    <div class="modal" id="listing-modal">
+    <!-- Modal for Listing -->
+    <div id="listing-modal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">×</span>
-            <h2>Add New Listing</h2>
-            <form id="listing-form">
+            <span class="close-modal">&times;</span>
+            <h2>List Hardware Asset</h2>
+            <form id="new-listing-form">
                 <div class="form-group">
-                    <label for="listing-title">Title*</label>
-                    <input type="text" id="listing-title" required>
+                    <label for="item-title">Equipment Title</label>
+                    <input type="text" id="item-title" placeholder="e.g. ThinkPad T490 16GB" required>
                 </div>
                 <div class="form-group">
-                    <label for="listing-category">Category*</label>
-                    <select id="listing-category" required>
-                        <option value="">Select Category</option>
+                    <label for="item-price">Target Price ($ USD)</label>
+                    <input type="number" id="item-price" placeholder="e.g. 200" required>
+                </div>
+                <div class="form-group">
+                    <label for="item-category">Category</label>
+                    <select id="item-category" required>
                         <option value="laptops">Laptops</option>
                         <option value="phones">Phones</option>
                         <option value="tablets">Tablets</option>
                         <option value="accessories">Accessories</option>
-                        <option value="other">Other</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="listing-price">Price ($)*</label>
-                    <input type="number" id="listing-price" required>
+                    <label for="item-desc">Hardware Specs & Condition</label>
+                    <textarea id="item-desc" rows="4" placeholder="Mention operational state, battery condition, sanitization..." required></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="listing-location">Location*</label>
-                    <select id="listing-location" required>
-                        <option value="">Select Location</option>
-                        <option value="north">North Region</option>
-                        <option value="south">South Region</option>
-                        <option value="east">East Region</option>
-                        <option value="west">West Region</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="listing-description">Description*</label>
-                    <textarea id="listing-description" rows="4" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="listing-images">Upload Images (max 3)</label>
-                    <input type="file" id="listing-images" multiple accept="image/*">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Listing</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fas fa-cloud-arrow-up"></i> Publish Listing</button>
             </form>
         </div>
     </div>
@@ -195,76 +182,52 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-section">
-                    <h3>E-Cure Earth</h3>
-                    <p>Committed to sustainable e-waste management since 2020.</p>
+                    <div class="logo" style="margin-bottom: 16px;">
+                        <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
+                        <span>E-Cure Earth</span>
+                    </div>
+                    <p>Connecting verified hardware refurbishers with global businesses to eliminate landfill waste.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="index.html#about">About Us</a></li>
-                        <li><a href="marketplace.html">Marketplace</a></li>
-                        <li><a href="collectors.html">Collectors</a></li>
-                        <li><a href="impacts.html">Impacts</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="impacts.html">Environmental Impacts</a></li>
+                        <li><a href="collectors.html">Certified Collectors</a></li>
+                        <li><a href="dashboard.html">Telemetry Dashboard</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h3>Follow Us</h3>
+                    <h3>Connect</h3>
                     <div class="social-links">
-                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>E-Cure Earth © 2025 | Sustainable E-Waste Solutions</p>
+                <p>© 2026 E-Cure Earth. Sustainable Secondary Hardware Exchange.</p>
             </div>
         </div>
     </footer>
 
+    <script src="script.js"></script>
     <script>
-        document.getElementById('category').addEventListener('change', (e) => {
-            const category = e.target.value;
-            filterListings(category);
-        });
+        // Modal handlers
+        const modal = document.getElementById('listing-modal');
+        const addBtn = document.getElementById('add-listing');
+        const closeBtn = document.querySelector('.close-modal');
 
-        function filterListings(category) {
-            document.querySelectorAll('.listing-card').forEach(card => {
-                card.style.display = 
-                    (category === 'all' || card.dataset.category === category) 
-                    ? 'block' : 'none';
-            });
+        if(addBtn && modal) {
+            addBtn.addEventListener('click', () => modal.style.display = 'block');
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('listing-modal');
-            const addBtn = document.getElementById('add-listing');
-            const closeBtn = document.querySelector('.close-modal');
-            
-            addBtn.addEventListener('click', function() {
-                modal.style.display = 'block';
-            });
-            
-            closeBtn.addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
-            
-            window.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-            
-            document.getElementById('listing-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Your listing has been submitted for review!');
-                modal.style.display = 'none';
-                this.reset();
-            });
+        if(closeBtn && modal) {
+            closeBtn.addEventListener('click', () => modal.style.display = 'none');
+        }
+        window.addEventListener('click', (e) => {
+            if(e.target === modal) modal.style.display = 'none';
         });
     </script>
-    <script src="script.js"></script>
 </body>
 </html>

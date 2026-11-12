@@ -1,180 +1,625 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | E-Cure Earth</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body class="auth-page">
-    <div class="auth-container">
-        <div class="auth-header">
-            <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            <div class="logo">
-                <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
-                E-Cure Earth
-            </div>
-        </div>
-
-        <div class="auth-wrapper">
-            <div class="auth-toggle">
-                <button id="showSigninBtn" class="toggle-btn active">Sign In</button>
-                <button id="showSignupBtn" class="toggle-btn">Sign Up</button>
-            </div>
-
-            <!-- Sign In Form -->
-            <div class="form-container sign-in-container" id="signin-form">
-                <form id="loginForm">
-                    <h1>Sign In</h1>
-                    <div class="form-group">
-                        <div class="input-wrapper">
-                            <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" id="loginEmail" placeholder="Email" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-wrapper">
-                            <i class="fas fa-lock input-icon"></i>
-                            <input type="password" id="loginPassword" placeholder="Password" required>
-                            <i class="fas fa-eye toggle-password" id="toggleLoginPassword"></i>
-                        </div>
-                        <a href="#" class="forgot-password">Forgot password?</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Sign In</button>
-                </form>
-            </div>
-
-            <!-- Sign Up Form -->
-            <div class="form-container sign-up-container" id="signup-form" style="display:none;">
-                <form id="signupForm">
-                    <h1>Create Account</h1>
-                    <div class="form-group">
-                        <div class="input-wrapper">
-                            <i class="fas fa-user input-icon"></i>
-                            <input type="text" id="signupName" placeholder="Full Name" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-wrapper">
-                            <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" id="signupEmail" placeholder="Email" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-wrapper">
-                            <i class="fas fa-lock input-icon"></i>
-                            <input type="password" id="signupPassword" placeholder="Password" required>
-                            <i class="fas fa-eye toggle-password" id="toggleSignupPassword"></i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-wrapper">
-                            <i class="fas fa-lock input-icon"></i>
-                            <input type="password" id="signupConfirm" placeholder="Confirm Password" required>
-                            <i class="fas fa-eye toggle-password" id="toggleSignupConfirm"></i>
-                        </div>
-                        <small class="error-message hidden">Passwords don't match!</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Sign Up</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="new-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h3>E-Cure Earth</h3>
-                    <p>Committed to sustainable e-waste management since 2020.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="index.html#about">About Us</a></li>
-                        <li><a href="marketplace.html">Marketplace</a></li>
-                        <li><a href="collectors.html">Collectors</a></li>
-                        <li><a href="impacts.html">Impacts</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <div class="social-links">
-                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>E-Cure Earth © 2025 | Sustainable E-Waste Solutions</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Toggle between Sign In and Sign Up forms
-        const signinForm = document.getElementById('signin-form');
-        const signupForm = document.getElementById('signup-form');
-        const showSigninBtn = document.getElementById('showSigninBtn');
-        const showSignupBtn = document.getElementById('showSignupBtn');
-
-        showSigninBtn.addEventListener('click', () => {
-            signinForm.style.display = 'block';
-            signupForm.style.display = 'none';
-            showSigninBtn.classList.add('active');
-            showSignupBtn.classList.remove('active');
-        });
-
-        showSignupBtn.addEventListener('click', () => {
-            signupForm.style.display = 'block';
-            signinForm.style.display = 'none';
-            showSignupBtn.classList.add('active');
-            showSigninBtn.classList.remove('active');
-        });
-
-        // Show/Hide Password
-        function togglePasswordVisibility(inputId, toggleId) {
-            const passwordInput = document.getElementById(inputId);
-            const toggleIcon = document.getElementById(toggleId);
-            toggleIcon.addEventListener('click', () => {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                toggleIcon.classList.toggle('fa-eye');
-                toggleIcon.classList.toggle('fa-eye-slash');
-            });
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auth — E-CURE.EARTH</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            chocolate: { 950: '#190F0B', 900: '#241711', 800: '#2E1E16', 700: '#3A251B', 600: '#543A2D' },
+            parchment: { 50: '#FAF7F2', 100: '#F4EFE8', 200: '#EDE5DA', 300: '#E2D7C7', 400: '#DCD3C6', 500: '#B8AB99' },
+            burnt: { 400: '#DC6B3A', 500: '#C85524', 600: '#A64217' }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
         }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #241711; }
+    ::-webkit-scrollbar-thumb { background: #3A251B; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #543A2D; }
 
-        togglePasswordVisibility('loginPassword', 'toggleLoginPassword');
-        togglePasswordVisibility('signupPassword', 'toggleSignupPassword');
-        togglePasswordVisibility('signupConfirm', 'toggleSignupConfirm');
+    /* Glassmorphic card */
+    .glass-card {
+      background: rgba(46, 30, 22, 0.75);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+    }
 
-        // Form Submission (basic validation)
-        document.getElementById('signupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirm').value;
-            const errorMessage = document.querySelector('.error-message');
-            if (password !== confirmPassword) {
-                errorMessage.classList.remove('hidden');
-            } else {
-                errorMessage.classList.add('hidden');
-                alert('Account created successfully!');
-                this.reset();
-                showSigninBtn.click();
-            }
+    /* Input autofill override */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #F4EFE8;
+      -webkit-box-shadow: 0 0 0 40px #190F0B inset;
+      caret-color: #F4EFE8;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* Strength meter transition */
+    .strength-bar {
+      transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+    }
+
+    /* Toast slide-in */
+    @keyframes toastIn {
+      from { transform: translateX(120%); opacity: 0; }
+      to   { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes toastOut {
+      from { transform: translateX(0); opacity: 1; }
+      to   { transform: translateX(120%); opacity: 0; }
+    }
+    .toast-enter { animation: toastIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    .toast-exit  { animation: toastOut 0.35s cubic-bezier(0.55, 0, 1, 0.45) forwards; }
+
+    /* Radial background accents */
+    .bg-radial-accents {
+      background:
+        radial-gradient(ellipse 600px 500px at 15% 20%, rgba(200, 85, 36, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 400px at 85% 75%, rgba(200, 85, 36, 0.05) 0%, transparent 70%),
+        radial-gradient(ellipse 800px 600px at 50% 50%, rgba(46, 30, 22, 0.5) 0%, transparent 80%),
+        linear-gradient(165deg, #241711 0%, #190F0B 50%, #241711 100%);
+    }
+
+    /* Subtle float animation for decoration */
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(12px, -18px) scale(1.05); }
+    }
+    .orb-float { animation: floatOrb 12s ease-in-out infinite; }
+    .orb-float-delayed { animation: floatOrb 15s ease-in-out 3s infinite; }
+
+    /* Focus ring */
+    .input-focus:focus {
+      border-color: #C85524;
+      box-shadow: 0 0 0 3px rgba(200, 85, 36, 0.15);
+      outline: none;
+    }
+
+    /* Error state */
+    .input-error {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+    }
+
+    /* Tab pill slider */
+    .tab-slider {
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-radial-accents font-sans text-parchment-100 antialiased overflow-x-hidden">
+
+  <!-- Decorative orbs -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <div class="orb-float absolute -top-32 -left-32 w-96 h-96 rounded-full bg-burnt-500/[0.03] blur-3xl"></div>
+    <div class="orb-float-delayed absolute -bottom-40 -right-40 w-[28rem] h-[28rem] rounded-full bg-burnt-400/[0.03] blur-3xl"></div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+  <!-- Main content -->
+  <main class="relative z-10 flex items-center justify-center min-h-screen px-4 py-10">
+    <div class="w-full max-w-md">
+
+      <!-- Back link -->
+      <a href="index.html" class="inline-flex items-center gap-2 mb-6 text-parchment-500 hover:text-parchment-200 transition-colors duration-200 group text-sm font-sans">
+        <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        <span class="tracking-wide uppercase text-xs font-medium">Back to Home</span>
+      </a>
+
+      <!-- Card -->
+      <div class="glass-card rounded-2xl border border-chocolate-700/60 shadow-2xl shadow-black/30">
+
+        <!-- Header -->
+        <div class="pt-8 pb-2 px-8 text-center">
+          <h1 class="font-serif text-2xl font-semibold tracking-[0.18em] uppercase text-parchment-100">
+            E-CURE<span class="text-burnt-500">.</span>EARTH
+          </h1>
+          <p class="mt-1.5 text-xs tracking-widest uppercase text-parchment-500 font-sans">Environmental Intelligence Platform</p>
+        </div>
+
+        <!-- Tab toggle -->
+        <div class="px-8 pt-5 pb-1">
+          <div class="relative flex bg-chocolate-950/60 rounded-full p-1 border border-chocolate-700/40">
+            <!-- Slider pill -->
+            <div id="tabSlider" class="tab-slider absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-full bg-chocolate-900 border border-chocolate-700/50 shadow-md"></div>
+            <button id="tabSignIn" type="button" class="relative z-10 flex-1 py-2 text-xs font-semibold tracking-widest uppercase text-center rounded-full transition-colors duration-200 text-parchment-100" onclick="switchTab('signin')">
+              Sign In
+            </button>
+            <button id="tabRegister" type="button" class="relative z-10 flex-1 py-2 text-xs font-semibold tracking-widest uppercase text-center rounded-full transition-colors duration-200 text-parchment-500" onclick="switchTab('register')">
+              Register Org
+            </button>
+          </div>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="signinForm" class="px-8 pt-5 pb-6 space-y-5" novalidate autocomplete="on">
+          <!-- Email -->
+          <div>
+            <label for="siEmail" class="block mb-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-parchment-500">Email Address</label>
+            <div class="relative">
+              <input id="siEmail" name="email" type="email" autocomplete="email" required placeholder="you@organisation.earth"
+                class="input-focus w-full bg-chocolate-950 border border-chocolate-700 rounded-lg px-4 py-3 text-sm text-parchment-100 placeholder-parchment-500/40 font-sans transition-all duration-200" />
+              <svg class="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-parchment-500/40 pointer-events-none" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+            </div>
+            <p id="siEmailErr" class="hidden mt-1 text-[11px] text-red-400 font-sans"></p>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label for="siPassword" class="block mb-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-parchment-500">Password</label>
+            <div class="relative">
+              <input id="siPassword" name="password" type="password" autocomplete="current-password" required placeholder="••••••••"
+                class="input-focus w-full bg-chocolate-950 border border-chocolate-700 rounded-lg px-4 py-3 pr-11 text-sm text-parchment-100 placeholder-parchment-500/40 font-sans transition-all duration-200" />
+              <button type="button" onclick="toggleVis('siPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-parchment-500/50 hover:text-parchment-300 transition-colors" aria-label="Toggle password visibility">
+                <svg class="eye-open w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <svg class="eye-closed w-[18px] h-[18px] hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12c1.292 4.338 5.31 7.5 10.066 7.5.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
+              </button>
+            </div>
+            <p id="siPasswordErr" class="hidden mt-1 text-[11px] text-red-400 font-sans"></p>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit"
+            class="w-full py-3 mt-1 bg-burnt-500 hover:bg-burnt-400 active:bg-burnt-600 text-white text-xs font-semibold tracking-[0.2em] uppercase rounded-lg transition-all duration-200 shadow-lg shadow-burnt-500/20 hover:shadow-burnt-400/30 focus:outline-none focus:ring-2 focus:ring-burnt-500/40 focus:ring-offset-2 focus:ring-offset-chocolate-800">
+            Sign In →
+          </button>
+
+          <p class="text-center text-xs text-parchment-500">
+            No account? <button type="button" onclick="switchTab('register')" class="text-burnt-400 hover:text-burnt-500 transition-colors font-medium underline underline-offset-2">Register your organisation</button>
+          </p>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="px-8 pt-5 pb-6 space-y-4 hidden" novalidate autocomplete="on">
+          <!-- Org name -->
+          <div>
+            <label for="regOrg" class="block mb-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-parchment-500">Organisation Name</label>
+            <input id="regOrg" name="organization" type="text" autocomplete="organization" required placeholder="GreenTech Solutions Pvt. Ltd."
+              class="input-focus w-full bg-chocolate-950 border border-chocolate-700 rounded-lg px-4 py-3 text-sm text-parchment-100 placeholder-parchment-500/40 font-sans transition-all duration-200" />
+            <p id="regOrgErr" class="hidden mt-1 text-[11px] text-red-400 font-sans"></p>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="regEmail" class="block mb-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-parchment-500">Email Address</label>
+            <div class="relative">
+              <input id="regEmail" name="email" type="email" autocomplete="email" required placeholder="admin@organisation.earth"
+                class="input-focus w-full bg-chocolate-950 border border-chocolate-700 rounded-lg px-4 py-3 text-sm text-parchment-100 placeholder-parchment-500/40 font-sans transition-all duration-200" />
+              <svg class="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-parchment-500/40 pointer-events-none" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+            </div>
+            <p id="regEmailErr" class="hidden mt-1 text-[11px] text-red-400 font-sans"></p>
+          </div>
+
+          <!-- Password with strength -->
+          <div>
+            <label for="regPassword" class="block mb-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-parchment-500">Password</label>
+            <div class="relative">
+              <input id="regPassword" name="password" type="password" autocomplete="new-password" required placeholder="Min. 6 characters"
+                class="input-focus w-full bg-chocolate-950 border border-chocolate-700 rounded-lg px-4 py-3 pr-11 text-sm text-parchment-100 placeholder-parchment-500/40 font-sans transition-all duration-200"
+                oninput="updateStrength(this.value)" />
+              <button type="button" onclick="toggleVis('regPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-parchment-500/50 hover:text-parchment-300 transition-colors" aria-label="Toggle password visibility">
+                <svg class="eye-open w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <svg class="eye-closed w-[18px] h-[18px] hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12c1.292 4.338 5.31 7.5 10.066 7.5.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
+              </button>
+            </div>
+            <!-- Strength meter -->
+            <div class="mt-2 flex items-center gap-2.5">
+              <div class="flex-1 h-1 rounded-full bg-chocolate-950 overflow-hidden">
+                <div id="strengthBar" class="strength-bar h-full w-0 rounded-full"></div>
+              </div>
+              <span id="strengthLabel" class="text-[10px] font-mono tracking-wider uppercase text-parchment-500 min-w-[52px] text-right">—</span>
+            </div>
+            <p id="regPasswordErr" class="hidden mt-1 text-[11px] text-red-400 font-sans"></p>
+          </div>
+
+          <!-- Confirm password -->
+          <div>
+            <label for="regConfirm" class="block mb-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-parchment-500">Confirm Password</label>
+            <div class="relative">
+              <input id="regConfirm" name="confirm-password" type="password" autocomplete="new-password" required placeholder="Re-enter password"
+                class="input-focus w-full bg-chocolate-950 border border-chocolate-700 rounded-lg px-4 py-3 pr-11 text-sm text-parchment-100 placeholder-parchment-500/40 font-sans transition-all duration-200" />
+              <button type="button" onclick="toggleVis('regConfirm', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-parchment-500/50 hover:text-parchment-300 transition-colors" aria-label="Toggle password visibility">
+                <svg class="eye-open w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <svg class="eye-closed w-[18px] h-[18px] hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12c1.292 4.338 5.31 7.5 10.066 7.5.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
+              </button>
+            </div>
+            <p id="regConfirmErr" class="hidden mt-1 text-[11px] text-red-400 font-sans"></p>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit"
+            class="w-full py-3 mt-1 bg-burnt-500 hover:bg-burnt-400 active:bg-burnt-600 text-white text-xs font-semibold tracking-[0.2em] uppercase rounded-lg transition-all duration-200 shadow-lg shadow-burnt-500/20 hover:shadow-burnt-400/30 focus:outline-none focus:ring-2 focus:ring-burnt-500/40 focus:ring-offset-2 focus:ring-offset-chocolate-800">
+            Create Organisation →
+          </button>
+
+          <p class="text-center text-xs text-parchment-500">
+            Already registered? <button type="button" onclick="switchTab('signin')" class="text-burnt-400 hover:text-burnt-500 transition-colors font-medium underline underline-offset-2">Sign in</button>
+          </p>
+        </form>
+
+        <!-- Divider -->
+        <div class="px-8">
+          <div class="border-t border-chocolate-700/40"></div>
+        </div>
+
+        <!-- 1-Click Demo -->
+        <div class="px-8 pt-5 pb-7">
+          <div class="border border-dashed border-burnt-500/30 rounded-xl p-5 bg-chocolate-950/30">
+            <div class="flex items-center gap-2 mb-3">
+              <svg class="w-4 h-4 text-burnt-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
+              <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-parchment-400">1-Click Demo Access</span>
+            </div>
+            <div class="space-y-1.5 mb-4">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-mono uppercase tracking-wider text-parchment-500 w-14 shrink-0">Email</span>
+                <code class="text-xs font-mono text-burnt-400 bg-chocolate-950/60 px-2 py-0.5 rounded">demo@ecure.earth</code>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-mono uppercase tracking-wider text-parchment-500 w-14 shrink-0">Pass</span>
+                <code class="text-xs font-mono text-burnt-400 bg-chocolate-950/60 px-2 py-0.5 rounded">demo123</code>
+              </div>
+            </div>
+            <button type="button" id="demoBtnLogin"
+              class="w-full py-2.5 bg-gradient-to-r from-burnt-500/20 via-burnt-400/15 to-burnt-500/20 hover:from-burnt-500/30 hover:via-burnt-400/25 hover:to-burnt-500/30 border border-burnt-500/30 hover:border-burnt-500/50 text-burnt-400 hover:text-burnt-400 text-xs font-semibold tracking-[0.18em] uppercase rounded-lg transition-all duration-200">
+              ⚡ Instant Demo
+            </button>
+          </div>
+        </div>
+
+      </div><!-- / card -->
+
+      <!-- Footer -->
+      <p class="mt-6 text-center text-[11px] text-parchment-500/50 tracking-wider">
+        &copy; 2024 E-CURE.EARTH &middot; Environmental Intelligence
+      </p>
+
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ─── Constants ─── */
+    const USERS_KEY   = 'ecure_users';
+    const SESSION_KEY = 'ecure_session';
+    const EMAIL_RE    = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const DEMO_USER   = {
+      name: 'Demo Organisation',
+      email: 'demo@ecure.earth',
+      password: 'demo123',
+      role: 'admin'
+    };
+
+    /* ─── Seed demo user ─── */
+    function seedUsers() {
+      let users = getUsers();
+      if (!users.find(u => u.email === DEMO_USER.email)) {
+        users.push(DEMO_USER);
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      }
+    }
+
+    function getUsers() {
+      try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
+      catch { return []; }
+    }
+
+    /* ─── Session helpers ─── */
+    function getSession() {
+      try { return JSON.parse(localStorage.getItem(SESSION_KEY)); }
+      catch { return null; }
+    }
+
+    function setSession(user) {
+      const session = {
+        name: user.name,
+        email: user.email,
+        role: user.role || 'admin',
+        loggedIn: true,
+        ts: Date.now()
+      };
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    }
+
+    /* ─── Redirect if already logged in ─── */
+    function checkExistingSession() {
+      const s = getSession();
+      if (s && s.loggedIn) {
+        window.location.href = 'dashboard.html';
+      }
+    }
+
+    /* ─── Toast system ─── */
+    function showToast(message, type) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+
+      const colorMap = {
+        success: { border: 'border-green-500/60', icon: '✓', text: 'text-green-400' },
+        error:   { border: 'border-red-500/60',   icon: '✕', text: 'text-red-400'   },
+        info:    { border: 'border-burnt-500/60',  icon: 'ℹ', text: 'text-burnt-400' }
+      };
+      const c = colorMap[type] || colorMap.info;
+
+      toast.className = `toast-enter pointer-events-auto flex items-start gap-3 bg-chocolate-900/95 backdrop-blur-md border ${c.border} rounded-xl px-5 py-4 shadow-2xl shadow-black/40 max-w-xs`;
+      toast.innerHTML = `
+        <span class="${c.text} text-base font-bold mt-0.5 shrink-0">${c.icon}</span>
+        <span class="text-sm text-parchment-200 font-sans leading-relaxed">${message}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('toast-enter');
+        toast.classList.add('toast-exit');
+        toast.addEventListener('animationend', () => toast.remove());
+      }, 3500);
+    }
+
+    /* ─── Tab switching ─── */
+    window.switchTab = function (tab) {
+      const slider     = document.getElementById('tabSlider');
+      const signInForm = document.getElementById('signinForm');
+      const regForm    = document.getElementById('registerForm');
+      const tabSI      = document.getElementById('tabSignIn');
+      const tabReg     = document.getElementById('tabRegister');
+
+      clearAllErrors();
+
+      if (tab === 'register') {
+        slider.style.transform = 'translateX(100%)';
+        signInForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
+        tabSI.classList.remove('text-parchment-100');
+        tabSI.classList.add('text-parchment-500');
+        tabReg.classList.remove('text-parchment-500');
+        tabReg.classList.add('text-parchment-100');
+      } else {
+        slider.style.transform = 'translateX(0)';
+        regForm.classList.add('hidden');
+        signInForm.classList.remove('hidden');
+        tabReg.classList.remove('text-parchment-100');
+        tabReg.classList.add('text-parchment-500');
+        tabSI.classList.remove('text-parchment-500');
+        tabSI.classList.add('text-parchment-100');
+      }
+    };
+
+    /* ─── Password visibility toggle ─── */
+    window.toggleVis = function (inputId, btn) {
+      const inp = document.getElementById(inputId);
+      const eyeOpen   = btn.querySelector('.eye-open');
+      const eyeClosed = btn.querySelector('.eye-closed');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+      } else {
+        inp.type = 'password';
+        eyeClosed.classList.add('hidden');
+        eyeOpen.classList.remove('hidden');
+      }
+    };
+
+    /* ─── Password strength meter ─── */
+    window.updateStrength = function (val) {
+      const bar   = document.getElementById('strengthBar');
+      const label = document.getElementById('strengthLabel');
+
+      if (!val) {
+        bar.style.width = '0';
+        label.textContent = '—';
+        label.className = 'text-[10px] font-mono tracking-wider uppercase text-parchment-500 min-w-[52px] text-right';
+        return;
+      }
+
+      let score = 0;
+      if (val.length >= 6)                score++;
+      if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+      if (/\d/.test(val))                 score++;
+      if (/[^A-Za-z0-9]/.test(val))       score++;
+
+      const levels = [
+        { w: '25%', color: 'bg-red-500',    label: 'Weak',     textCls: 'text-red-400'    },
+        { w: '50%', color: 'bg-orange-500',  label: 'Fair',     textCls: 'text-orange-400'  },
+        { w: '75%', color: 'bg-yellow-500',  label: 'Good',     textCls: 'text-yellow-400'  },
+        { w: '100%',color: 'bg-green-500',   label: 'Strong',   textCls: 'text-green-400'   }
+      ];
+
+      const lvl = levels[Math.max(0, score - 1)] || levels[0];
+      bar.style.width = lvl.w;
+      bar.className = `strength-bar h-full rounded-full ${lvl.color}`;
+      label.textContent = lvl.label;
+      label.className = `text-[10px] font-mono tracking-wider uppercase ${lvl.textCls} min-w-[52px] text-right`;
+    };
+
+    /* ─── Validation helpers ─── */
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      // Also add error border to the sibling input
+      const input = el.parentElement.querySelector('input');
+      if (input) input.classList.add('input-error');
+    }
+
+    function clearError(id) {
+      const el = document.getElementById(id);
+      el.textContent = '';
+      el.classList.add('hidden');
+      const input = el.parentElement.querySelector('input');
+      if (input) input.classList.remove('input-error');
+    }
+
+    function clearAllErrors() {
+      ['siEmailErr','siPasswordErr','regOrgErr','regEmailErr','regPasswordErr','regConfirmErr'].forEach(clearError);
+    }
+
+    /* ─── Sign In handler ─── */
+    document.getElementById('signinForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearAllErrors();
+
+      const email = document.getElementById('siEmail').value.trim();
+      const pass  = document.getElementById('siPassword').value;
+      let valid = true;
+
+      if (!email) {
+        showError('siEmailErr', 'Email is required.');
+        valid = false;
+      } else if (!EMAIL_RE.test(email)) {
+        showError('siEmailErr', 'Enter a valid email address.');
+        valid = false;
+      }
+
+      if (!pass) {
+        showError('siPasswordErr', 'Password is required.');
+        valid = false;
+      } else if (pass.length < 4) {
+        showError('siPasswordErr', 'Password must be at least 4 characters.');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      const users = getUsers();
+      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+      if (!user) {
+        showError('siEmailErr', 'No account found with this email.');
+        showToast('Account not found. Check your email.', 'error');
+        return;
+      }
+
+      if (user.password !== pass) {
+        showError('siPasswordErr', 'Incorrect password.');
+        showToast('Invalid credentials. Please try again.', 'error');
+        return;
+      }
+
+      setSession(user);
+      showToast('Welcome back, ' + (user.name || user.email) + '!', 'success');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 600);
+    });
+
+    /* ─── Register handler ─── */
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearAllErrors();
+
+      const org     = document.getElementById('regOrg').value.trim();
+      const email   = document.getElementById('regEmail').value.trim();
+      const pass    = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirm').value;
+      let valid = true;
+
+      if (!org) {
+        showError('regOrgErr', 'Organisation name is required.');
+        valid = false;
+      }
+
+      if (!email) {
+        showError('regEmailErr', 'Email is required.');
+        valid = false;
+      } else if (!EMAIL_RE.test(email)) {
+        showError('regEmailErr', 'Enter a valid email address.');
+        valid = false;
+      }
+
+      if (!pass) {
+        showError('regPasswordErr', 'Password is required.');
+        valid = false;
+      } else if (pass.length < 6) {
+        showError('regPasswordErr', 'Password must be at least 6 characters.');
+        valid = false;
+      }
+
+      if (!confirm) {
+        showError('regConfirmErr', 'Please confirm your password.');
+        valid = false;
+      } else if (pass !== confirm) {
+        showError('regConfirmErr', 'Passwords do not match.');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      const users = getUsers();
+      if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+        showError('regEmailErr', 'This email is already registered.');
+        showToast('Account already exists. Try signing in.', 'error');
+        return;
+      }
+
+      const newUser = { name: org, email: email, password: pass, role: 'admin' };
+      users.push(newUser);
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+      setSession(newUser);
+      showToast('Organisation registered successfully!', 'success');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
+    });
+
+    /* ─── Instant Demo button ─── */
+    document.getElementById('demoBtnLogin').addEventListener('click', function () {
+      switchTab('signin');
+      document.getElementById('siEmail').value = DEMO_USER.email;
+      document.getElementById('siPassword').value = DEMO_USER.password;
+      clearAllErrors();
+
+      const user = getUsers().find(u => u.email === DEMO_USER.email);
+      if (user) {
+        setSession(user);
+        showToast('Launching demo environment…', 'info');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 600);
+      }
+    });
+
+    /* ─── Live input clearing of errors on type ─── */
+    ['siEmail','siPassword','regOrg','regEmail','regPassword','regConfirm'].forEach(id => {
+      const input = document.getElementById(id);
+      if (input) {
+        input.addEventListener('input', () => {
+          const errId = id + 'Err';
+          if (document.getElementById(errId)) clearError(errId);
         });
+      }
+    });
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Logged in successfully!');
-            window.location.href = 'dashboard.html';
-        });
-    </script>
+    /* ─── URL param ?signup=true ─── */
+    function checkUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('signup') === 'true') {
+        switchTab('register');
+      }
+    }
+
+    /* ─── Init ─── */
+    seedUsers();
+    checkExistingSession();
+    checkUrlParams();
+
+  })();
+  </script>
+
 </body>
 </html>

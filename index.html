@@ -1,133 +1,1556 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Cure Earth | E-Waste Management</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-CURE.EARTH — Circular Hardware Architecture &amp; Scope 3 Ledger</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            chocolate: {
+              950: '#190F0B',
+              900: '#241711',
+              800: '#2E1E16',
+              700: '#3A251B',
+              600: '#543A2D',
+            },
+            parchment: {
+              50: '#FAF7F2',
+              100: '#F4EFE8',
+              200: '#EDE5DA',
+              300: '#E2D7C7',
+              400: '#DCD3C6',
+              500: '#B8AB99',
+            },
+            burnt: {
+              400: '#DC6B3A',
+              500: '#C85524',
+              600: '#A64217',
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          boxShadow: {
+            'studio-specimen': '0 32px 64px -20px rgba(36, 23, 17, 0.28), 0 12px 24px -10px rgba(36, 23, 17, 0.16)',
+            'stone-plate': '0 18px 34px -10px rgba(36, 23, 17, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.85)',
+            'editorial-card': '0 20px 44px -18px rgba(36, 23, 17, 0.14)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F4EFE8;
+      color: #241711;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Fine organic paper & linen studio texture */
+    .linen-surface {
+      background-color: #F4EFE8;
+      background-image:
+        radial-gradient(rgba(36, 23, 17, 0.03) 1px, transparent 0),
+        linear-gradient(180deg, rgba(250, 247, 242, 0.65) 0%, rgba(237, 229, 218, 0.45) 100%);
+      background-size: 20px 20px, 100% 100%;
+    }
+
+    /* Directional studio window lighting gradient for hero right column */
+    .studio-backdrop {
+      background:
+        radial-gradient(circle at 76% 24%, rgba(255, 252, 247, 0.92) 0%, rgba(244, 239, 232, 0.55) 42%, rgba(226, 215, 199, 0.75) 100%);
+    }
+
+    /* 3D Perspective Stage for the Chocolate Hardware Specimen Crate */
+    .specimen-perspective {
+      perspective: 1300px;
+    }
+
+    .specimen-3d-rig {
+      transform-style: preserve-3d;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Subtle physical bevels on the matte chocolate specimen case */
+    .chocolate-crate-body {
+      background: linear-gradient(145deg, #342118 0%, #241711 55%, #1A100B 100%);
+      box-shadow:
+        16px 26px 46px rgba(25, 15, 11, 0.34),
+        4px 8px 14px rgba(25, 15, 11, 0.22),
+        inset 0 1px 0 rgba(255, 245, 235, 0.14),
+        inset -2px -2px 6px rgba(10, 5, 3, 0.65);
+    }
+
+    .chocolate-crate-lid {
+      background: linear-gradient(135deg, #3A251B 0%, #281912 65%, #1F130E 100%);
+      box-shadow:
+        10px 18px 34px rgba(20, 11, 7, 0.38),
+        inset 0 1px 0 rgba(255, 245, 235, 0.18),
+        inset 0 -2px 4px rgba(12, 7, 4, 0.7);
+    }
+
+    /* Gold/Burnt Orange Foil Deboss Effect */
+    .foil-stamp {
+      background: linear-gradient(135deg, #E8B88A 0%, #C85524 48%, #F0CAA3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.65));
+    }
+
+    /* Vertical Scroll Label */
+    .writing-vertical {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* Slow artisanal stamp rotation */
+    @keyframes rotateStamp {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-stamp {
+      animation: rotateStamp 34s linear infinite;
+    }
+
+    /* Range slider styled in crisp chocolate & burnt orange */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 2px;
+      background: #DCD3C6;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      background: #C85524;
+      border: 2px solid #F4EFE8;
+      box-shadow: 0 0 0 1px #241711;
+      margin-top: -6px;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: #241711;
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #EDE5DA;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #543A2D;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C85524;
+    }
+  </style>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="logo">
-                <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
-                E-Cure Earth
-            </div>
-            <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#mission">Mission</a>
-                <a href="impacts.html">Impacts</a>
-                <a href="marketplace.html">Marketplace</a>
-                <a href="collectors.html">Collectors</a>
-                <a href="auth.html">Login</a>
-                <a href="auth.html?signup=true" class="btn btn-primary">Sign Up</a>
-            </div>
-        </div>
-    </nav>
+<body class="linen-surface antialiased selection:bg-burnt-500 selection:text-parchment-50">
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Transforming E-Waste into Sustainable Solutions</h1>
-                <p>Join our mission to responsibly recycle electronic waste and protect our environment for future generations.</p>
-                <div class="cta-buttons">
-                    <a href="auth.html?signup=true" class="btn btn-primary">Get Started</a>
-                    <a href="#mission" class="btn btn-secondary">Learn More</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="hero-image.jpg" alt="Electronic waste being sorted for recycling">
-            </div>
-        </div>
-    </section>
+  <!-- ===================================================================== -->
+  <!-- 1. ARCHITECTURAL TOP NAVIGATION BAR                                   -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-parchment-100/92 backdrop-blur-md border-b border-parchment-400">
+    <div class="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Left Navigation Links -->
+      <nav aria-label="Primary Editorial Navigation" class="hidden lg:flex items-center gap-8">
+        <a href="#top" data-nav="home" onclick="setActiveNav('home')" class="nav-link relative py-1 text-[11px] font-medium tracking-[0.22em] uppercase text-chocolate-900 border-b border-chocolate-900 transition-colors">
+          HOME
+        </a>
+        <a href="#manual-section" data-nav="manual" onclick="setActiveNav('manual')" class="nav-link relative py-1 text-[11px] font-medium tracking-[0.22em] uppercase text-chocolate-600 hover:text-chocolate-900 border-b border-transparent hover:border-burnt-500 transition-colors">
+          USER MANUAL
+        </a>
+        <a href="#capabilities-editorial" data-nav="capabilities" onclick="setActiveNav('capabilities')" class="nav-link relative py-1 text-[11px] font-medium tracking-[0.22em] uppercase text-chocolate-600 hover:text-chocolate-900 border-b border-transparent hover:border-burnt-500 transition-colors">
+          CAPABILITIES
+        </a>
+        <a href="#carbon-ledger-section" data-nav="carbon" onclick="setActiveNav('carbon')" class="nav-link relative py-1 text-[11px] font-medium tracking-[0.22em] uppercase text-chocolate-600 hover:text-chocolate-900 border-b border-transparent hover:border-burnt-500 transition-colors">
+          CARBON LEDGER
+        </a>
+        <a href="#marketplace-section" data-nav="marketplace" onclick="setActiveNav('marketplace')" class="nav-link relative py-1 text-[11px] font-medium tracking-[0.22em] uppercase text-chocolate-600 hover:text-chocolate-900 border-b border-transparent hover:border-burnt-500 transition-colors">
+          MARKETPLACE
+        </a>
+      </nav>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2>About Us</h2>
-            <p>Founded in 2025, E-Cure Earth is dedicated to tackling the global e-waste crisis. Our team of environmentalists, technologists, and community advocates works tirelessly to bridge the gap between e-waste generators and certified recyclers. We aim to create a sustainable future by promoting responsible disposal and recycling of electronics.</p>
-            <p>Our vision is a world where every electronic device is reused, refurbished, or recycled, reducing the environmental footprint and preserving resources for future generations. Join us in making a difference—one device at a time.</p>
-        </div>
-    </section>
+      <!-- Mobile Menu Trigger -->
+      <button onclick="toggleMobileNav()" aria-label="Open Navigation" class="lg:hidden p-2 text-chocolate-900 hover:text-burnt-500 transition-colors">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="3" y1="7" x2="21" y2="7"/>
+          <line x1="3" y1="12" x2="17" y2="12"/>
+          <line x1="3" y1="17" x2="21" y2="17"/>
+        </svg>
+      </button>
 
-    <!-- Mission Section -->
-    <section id="mission" class="mission">
-        <div class="container">
-            <h2>Our Mission</h2>
-            <p>We bridge the gap between e-waste generators and certified recyclers to ensure responsible disposal of electronics.</p>
+      <!-- Center Editorial Wordmark -->
+      <a href="#top" class="flex flex-col items-center text-center group">
+        <span class="font-serif text-2xl sm:text-[28px] font-semibold tracking-[0.24em] text-chocolate-900 leading-none uppercase">
+          E-CURE<span class="text-burnt-500">.</span>EARTH
+        </span>
+        <span class="text-[9px] font-sans font-medium tracking-[0.34em] text-chocolate-600 uppercase mt-1.5">
+          CIRCULAR HARDWARE ARCHITECTURE
+        </span>
+      </a>
+
+      <!-- Right Utility & Architectural Enter Console Button -->
+      <div class="flex items-center gap-4 sm:gap-6">
+        <button onclick="openAuditSearchModal()" title="Lookup Serialized Asset or Scope 3 Hash" class="hidden sm:inline-flex items-center gap-2 text-chocolate-700 hover:text-burnt-500 transition-colors">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="20" y1="20" x2="16.2" y2="16.2"/>
+          </svg>
+        </button>
+
+        <a href="#collectors-section" class="hidden md:inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-chocolate-700 hover:text-burnt-500 transition-colors">
+          COLLECTORS MAP
+        </a>
+
+        <!-- Auth Button that routes intelligently to Dashboard or Auth -->
+        <a id="navConsoleBtn" href="auth.html" class="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-[2px] bg-chocolate-900 hover:bg-burnt-500 text-parchment-100 text-[11px] font-medium tracking-[0.2em] uppercase transition-colors duration-300 shadow-sm">
+          <span>ENTER CONSOLE</span>
+          <span class="font-mono text-xs leading-none">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Drawer -->
+    <div id="mobileDrawer" class="hidden lg:hidden bg-parchment-50 border-t border-parchment-400 px-6 py-5 space-y-3">
+      <a href="#top" onclick="toggleMobileNav()" class="block py-1.5 text-xs tracking-[0.22em] uppercase font-medium text-chocolate-900">Home</a>
+      <a href="#manual-section" onclick="toggleMobileNav()" class="block py-1.5 text-xs tracking-[0.22em] uppercase font-medium text-chocolate-700">User Manual</a>
+      <a href="#capabilities-editorial" onclick="toggleMobileNav()" class="block py-1.5 text-xs tracking-[0.22em] uppercase font-medium text-chocolate-700">Capabilities</a>
+      <a href="#carbon-ledger-section" onclick="toggleMobileNav()" class="block py-1.5 text-xs tracking-[0.22em] uppercase font-medium text-chocolate-700">Carbon Ledger</a>
+      <a href="#marketplace-section" onclick="toggleMobileNav()" class="block py-1.5 text-xs tracking-[0.22em] uppercase font-medium text-chocolate-700">Marketplace</a>
+      <a href="#collectors-section" onclick="toggleMobileNav()" class="block py-1.5 text-xs tracking-[0.22em] uppercase font-medium text-chocolate-700">Collectors Map</a>
+      <a href="auth.html" class="block py-2 text-xs font-mono tracking-widest uppercase text-burnt-500 font-semibold">Sign In / Console &rarr;</a>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 2. HERO SECTION: ASYMMETRIC SPLIT EDITORIAL + 3D SPECIMEN CRATE       -->
+  <!-- ===================================================================== -->
+  <section id="top" class="relative border-b border-parchment-400 overflow-hidden">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-[640px] lg:min-h-[710px]">
+      
+      <!-- LEFT COLUMN -->
+      <div class="lg:col-span-5 relative flex flex-col justify-center px-6 sm:px-12 lg:pl-16 lg:pr-10 py-14 lg:py-20 border-b lg:border-b-0 lg:border-r border-parchment-400 bg-parchment-100">
+        
+        <div class="hidden xl:flex flex-col items-center gap-4 absolute left-5 bottom-12 text-chocolate-600">
+          <span class="writing-vertical text-[9px] font-mono tracking-[0.32em] uppercase">SCROLL</span>
+          <span class="w-[1px] h-14 bg-chocolate-600/50"></span>
+        </div>
+
+        <div class="max-w-md space-y-7">
+          <div class="flex items-center gap-3.5">
+            <span class="text-[10px] font-mono tracking-[0.26em] uppercase text-chocolate-700">
+              BOTANICAL CIRCULAR ELECTRONICS — 01
+            </span>
+            <span class="h-[1px] w-10 bg-chocolate-600/60"></span>
+          </div>
+
+          <h1 class="font-serif font-normal text-4xl sm:text-[3.25rem] xl:text-[3.65rem] leading-[1.04] tracking-[0.02em] text-chocolate-900 uppercase">
+            REGENERATIVE HARDWARE <span class="italic font-normal text-burnt-500">&amp;</span> CARBON LEDGER.
+          </h1>
+
+          <p class="font-serif italic text-lg sm:text-[1.22rem] leading-[1.6] text-chocolate-700">
+            An enterprise platform bridging high-compliance electronic asset disposition, secondary B2B exchange, and cryptographic Scope 3 carbon telemetry.
+          </p>
+
+          <div class="pt-3 flex flex-wrap items-center gap-8">
+            <a href="#carbon-ledger-section" class="group inline-flex items-center gap-4 text-[11px] font-medium tracking-[0.24em] uppercase text-chocolate-900 hover:text-burnt-500 transition-colors pb-1.5 border-b border-chocolate-900/30 hover:border-burnt-500">
+              <span>EXPLORE PLATFORM</span>
+              <span class="inline-block w-10 h-[1px] bg-chocolate-900 group-hover:bg-burnt-500 group-hover:w-14 transition-all duration-300 relative">
+                <span class="absolute right-0 -top-[3.5px] text-[10px] leading-none">&rarr;</span>
+              </span>
+            </a>
+
+            <a href="auth.html" class="text-[11px] font-mono tracking-[0.18em] uppercase text-chocolate-600 hover:text-chocolate-900 transition-colors">
+              [ENTER DEMO PORTAL]
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: 3D SPECIMEN -->
+      <div class="lg:col-span-7 relative studio-backdrop flex items-center justify-center p-6 sm:p-12 lg:p-14 overflow-hidden">
+        
+        <div class="pointer-events-none absolute inset-0 opacity-35" style="background-image: linear-gradient(118deg, transparent 44%, rgba(36,23,17,0.045) 45%, rgba(36,23,17,0.045) 56%, transparent 57%);"></div>
+
+        <svg class="pointer-events-none absolute top-4 right-6 w-44 h-44 opacity-80" viewBox="0 0 200 200" fill="none">
+          <path d="M122 86 C105 96, 102 132, 128 142 C154 132, 151 96, 134 86 Z" fill="#EAE2D6" stroke="#CFC3B2" stroke-width="1"/>
+          <ellipse cx="128" cy="86" rx="8" ry="2.5" fill="#D5C8B6"/>
+          <path d="M128 86 Q118 54 94 34" stroke="#7A6555" stroke-width="1"/>
+          <path d="M128 86 Q134 48 152 24" stroke="#7A6555" stroke-width="1"/>
+          <path d="M128 86 Q142 58 172 46" stroke="#7A6555" stroke-width="0.9"/>
+          <circle cx="94" cy="34" r="3" fill="#DCD3C6" stroke="#8C7765" stroke-width="0.8"/>
+          <circle cx="105" cy="46" r="2.5" fill="#FAF7F2" stroke="#8C7765" stroke-width="0.8"/>
+          <circle cx="152" cy="24" r="3.2" fill="#FAF7F2" stroke="#8C7765" stroke-width="0.8"/>
+          <circle cx="143" cy="39" r="2.5" fill="#DCD3C6" stroke="#8C7765" stroke-width="0.8"/>
+          <circle cx="172" cy="46" r="2.8" fill="#FAF7F2" stroke="#8C7765" stroke-width="0.8"/>
+        </svg>
+
+        <div class="specimen-perspective w-full max-w-[600px] relative z-10 py-6">
+          <div id="specimenRig" class="specimen-3d-rig relative mx-auto w-full aspect-[16/11] flex items-center justify-center">
             
-            <div class="mission-stats">
-                <div class="stat-card">
-                    <h3>50+</h3>
-                    <p>Certified Recyclers</p>
-                </div>
-                <div class="stat-card">
-                    <h3>10K+</h3>
-                    <p>Devices Processed</p>
-                </div>
-                <div class="stat-card">
-                    <h3>25K+</h3>
-                    <p>Kg CO₂ Saved</p>
-                </div>
-            </div>
-            
-            <div class="process-steps">
-                <div class="step">
-                    <img src="collection.jpg" alt="Volunteers collecting e-waste from a community drop-off point">
-                    <h3>Collection</h3>
-                    <p>We collect e-waste from homes and businesses</p>
-                </div>
-                <div class="step">
-                    <img src="processing.jpg" alt="Technicians dismantling electronics in a recycling facility">
-                    <h3>Processing</h3>
-                    <p>Safe dismantling and separation of materials</p>
-                </div>
-                <div class="step">
-                    <img src="recycling.jpg" alt="Recycled materials being sorted for reuse in manufacturing">
-                    <h3>Recycling</h3>
-                    <p>Materials are recycled for future use</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div style="transform: translateZ(-20px) rotate(-14deg);" class="absolute w-[84%] h-[68%] rounded-[3px] bg-gradient-to-br from-[#EFE9DF] to-[#DFD5C6] border border-[#CFC3B2] shadow-[0_26px_45px_rgba(36,23,17,0.14)]"></div>
 
-    <!-- Footer -->
-    <footer class="new-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h3>E-Cure Earth</h3>
-                    <p>Committed to sustainable e-waste management since 2025.</p>
+            <div style="transform: rotate(-16deg) skewX(6deg);" class="relative w-[78%] sm:w-[74%] rounded-[3px] chocolate-crate-body border border-chocolate-600/60 p-4 sm:p-5">
+              
+              <div style="transform: translate(18px, -38px);" class="chocolate-crate-lid rounded-[2px] border border-chocolate-600/50 px-5 py-3.5 mb-1 flex items-center justify-between">
+                <div>
+                  <p class="font-serif tracking-[0.28em] text-xs sm:text-sm uppercase foil-stamp font-semibold">
+                    E-CURE.EARTH
+                  </p>
+                  <p class="text-[8px] font-mono tracking-[0.24em] text-parchment-300/70 uppercase mt-0.5">
+                    SPECIMEN ARCHIVE &bull; SERIES IV
+                  </p>
                 </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="marketplace.html">Marketplace</a></li>
-                        <li><a href="collectors.html">Collectors</a></li>
-                        <li><a href="impacts.html">Impacts</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <div class="social-links">
-                        <a href="https://facebook.com" target="_blank" rel="noopener" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener" title="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <span class="text-[9px] font-mono text-burnt-400 border border-burnt-500/40 px-2 py-0.5">
+                  R2v3
+                </span>
+              </div>
+
+              <!-- Recovered Hardware Tray -->
+              <div class="grid grid-cols-3 gap-2.5 sm:gap-3 bg-chocolate-950/90 p-2.5 sm:p-3 border border-chocolate-700/80 shadow-inner">
+                
+                <div class="aspect-square bg-chocolate-800 border border-chocolate-600/50 p-2 flex flex-col justify-between relative overflow-hidden group">
+                  <div class="flex justify-between items-center">
+                    <span class="w-1.5 h-1.5 rounded-full bg-burnt-500"></span>
+                    <span class="text-[7px] font-mono text-parchment-300/60">AU-99</span>
+                  </div>
+                  <div class="mx-auto w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-[#9C6B30] via-[#E2B475] to-[#F5D6A3] border border-[#FFF2DC]/50 flex items-center justify-center shadow-md">
+                    <div class="w-5 h-5 border border-chocolate-900/40 grid grid-cols-2 gap-[1px] p-[2px]">
+                      <span class="bg-chocolate-900/30"></span><span class="bg-chocolate-900/50"></span>
+                      <span class="bg-chocolate-900/50"></span><span class="bg-chocolate-900/30"></span>
                     </div>
+                  </div>
+                  <span class="text-[7px] font-mono uppercase tracking-wider text-parchment-200/80 text-center">Silicon Die</span>
                 </div>
-            </div>
-            <div class="footer-bottom">
-                <p>E-Cure Earth © 2025 | Sustainable E-Waste Solutions</p>
-            </div>
-        </div>
-    </footer>
 
-    <script src="script.js"></script>
+                <div class="aspect-square bg-chocolate-800 border border-chocolate-600/50 p-2 flex flex-col justify-between">
+                  <div class="flex justify-between items-center">
+                    <span class="w-1.5 h-1.5 rounded-full bg-parchment-300/60"></span>
+                    <span class="text-[7px] font-mono text-parchment-300/60">CU-02</span>
+                  </div>
+                  <div class="my-auto space-y-1 px-1">
+                    <div class="h-1 bg-gradient-to-r from-burnt-600 via-burnt-400 to-burnt-600"></div>
+                    <div class="h-1 bg-gradient-to-r from-burnt-600 via-burnt-400 to-burnt-600"></div>
+                    <div class="h-1 bg-gradient-to-r from-burnt-600 via-burnt-400 to-burnt-600"></div>
+                    <div class="h-1 bg-gradient-to-r from-burnt-600 via-burnt-400 to-burnt-600"></div>
+                    <div class="h-1 bg-gradient-to-r from-burnt-600 via-burnt-400 to-burnt-600"></div>
+                  </div>
+                  <span class="text-[7px] font-mono uppercase tracking-wider text-parchment-200/80 text-center">Copper Array</span>
+                </div>
+
+                <div class="aspect-square bg-chocolate-800 border border-chocolate-600/50 p-2 flex flex-col justify-between">
+                  <div class="flex justify-between items-center">
+                    <span class="w-1.5 h-1.5 rounded-full bg-burnt-500"></span>
+                    <span class="text-[7px] font-mono text-parchment-300/60">SSD-4T</span>
+                  </div>
+                  <div class="mx-auto w-10 h-7 sm:w-12 sm:h-8 bg-gradient-to-br from-[#DED6CA] via-[#F4EFE8] to-[#B8AB99] border border-white/60 p-1 flex flex-col justify-between shadow">
+                    <div class="w-full h-1.5 bg-chocolate-900/80"></div>
+                    <div class="flex gap-0.5">
+                      <span class="h-1 w-2 bg-burnt-500"></span>
+                      <span class="h-1 w-3 bg-chocolate-700"></span>
+                    </div>
+                  </div>
+                  <span class="text-[7px] font-mono uppercase tracking-wider text-parchment-200/80 text-center">NVMe Twin</span>
+                </div>
+
+                <div class="aspect-square bg-chocolate-800 border border-chocolate-600/50 p-2 flex flex-col justify-between">
+                  <div class="flex justify-between items-center">
+                    <span class="w-1.5 h-1.5 rounded-full bg-parchment-300/60"></span>
+                    <span class="text-[7px] font-mono text-parchment-300/60">LI-98%</span>
+                  </div>
+                  <div class="mx-auto w-8 h-9 sm:w-9 sm:h-11 rounded-[2px] bg-gradient-to-b from-[#4B3327] to-[#241711] border border-burnt-400/60 flex items-center justify-center">
+                    <span class="font-mono text-[8px] text-burnt-400 font-semibold">+98%</span>
+                  </div>
+                  <span class="text-[7px] font-mono uppercase tracking-wider text-parchment-200/80 text-center">LFP Cell</span>
+                </div>
+
+                <div class="aspect-square bg-chocolate-800 border border-chocolate-600/50 p-2 flex flex-col justify-between">
+                  <div class="flex justify-between items-center">
+                    <span class="w-1.5 h-1.5 rounded-full bg-burnt-500"></span>
+                    <span class="text-[7px] font-mono text-parchment-300/60">NIST</span>
+                  </div>
+                  <div class="mx-auto w-8 h-8 sm:w-10 sm:h-10 bg-chocolate-950 border border-parchment-300/40 flex items-center justify-center relative">
+                    <div class="w-4 h-4 border border-burnt-500 rotate-45"></div>
+                  </div>
+                  <span class="text-[7px] font-mono uppercase tracking-wider text-parchment-200/80 text-center">NIST Purge</span>
+                </div>
+
+                <div class="aspect-square bg-chocolate-800 border border-chocolate-600/50 p-2 flex flex-col justify-between">
+                  <div class="flex justify-between items-center">
+                    <span class="w-1.5 h-1.5 rounded-full bg-parchment-300/60"></span>
+                    <span class="text-[7px] font-mono text-parchment-300/60">100G</span>
+                  </div>
+                  <div class="mx-auto w-10 h-6 bg-gradient-to-r from-[#C85524] to-[#7D3212] border border-parchment-200/40 flex items-center justify-end pr-1">
+                    <span class="w-1.5 h-3 bg-parchment-100"></span>
+                  </div>
+                  <span class="text-[7px] font-mono uppercase tracking-wider text-parchment-200/80 text-center">Optical QSFP</span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Pedestal Plate -->
+            <div style="transform: translateZ(36px);" class="absolute left-2 sm:left-6 bottom-1 sm:bottom-2 w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-[#FAF7F2] via-[#ECE4D8] to-[#D8CBB8] border border-[#C9B9A3] shadow-stone-plate flex flex-col items-center justify-center p-3 text-center">
+              <div class="w-11 h-11 rounded-full bg-chocolate-900 border border-burnt-500/70 flex items-center justify-center shadow-md mb-1.5">
+                <svg class="w-5 h-5 text-burnt-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <rect x="6" y="6" width="12" height="12" rx="1"/>
+                  <rect x="9" y="9" width="6" height="6"/>
+                  <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>
+                </svg>
+              </div>
+              <span class="font-mono text-[8px] tracking-[0.18em] uppercase text-chocolate-700">CORE SPECIMEN</span>
+              <span class="font-serif font-semibold text-xs text-chocolate-900 mt-0.5">-6.2t CO&#8322; Verified</span>
+            </div>
+
+            <!-- Rotating Artisanal Seal -->
+            <div style="transform: translateZ(44px);" class="absolute right-1 sm:right-4 bottom-4 sm:bottom-6 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-parchment-50/90 backdrop-blur-sm border border-parchment-400 flex items-center justify-center p-1.5 shadow-sm">
+              <svg class="w-full h-full animate-stamp" viewBox="0 0 120 120">
+                <defs>
+                  <path id="velaStampPath" d="M 60, 60 m -43, 0 a 43,43 0 1,1 86,0 a 43,43 0 1,1 -86,0" />
+                </defs>
+                <text fill="#3A251B" font-size="8.4" font-family="Inter, sans-serif" font-weight="500" letter-spacing="2.4">
+                  <textPath href="#velaStampPath" startOffset="0%">
+                    GREENER TOMORROW TOGETHER &bull;
+                  </textPath>
+                </text>
+              </svg>
+              <div class="absolute inset-0 m-auto w-9 h-9 rounded-full border border-burnt-500/50 flex items-center justify-center text-burnt-500">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 3. VALUE-PILLAR STRIP                                                 -->
+  <!-- ===================================================================== -->
+  <section aria-label="Verified Impact Metrics" class="bg-parchment-50 border-b border-parchment-400">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-parchment-400">
+      
+      <div class="px-8 lg:px-10 py-9 flex flex-col justify-between">
+        <div>
+          <svg class="w-5 h-5 text-chocolate-800 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+          <h2 class="font-serif text-base sm:text-[17px] tracking-[0.16em] uppercase text-chocolate-900 font-semibold">
+            100% ZERO LANDFILL
+          </h2>
+          <p class="font-serif italic text-[15px] text-chocolate-700 mt-1.5 leading-relaxed">
+            Certified closed-loop material recovery across Tier-1 smelters.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-8 lg:px-10 py-9 flex flex-col justify-between">
+        <div>
+          <svg class="w-5 h-5 text-burnt-500 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+          </svg>
+          <h2 class="font-serif text-base sm:text-[17px] tracking-[0.16em] uppercase text-chocolate-900 font-semibold">
+            -6.2t CO&#8322; MITIGATED
+          </h2>
+          <p class="font-serif italic text-[15px] text-chocolate-700 mt-1.5 leading-relaxed">
+            Cryptographically verified Scope 3 emissions avoidance.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-8 lg:px-10 py-9 flex flex-col justify-between">
+        <div>
+          <svg class="w-5 h-5 text-chocolate-800 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+          <h2 class="font-serif text-base sm:text-[17px] tracking-[0.16em] uppercase text-chocolate-900 font-semibold">
+            VERIFIED ESG LEDGER
+          </h2>
+          <p class="font-serif italic text-[15px] text-chocolate-700 mt-1.5 leading-relaxed">
+            Audit-ready ISO 14064 &amp; EPR compliance certificates.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-8 lg:px-9 py-8 bg-parchment-200/55 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-16 h-16 flex-shrink-0 rounded-[2px] bg-chocolate-900 border border-chocolate-700 p-2 flex flex-col justify-between shadow-sm">
+            <div class="flex justify-between items-center">
+              <span class="w-1.5 h-1.5 rounded-full bg-burnt-500"></span>
+              <span class="font-mono text-[7px] text-parchment-300">2.4T</span>
+            </div>
+            <div class="grid grid-cols-2 gap-1">
+              <span class="h-2.5 bg-chocolate-700 border border-burnt-500/40"></span>
+              <span class="h-2.5 bg-burnt-500/80"></span>
+            </div>
+          </div>
+          <div>
+            <h2 class="font-serif text-sm sm:text-[15px] tracking-[0.14em] uppercase text-chocolate-900 font-semibold">
+              2,400 KG TRACKED
+            </h2>
+            <p class="font-serif italic text-xs sm:text-[13px] text-chocolate-700 mt-0.5 leading-snug">
+              Live chain-of-custody corporate e-waste telemetry.
+            </p>
+          </div>
+        </div>
+
+        <div class="hidden xl:block text-right flex-shrink-0 border-l border-parchment-400 pl-3.5">
+          <p class="font-serif italic text-base leading-tight text-burnt-600">
+            Circular Hardware,<br/>Measured Impact.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 4. EDITORIAL USER MANUAL & PROCESS WORKFLOW                           -->
+  <!-- ===================================================================== -->
+  <section id="manual-section" class="py-16 sm:py-20 border-b border-parchment-400 bg-parchment-100">
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-parchment-400">
+        <div>
+          <p class="text-[10px] font-mono tracking-[0.28em] uppercase text-burnt-500 mb-2">
+            OPERATING DIRECTIVE &mdash; 02
+          </p>
+          <h2 class="font-serif text-3xl sm:text-4xl uppercase tracking-[0.02em] text-chocolate-900 leading-none">
+            ENTERPRISE USER MANUAL
+          </h2>
+        </div>
+        <p class="font-serif italic text-base text-chocolate-700 max-w-md">
+          A four-tier operational lifecycle to decommission IT assets, safeguard data, and log certified environmental credits.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-x border-b border-parchment-400 divide-y sm:divide-y-0 sm:divide-x divide-parchment-400 bg-parchment-50 mt-6">
+        <!-- Step 1 -->
+        <div class="p-8 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-[2px] bg-chocolate-900 text-parchment-100 font-mono text-sm font-semibold flex items-center justify-center mb-5">
+              01
+            </div>
+            <h3 class="font-serif text-xl uppercase tracking-wider text-chocolate-900 mb-2">Fleet Aggregation</h3>
+            <p class="font-serif italic text-sm text-chocolate-700 leading-relaxed">
+              Consolidate end-of-life laptops, servers, and peripherals into serialized pallet batches via our dispatch manifest.
+            </p>
+          </div>
+          <span class="mt-6 text-[10px] font-mono uppercase tracking-widest text-chocolate-600">INSPECTION &bull; BARCODE</span>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="p-8 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-[2px] bg-burnt-500 text-parchment-50 font-mono text-sm font-semibold flex items-center justify-center mb-5">
+              02
+            </div>
+            <h3 class="font-serif text-xl uppercase tracking-wider text-chocolate-900 mb-2">NIST Sanitization</h3>
+            <p class="font-serif italic text-sm text-chocolate-700 leading-relaxed">
+              Every drive undergoes cryptographic multipass cryptowipe or magnetic degaussing in compliance with NIST 800-88 rev 1.
+            </p>
+          </div>
+          <span class="mt-6 text-[10px] font-mono uppercase tracking-widest text-chocolate-600">CRYPTOWIPE &bull; AUDIT</span>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="p-8 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-[2px] bg-chocolate-900 text-parchment-100 font-mono text-sm font-semibold flex items-center justify-center mb-5">
+              03
+            </div>
+            <h3 class="font-serif text-xl uppercase tracking-wider text-chocolate-900 mb-2">Secondary Exchange</h3>
+            <p class="font-serif italic text-sm text-chocolate-700 leading-relaxed">
+              High-yield components are routed to verified corporate buyers, unlocking up to 3.4x recovery value over raw scrap.
+            </p>
+          </div>
+          <span class="mt-6 text-[10px] font-mono uppercase tracking-widest text-chocolate-600">ESCROW &bull; REMARKET</span>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="p-8 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-[2px] bg-chocolate-800 text-burnt-400 font-mono text-sm font-semibold flex items-center justify-center mb-5">
+              04
+            </div>
+            <h3 class="font-serif text-xl uppercase tracking-wider text-chocolate-900 mb-2">Scope 3 Attestation</h3>
+            <p class="font-serif italic text-sm text-chocolate-700 leading-relaxed">
+              Receive tamper-proof ISO 14064-3 and CPCB EPR ledger tokens directly in your organization's sustainability console.
+            </p>
+          </div>
+          <span class="mt-6 text-[10px] font-mono uppercase tracking-widest text-burnt-500">ISO-14064 &bull; EPR</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 5. ASYMMETRIC CAPABILITIES                                            -->
+  <!-- ===================================================================== -->
+  <section id="capabilities-editorial" class="border-b border-parchment-400 bg-parchment-100">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12">
+      
+      <!-- LEFT PANEL -->
+      <div class="lg:col-span-3 px-6 sm:px-10 py-14 lg:py-16 border-b lg:border-b-0 lg:border-r border-parchment-400 flex flex-col justify-between">
+        <div class="space-y-5">
+          <p class="text-[10px] font-mono tracking-[0.26em] uppercase text-chocolate-600">
+            OUR CAPABILITIES
+          </p>
+          <h2 id="capHeadline" class="font-serif text-3xl sm:text-[2.15rem] leading-[1.08] tracking-[0.03em] uppercase text-chocolate-900">
+            CIRCULAR HARDWARE ECOSYSTEM
+          </h2>
+          <p id="capDescription" class="font-serif italic text-base sm:text-[17px] leading-[1.62] text-chocolate-700">
+            Track, trade, and extend the operational lifecycle of enterprise electronic assets through serialized hardware digital twins and verified disposition routing.
+          </p>
+        </div>
+
+        <div class="pt-10">
+          <a href="#carbon-ledger-section" class="group inline-flex items-center gap-3 text-[10px] font-medium tracking-[0.22em] uppercase text-chocolate-900 hover:text-burnt-500 transition-colors">
+            <span>DISCOVER ALL CAPABILITIES</span>
+            <span class="inline-block w-8 h-[1px] bg-chocolate-900 group-hover:bg-burnt-500 group-hover:w-12 transition-all">&rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- CENTER PANEL -->
+      <div class="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-parchment-400 flex flex-col justify-between bg-parchment-200/45">
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 border-b border-parchment-400 bg-parchment-50">
+          <button onclick="selectEditorialCapability(0)" id="edTab-0" class="ed-tab px-3 py-3.5 text-[10px] font-mono tracking-[0.12em] uppercase text-left border-r border-b sm:border-b-0 border-parchment-400 bg-chocolate-900 text-parchment-100 transition-colors">
+            <span class="block text-burnt-400 text-[9px]">01</span>
+            Ecosystem
+          </button>
+          <button onclick="selectEditorialCapability(1)" id="edTab-1" class="ed-tab px-3 py-3.5 text-[10px] font-mono tracking-[0.12em] uppercase text-left border-b sm:border-b-0 sm:border-r border-parchment-400 text-chocolate-700 hover:bg-parchment-200/70 transition-colors">
+            <span class="block text-burnt-500 text-[9px]">02</span>
+            Carbon AI
+          </button>
+          <button onclick="selectEditorialCapability(2)" id="edTab-2" class="ed-tab px-3 py-3.5 text-[10px] font-mono tracking-[0.12em] uppercase text-left border-r border-parchment-400 text-chocolate-700 hover:bg-parchment-200/70 transition-colors">
+            <span class="block text-burnt-500 text-[9px]">03</span>
+            Marketplace
+          </button>
+          <button onclick="selectEditorialCapability(3)" id="edTab-3" class="ed-tab px-3 py-3.5 text-[10px] font-mono tracking-[0.12em] uppercase text-left text-chocolate-700 hover:bg-parchment-200/70 transition-colors">
+            <span class="block text-burnt-500 text-[9px]">04</span>
+            Enterprise
+          </button>
+        </div>
+
+        <div id="editorialVisualStage" class="p-8 sm:p-12 flex-1 flex flex-col items-center justify-center relative min-h-[320px]">
+          <div class="w-full max-w-md bg-parchment-50 border border-parchment-400 p-6 shadow-editorial-card relative">
+            <div class="flex items-center justify-between border-b border-parchment-400 pb-3 mb-5">
+              <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-chocolate-700">ARCHIVE PLATE // 01-A</span>
+              <span class="font-mono text-[10px] text-burnt-500">98.4% RECOVERY</span>
+            </div>
+            <svg class="w-full h-44" viewBox="0 0 360 170" fill="none">
+              <rect x="30" y="132" width="300" height="14" fill="#E2D7C7" stroke="#BFB29F" stroke-width="1"/>
+              <rect x="65" y="42" width="230" height="90" fill="#241711" stroke="#3A251B" stroke-width="1.5"/>
+              <line x1="65" y1="72" x2="295" y2="72" stroke="#543A2D" stroke-width="1"/>
+              <line x1="65" y1="102" x2="295" y2="102" stroke="#543A2D" stroke-width="1"/>
+              <rect x="82" y="51" width="44" height="12" fill="#3A251B" stroke="#C85524" stroke-width="1"/>
+              <rect x="136" y="51" width="44" height="12" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.8"/>
+              <rect x="190" y="51" width="44" height="12" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.8"/>
+              <circle cx="272" cy="57" r="3" fill="#C85524"/>
+              <rect x="82" y="81" width="44" height="12" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.8"/>
+              <rect x="136" y="81" width="44" height="12" fill="#3A251B" stroke="#C85524" stroke-width="1"/>
+              <rect x="190" y="81" width="44" height="12" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.8"/>
+              <circle cx="272" cy="87" r="3" fill="#E2D7C7"/>
+              <path d="M250 132 C250 96, 276 66, 316 44" stroke="#6E7B5B" stroke-width="1.5"/>
+              <path d="M276 86 C292 84, 304 76, 312 66 C296 68, 284 74, 276 86 Z" fill="#6E7B5B" fill-opacity="0.75"/>
+              <path d="M262 104 C246 98, 238 88, 234 76 C248 82, 256 92, 262 104 Z" fill="#6E7B5B" fill-opacity="0.65"/>
+            </svg>
+            <div class="mt-4 pt-3 border-t border-parchment-400 flex items-center justify-between text-[11px] font-mono text-chocolate-700">
+              <span>SERIALIZED DIGITAL TWIN</span>
+              <span class="text-chocolate-900 font-semibold">14,820 ACTIVE NODES</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="lg:col-span-4 grid grid-rows-2 divide-y divide-parchment-400">
+        
+        <div class="bg-chocolate-900 text-parchment-100 p-8 sm:p-10 relative overflow-hidden flex flex-col justify-between">
+          <div class="flex items-center justify-between relative z-10">
+            <span class="font-mono text-[10px] tracking-[0.24em] uppercase text-burnt-400">THERMAL REFINING // AU-CU</span>
+            <span class="font-mono text-[10px] text-parchment-300/70">99.94% PURITY</span>
+          </div>
+
+          <svg class="w-full h-32 my-2" viewBox="0 0 320 120" fill="none">
+            <defs>
+              <linearGradient id="copperPour" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F08049"/>
+                <stop offset="55%" stop-color="#C85524"/>
+                <stop offset="100%" stop-color="#7A2D0E"/>
+              </linearGradient>
+            </defs>
+            <path d="M125 0 H175 L164 22 H136 Z" fill="#3A251B" stroke="#543A2D"/>
+            <path d="M146 22 C146 52, 152 72, 150 96" stroke="url(#copperPour)" stroke-width="7" stroke-linecap="round"/>
+            <ellipse cx="150" cy="98" rx="74" ry="14" fill="#2E1E16" stroke="#C85524" stroke-width="1.2"/>
+            <ellipse cx="150" cy="98" rx="44" ry="8" fill="none" stroke="#F08049" stroke-width="1"/>
+            <ellipse cx="150" cy="98" rx="18" ry="3.5" fill="#C85524"/>
+          </svg>
+
+          <p class="font-serif italic text-sm text-parchment-200/85 relative z-10">
+            Hydrometallurgical recovery of precious metals without open-pit mining emissions.
+          </p>
+        </div>
+
+        <div class="bg-parchment-50 p-8 sm:p-10 flex flex-col justify-between">
+          <div class="space-y-3.5">
+            <p class="text-[10px] font-mono tracking-[0.26em] uppercase text-chocolate-600">
+              OUR SCIENCE
+            </p>
+            <h3 class="font-serif text-2xl sm:text-[1.95rem] leading-[1.08] tracking-[0.03em] uppercase text-chocolate-900">
+              FROM E-WASTE TO EQUITY
+            </h3>
+            <p class="font-serif italic text-[15px] sm:text-base leading-[1.6] text-chocolate-700">
+              We reconcile every retired circuit board with cryptographic Scope 3 accounting — transforming corporate hardware depreciation into audited carbon equity.
+            </p>
+          </div>
+
+          <div class="pt-6">
+            <button onclick="openMethodologyModal()" class="group inline-flex items-center gap-3 text-[10px] font-medium tracking-[0.22em] uppercase text-chocolate-900 hover:text-burnt-500 transition-colors">
+              <span>READ METHODOLOGY</span>
+              <span class="inline-block w-8 h-[1px] bg-chocolate-900 group-hover:bg-burnt-500 group-hover:w-12 transition-all">&rarr;</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 6. CARBON CALCULATOR                                                  -->
+  <!-- ===================================================================== -->
+  <section id="carbon-ledger-section" class="py-20 sm:py-28 border-b border-parchment-400 bg-parchment-100">
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-parchment-400">
+        <div>
+          <p class="text-[10px] font-mono tracking-[0.28em] uppercase text-burnt-500 mb-3">
+            CRYPTOGRAPHIC TELEMETRY &mdash; 03
+          </p>
+          <h2 class="font-serif text-3xl sm:text-5xl uppercase tracking-[0.02em] text-chocolate-900 leading-none">
+            SCOPE 3 CARBON LEDGER
+          </h2>
+        </div>
+        <p class="font-serif italic text-lg text-chocolate-700 max-w-md">
+          Model your organization&rsquo;s hardware disposition batch to compute avoided emissions, precious metal recovery, and issue an ISO-14064 audit certificate.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 border-x border-b border-parchment-400 bg-parchment-50">
+        
+        <div class="lg:col-span-7 p-8 sm:p-12 border-b lg:border-b-0 lg:border-r border-parchment-400 space-y-8">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-chocolate-700">BATCH ASSET INVENTORY</span>
+            <button onclick="resetCalculator()" class="font-mono text-[10px] tracking-[0.18em] uppercase text-burnt-500 hover:underline">
+              [RESET DEFAULTS]
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex justify-between items-baseline">
+              <label for="calcLaptops" class="font-serif text-lg uppercase tracking-[0.06em] text-chocolate-900">
+                01. Enterprise Laptops &amp; Workstations
+              </label>
+              <span id="valLaptops" class="font-mono text-sm font-semibold text-burnt-500">320 UNITS</span>
+            </div>
+            <input id="calcLaptops" type="range" min="10" max="2500" value="320" oninput="updateCarbonLedger()" class="w-full">
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex justify-between items-baseline">
+              <label for="calcServers" class="font-serif text-lg uppercase tracking-[0.06em] text-chocolate-900">
+                02. Datacenter Rack Servers &amp; Blades
+              </label>
+              <span id="valServers" class="font-mono text-sm font-semibold text-burnt-500">48 UNITS</span>
+            </div>
+            <input id="calcServers" type="range" min="0" max="500" value="48" oninput="updateCarbonLedger()" class="w-full">
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex justify-between items-baseline">
+              <label for="calcNetwork" class="font-serif text-lg uppercase tracking-[0.06em] text-chocolate-900">
+                03. Core Switches &amp; Networking Gear
+              </label>
+              <span id="valNetwork" class="font-mono text-sm font-semibold text-burnt-500">85 UNITS</span>
+            </div>
+            <input id="calcNetwork" type="range" min="0" max="800" value="85" oninput="updateCarbonLedger()" class="w-full">
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex justify-between items-baseline">
+              <label for="calcMobile" class="font-serif text-lg uppercase tracking-[0.06em] text-chocolate-900">
+                04. Corporate Mobile &amp; Tablet Fleet
+              </label>
+              <span id="valMobile" class="font-mono text-sm font-semibold text-burnt-500">450 UNITS</span>
+            </div>
+            <input id="calcMobile" type="range" min="0" max="3000" value="450" oninput="updateCarbonLedger()" class="w-full">
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 p-8 sm:p-12 bg-chocolate-900 text-parchment-100 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-chocolate-700 pb-4 mb-6">
+              <div>
+                <p class="font-mono text-[10px] tracking-[0.24em] uppercase text-burnt-400">VERIFIED ESG CERTIFICATE</p>
+                <p class="font-mono text-[10px] text-parchment-300/70 mt-0.5">LEDGER HASH: 0x8F4C...92E1</p>
+              </div>
+              <span class="px-2.5 py-1 border border-burnt-500/60 text-burnt-400 font-mono text-[10px] uppercase">
+                ISO-14064-3
+              </span>
+            </div>
+
+            <div class="divide-y divide-chocolate-700 border-y border-chocolate-700">
+              <div class="py-4 flex items-baseline justify-between">
+                <span class="font-serif italic text-base text-parchment-200">CO&#8322;e Avoided (Scope 3)</span>
+                <span id="resCo2" class="font-serif text-3xl sm:text-4xl text-burnt-400 font-semibold">-164.8 t</span>
+              </div>
+              <div class="py-4 flex items-baseline justify-between">
+                <span class="font-serif italic text-base text-parchment-200">Zero-Landfill Diversion</span>
+                <span id="resWeight" class="font-serif text-2xl sm:text-3xl text-parchment-50">2,618 kg</span>
+              </div>
+              <div class="py-4 flex items-baseline justify-between">
+                <span class="font-serif italic text-base text-parchment-200">Precious Metals Recovered</span>
+                <span id="resMetals" class="font-mono text-lg text-parchment-100">4,890 g</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-8 space-y-4">
+            <p class="font-mono text-[10px] text-parchment-300/70 leading-relaxed">
+              Certified under CPCB E-Waste Management Rules &amp; R2v3 Chain-of-Custody Standard.
+            </p>
+            <button onclick="openCertificatePreview()" class="w-full py-3.5 px-6 rounded-[2px] bg-burnt-500 hover:bg-burnt-400 text-parchment-50 text-[11px] font-medium tracking-[0.24em] uppercase transition-colors flex items-center justify-center gap-3">
+              <span>GENERATE AUDIT CERTIFICATE</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 7. B2B MARKETPLACE                                                    -->
+  <!-- ===================================================================== -->
+  <section id="marketplace-section" class="py-20 sm:py-28 border-b border-parchment-400 bg-parchment-50">
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-parchment-400">
+        <div>
+          <p class="text-[10px] font-mono tracking-[0.28em] uppercase text-burnt-500 mb-3">
+            SECONDARY B2B EXCHANGE &mdash; 04
+          </p>
+          <h2 class="font-serif text-3xl sm:text-5xl uppercase tracking-[0.02em] text-chocolate-900 leading-none">
+            CURATED HARDWARE LOTS
+          </h2>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="filterLots('ALL')" class="lot-filter px-4 py-2 text-[10px] font-mono tracking-[0.18em] uppercase bg-chocolate-900 text-parchment-100">ALL LOTS</button>
+          <button onclick="filterLots('COMPUTE')" class="lot-filter px-4 py-2 text-[10px] font-mono tracking-[0.18em] uppercase border border-parchment-400 text-chocolate-800 hover:border-chocolate-900">COMPUTE</button>
+          <button onclick="filterLots('DATACENTER')" class="lot-filter px-4 py-2 text-[10px] font-mono tracking-[0.18em] uppercase border border-parchment-400 text-chocolate-800 hover:border-chocolate-900">DATACENTER</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 border-x border-b border-parchment-400 divide-y lg:divide-y-0 lg:divide-x divide-parchment-400 bg-parchment-100">
+        
+        <!-- Lot Card 1 -->
+        <article data-category="DATACENTER" class="lot-card p-8 sm:p-10 flex flex-col justify-between hover:bg-parchment-50 transition-colors">
+          <div>
+            <div class="flex items-center justify-between border-b border-parchment-400 pb-3 mb-6">
+              <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-chocolate-600">LOT // EC-R750-09</span>
+              <span class="px-2.5 py-0.5 bg-chocolate-900 text-parchment-100 font-mono text-[9px] tracking-[0.18em] uppercase">GRADE A+</span>
+            </div>
+
+            <div class="h-36 bg-parchment-200/70 border border-parchment-400 mb-6 flex items-center justify-center p-4">
+              <svg class="w-full h-24" viewBox="0 0 260 80" fill="none">
+                <rect x="20" y="16" width="220" height="48" fill="#241711" stroke="#3A251B"/>
+                <rect x="32" y="26" width="36" height="28" fill="#3A251B" stroke="#C85524"/>
+                <rect x="76" y="26" width="36" height="28" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.7"/>
+                <rect x="120" y="26" width="36" height="28" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.7"/>
+                <rect x="164" y="26" width="36" height="28" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.7"/>
+                <circle cx="220" cy="34" r="3" fill="#C85524"/>
+                <circle cx="220" cy="46" r="3" fill="#E2D7C7"/>
+              </svg>
+            </div>
+
+            <h3 class="font-serif text-2xl uppercase tracking-[0.03em] text-chocolate-900">
+              Dell PowerEdge R750xs Fleet
+            </h3>
+            <p class="font-serif italic text-base text-chocolate-700 mt-2 leading-relaxed">
+              24x Dual Xeon Silver 4314 nodes, 256GB ECC DDR4, NIST 800-88 purged with full SMART telemetry.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-5 border-t border-parchment-400 space-y-4">
+            <div class="flex justify-between text-xs font-mono">
+              <span class="text-chocolate-600">CARBON CREDIT YIELD</span>
+              <span class="text-burnt-500 font-semibold">+22.4 t CO&#8322;e</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="font-serif text-2xl font-semibold text-chocolate-900">$2,850 <span class="text-xs font-sans font-normal text-chocolate-600">/ node</span></span>
+              <button onclick="openLotDrawer('Dell PowerEdge R750xs Fleet', 'EC-R750-09', '+22.4 t CO2e', '$2,850 / node')" class="text-[10px] font-medium tracking-[0.22em] uppercase text-chocolate-900 hover:text-burnt-500 border-b border-chocolate-900 hover:border-burnt-500 pb-1 transition-colors">
+                REQUEST LOT AUDIT &rarr;
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Lot Card 2 -->
+        <article data-category="COMPUTE" class="lot-card p-8 sm:p-10 flex flex-col justify-between hover:bg-parchment-50 transition-colors">
+          <div>
+            <div class="flex items-center justify-between border-b border-parchment-400 pb-3 mb-6">
+              <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-chocolate-600">LOT // EC-X1C-14</span>
+              <span class="px-2.5 py-0.5 bg-chocolate-900 text-parchment-100 font-mono text-[9px] tracking-[0.18em] uppercase">GRADE A+</span>
+            </div>
+
+            <div class="h-36 bg-parchment-200/70 border border-parchment-400 mb-6 flex items-center justify-center p-4">
+              <svg class="w-full h-24" viewBox="0 0 260 80" fill="none">
+                <polygon points="130,12 52,32 130,52 208,32" fill="#3A251B" stroke="#C85524" stroke-width="1.2"/>
+                <polygon points="130,26 52,46 130,66 208,46" fill="#241711" stroke="#DCD3C6" stroke-width="0.8"/>
+                <circle cx="130" cy="32" r="2.5" fill="#C85524"/>
+              </svg>
+            </div>
+
+            <h3 class="font-serif text-2xl uppercase tracking-[0.03em] text-chocolate-900">
+              ThinkPad X1 Carbon Gen 11
+            </h3>
+            <p class="font-serif italic text-base text-chocolate-700 mt-2 leading-relaxed">
+              150x Core i7-1365U Ultrabooks, 32GB LPDDR5, &gt;92% battery health, zero-landfill chain of custody.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-5 border-t border-parchment-400 space-y-4">
+            <div class="flex justify-between text-xs font-mono">
+              <span class="text-chocolate-600">CARBON CREDIT YIELD</span>
+              <span class="text-burnt-500 font-semibold">+42.0 t CO&#8322;e</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="font-serif text-2xl font-semibold text-chocolate-900">$740 <span class="text-xs font-sans font-normal text-chocolate-600">/ unit</span></span>
+              <button onclick="openLotDrawer('ThinkPad X1 Carbon Gen 11', 'EC-X1C-14', '+42.0 t CO2e', '$740 / unit')" class="text-[10px] font-medium tracking-[0.22em] uppercase text-chocolate-900 hover:text-burnt-500 border-b border-chocolate-900 hover:border-burnt-500 pb-1 transition-colors">
+                REQUEST LOT AUDIT &rarr;
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Lot Card 3 -->
+        <article data-category="DATACENTER" class="lot-card p-8 sm:p-10 flex flex-col justify-between hover:bg-parchment-50 transition-colors">
+          <div>
+            <div class="flex items-center justify-between border-b border-parchment-400 pb-3 mb-6">
+              <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-chocolate-600">LOT // EC-C9300-22</span>
+              <span class="px-2.5 py-0.5 bg-burnt-500 text-parchment-50 font-mono text-[9px] tracking-[0.18em] uppercase">CERTIFIED</span>
+            </div>
+
+            <div class="h-36 bg-parchment-200/70 border border-parchment-400 mb-6 flex items-center justify-center p-4">
+              <svg class="w-full h-24" viewBox="0 0 260 80" fill="none">
+                <rect x="24" y="24" width="212" height="32" fill="#241711" stroke="#3A251B"/>
+                <g fill="#DCD3C6">
+                  <rect x="36" y="32" width="8" height="6"/><rect x="48" y="32" width="8" height="6"/>
+                  <rect x="60" y="32" width="8" height="6"/><rect x="72" y="32" width="8" height="6"/>
+                  <rect x="36" y="42" width="8" height="6"/><rect x="48" y="42" width="8" height="6"/>
+                  <rect x="60" y="42" width="8" height="6"/><rect x="72" y="42" width="8" height="6"/>
+                </g>
+                <rect x="186" y="32" width="36" height="16" fill="#3A251B" stroke="#C85524"/>
+              </svg>
+            </div>
+
+            <h3 class="font-serif text-2xl uppercase tracking-[0.03em] text-chocolate-900">
+              Cisco Catalyst 9300-48P
+            </h3>
+            <p class="font-serif italic text-base text-chocolate-700 mt-2 leading-relaxed">
+              40x 48-Port PoE+ Enterprise Switches, redundant 1100W PSUs, wiped IOS-XE &amp; optical modules.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-5 border-t border-parchment-400 space-y-4">
+            <div class="flex justify-between text-xs font-mono">
+              <span class="text-chocolate-600">CARBON CREDIT YIELD</span>
+              <span class="text-burnt-500 font-semibold">+18.6 t CO&#8322;e</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="font-serif text-2xl font-semibold text-chocolate-900">$1,490 <span class="text-xs font-sans font-normal text-chocolate-600">/ unit</span></span>
+              <button onclick="openLotDrawer('Cisco Catalyst 9300-48P', 'EC-C9300-22', '+18.6 t CO2e', '$1,490 / unit')" class="text-[10px] font-medium tracking-[0.22em] uppercase text-chocolate-900 hover:text-burnt-500 border-b border-chocolate-900 hover:border-burnt-500 pb-1 transition-colors">
+                REQUEST LOT AUDIT &rarr;
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 8. COLLECTORS MAP                                                     -->
+  <!-- ===================================================================== -->
+  <section id="collectors-section" class="py-20 sm:py-28 bg-parchment-100 border-b border-parchment-400">
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 border border-parchment-400 bg-parchment-50">
+        
+        <div class="lg:col-span-5 p-8 sm:p-12 border-b lg:border-b-0 lg:border-r border-parchment-400 flex flex-col justify-between">
+          <div>
+            <p class="text-[10px] font-mono tracking-[0.28em] uppercase text-burnt-500 mb-3">
+              CERTIFIED RECOVERY NETWORK &mdash; 05
+            </p>
+            <h2 class="font-serif text-3xl sm:text-4xl uppercase tracking-[0.02em] text-chocolate-900 leading-[1.08]">
+              COLLECTORS &amp; REFINING HUBS
+            </h2>
+            <p class="font-serif italic text-base text-chocolate-700 mt-3 leading-relaxed">
+              GPS-sealed chain-of-custody logistics connecting corporate IT campuses with CPCB-authorized &amp; R2v3 smelting facilities.
+            </p>
+
+            <div class="mt-8 divide-y divide-parchment-400 border-y border-parchment-400">
+              <button onclick="selectHub('chandigarh')" id="hubBtn-chandigarh" class="hub-btn w-full py-3.5 px-3 flex items-center justify-between text-left bg-parchment-200/80 transition-colors">
+                <div>
+                  <span class="font-mono text-[10px] text-burnt-500 block">NODE // IN-CHD-01</span>
+                  <span class="font-serif text-lg text-chocolate-900">Chandigarh Northern Consolidation Hub</span>
+                </div>
+                <span class="font-mono text-[10px] text-chocolate-800">94% CAP</span>
+              </button>
+
+              <button onclick="selectHub('bengaluru')" id="hubBtn-bengaluru" class="hub-btn w-full py-3.5 px-3 flex items-center justify-between text-left hover:bg-parchment-200/50 transition-colors">
+                <div>
+                  <span class="font-mono text-[10px] text-chocolate-600 block">NODE // IN-BLR-02</span>
+                  <span class="font-serif text-lg text-chocolate-900">Bengaluru Silicon Recovery Park</span>
+                </div>
+                <span class="font-mono text-[10px] text-chocolate-800">88% CAP</span>
+              </button>
+
+              <button onclick="selectHub('mumbai')" id="hubBtn-mumbai" class="hub-btn w-full py-3.5 px-3 flex items-center justify-between text-left hover:bg-parchment-200/50 transition-colors">
+                <div>
+                  <span class="font-mono text-[10px] text-chocolate-600 block">NODE // IN-BOM-03</span>
+                  <span class="font-serif text-lg text-chocolate-900">Mumbai Port &amp; Precious Metal Refinery</span>
+                </div>
+                <span class="font-mono text-[10px] text-chocolate-800">91% CAP</span>
+              </button>
+
+              <button onclick="selectHub('pune')" id="hub-btn-pune" class="hub-btn w-full py-3.5 px-3 flex items-center justify-between text-left hover:bg-parchment-200/50 transition-colors">
+                <div>
+                  <span class="font-mono text-[10px] text-chocolate-600 block">NODE // IN-PNQ-04</span>
+                  <span class="font-serif text-lg text-chocolate-900">Pune Industrial Battery &amp; PCB Plant</span>
+                </div>
+                <span class="font-mono text-[10px] text-chocolate-800">82% CAP</span>
+              </button>
+
+              <button onclick="selectHub('chennai')" id="hubBtn-chennai" class="hub-btn w-full py-3.5 px-3 flex items-center justify-between text-left hover:bg-parchment-200/50 transition-colors">
+                <div>
+                  <span class="font-mono text-[10px] text-chocolate-600 block">NODE // IN-MAA-05</span>
+                  <span class="font-serif text-lg text-chocolate-900">Chennai Southern Export &amp; Smelter</span>
+                </div>
+                <span class="font-mono text-[10px] text-chocolate-800">96% CAP</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="pt-6 flex items-center justify-between text-xs font-mono text-chocolate-700">
+            <span>EPR REGISTRATION: B-29016(1842)/EPR</span>
+            <span class="text-burnt-500">LIVE SYNC</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 bg-chocolate-900 text-parchment-100 p-8 sm:p-12 flex flex-col justify-between relative overflow-hidden">
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-chocolate-700 pb-4 relative z-10">
+            <div>
+              <span id="activeHubCode" class="font-mono text-[10px] tracking-[0.24em] uppercase text-burnt-400">NODE // IN-CHD-01</span>
+              <h3 id="activeHubTitle" class="font-serif text-2xl text-parchment-50 mt-0.5">Chandigarh Northern Consolidation Hub</h3>
+            </div>
+            <span id="activeHubBadge" class="px-3 py-1 border border-burnt-500/50 font-mono text-[10px] uppercase text-burnt-400">
+              R2v3 + CPCB TIER-1
+            </span>
+          </div>
+
+          <div class="my-6 relative flex items-center justify-center">
+            <svg class="w-full max-w-lg h-72" viewBox="0 0 460 320" fill="none">
+              <line x1="20" y1="60" x2="440" y2="60" stroke="#3A251B" stroke-width="0.8"/>
+              <line x1="20" y1="140" x2="440" y2="140" stroke="#3A251B" stroke-width="0.8"/>
+              <line x1="20" y1="220" x2="440" y2="220" stroke="#3A251B" stroke-width="0.8"/>
+              <line x1="120" y1="15" x2="120" y2="305" stroke="#3A251B" stroke-width="0.8"/>
+              <line x1="230" y1="15" x2="230" y2="305" stroke="#3A251B" stroke-width="0.8"/>
+              <line x1="340" y1="15" x2="340" y2="305" stroke="#3A251B" stroke-width="0.8"/>
+
+              <path d="M195 26 L236 42 L254 78 L314 114 L334 148 L278 196 L246 266 L218 296 L194 262 L162 192 L138 144 L158 92 L176 54 Z" fill="#2E1E16" stroke="#543A2D" stroke-width="1.2"/>
+
+              <path d="M204 54 L164 166 L182 184 L214 234 L242 238" stroke="#C85524" stroke-width="1.5" stroke-dasharray="4 4"/>
+              <path d="M204 54 L242 238" stroke="#DCD3C6" stroke-opacity="0.35" stroke-width="1"/>
+
+              <g onclick="selectHub('chandigarh')" class="cursor-pointer">
+                <circle id="pin-chandigarh" cx="204" cy="54" r="11" fill="#C85524" fill-opacity="0.3"/>
+                <circle cx="204" cy="54" r="4.5" fill="#F08049" stroke="#FAF7F2" stroke-width="1.2"/>
+                <text x="218" y="57" fill="#FAF7F2" font-size="10" font-family="JetBrains Mono, monospace">CHANDIGARH</text>
+              </g>
+
+              <g onclick="selectHub('mumbai')" class="cursor-pointer">
+                <circle id="pin-mumbai" cx="164" cy="166" r="9" fill="#C85524" fill-opacity="0.18"/>
+                <circle cx="164" cy="166" r="4" fill="#DCD3C6"/>
+                <text x="96" y="169" fill="#DCD3C6" font-size="10" font-family="JetBrains Mono, monospace">MUMBAI</text>
+              </g>
+
+              <g onclick="selectHub('pune')" class="cursor-pointer">
+                <circle id="pin-pune" cx="182" cy="184" r="9" fill="#C85524" fill-opacity="0.18"/>
+                <circle cx="182" cy="184" r="4" fill="#DCD3C6"/>
+                <text x="126" y="196" fill="#DCD3C6" font-size="10" font-family="JetBrains Mono, monospace">PUNE</text>
+              </g>
+
+              <g onclick="selectHub('bengaluru')" class="cursor-pointer">
+                <circle id="pin-bengaluru" cx="214" cy="234" r="9" fill="#C85524" fill-opacity="0.18"/>
+                <circle cx="214" cy="234" r="4" fill="#DCD3C6"/>
+                <text x="132" y="246" fill="#DCD3C6" font-size="10" font-family="JetBrains Mono, monospace">BENGALURU</text>
+              </g>
+
+              <g onclick="selectHub('chennai')" class="cursor-pointer">
+                <circle id="pin-chennai" cx="242" cy="238" r="9" fill="#C85524" fill-opacity="0.18"/>
+                <circle cx="242" cy="238" r="4" fill="#DCD3C6"/>
+                <text x="254" y="242" fill="#DCD3C6" font-size="10" font-family="JetBrains Mono, monospace">CHENNAI</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 border-t border-chocolate-700 pt-4 font-mono text-xs relative z-10">
+            <div>
+              <span class="text-[10px] text-parchment-300/60 block">MONTHLY THROUGHPUT</span>
+              <span id="activeHubThroughput" class="text-parchment-50 font-semibold">420 Metric Tonnes</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-parchment-300/60 block">ACTIVE FLEET</span>
+              <span id="activeHubFleet" class="text-burnt-400 font-semibold">18 GPS Trucks</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-parchment-300/60 block">LANDFILL DIVERSION</span>
+              <span class="text-parchment-50 font-semibold">100.0% Audited</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 9. FOOTER                                                             -->
+  <!-- ===================================================================== -->
+  <footer class="bg-parchment-100 text-chocolate-800 py-14">
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <div>
+        <span class="font-serif text-2xl tracking-[0.22em] uppercase text-chocolate-900 font-semibold">
+          E-CURE<span class="text-burnt-500">.</span>EARTH
+        </span>
+        <p class="font-serif italic text-base text-chocolate-700 mt-1">
+          Regenerative Hardware Lifecycle Intelligence &amp; Cryptographic Carbon Accounting.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-8 text-[11px] font-medium tracking-[0.2em] uppercase">
+        <a href="#top" class="hover:text-burnt-500 transition-colors">HOME</a>
+        <a href="#manual-section" class="hover:text-burnt-500 transition-colors">USER MANUAL</a>
+        <a href="#capabilities-editorial" class="hover:text-burnt-500 transition-colors">CAPABILITIES</a>
+        <a href="#carbon-ledger-section" class="hover:text-burnt-500 transition-colors">CARBON LEDGER</a>
+        <a href="#marketplace-section" class="hover:text-burnt-500 transition-colors">MARKETPLACE</a>
+        <a href="auth.html" class="text-burnt-500 hover:underline">ENTER CONSOLE &rarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODALS & NOTIFICATIONS                                                -->
+  <!-- ===================================================================== -->
+  <div id="editorialModalBackdrop" onclick="closeModal()" class="hidden fixed inset-0 z-50 bg-chocolate-950/75 backdrop-blur-xs flex items-center justify-center p-4">
+    <div id="editorialModalBox" onclick="event.stopPropagation()" class="w-full max-w-xl bg-parchment-50 text-chocolate-900 border border-parchment-400 shadow-2xl p-8 sm:p-10 relative">
+    </div>
+  </div>
+
+  <div id="editorialToast" class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 pointer-events-none transition-all duration-300 bg-chocolate-900 text-parchment-100 border border-burnt-500 px-5 py-3.5 shadow-xl flex items-center gap-3 text-xs font-mono tracking-wider">
+    <span class="w-2 h-2 bg-burnt-500"></span>
+    <span id="editorialToastText">LEDGER UPDATED</span>
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // Intelligent Console Button (Checks active login session)
+    try {
+      const activeSession = JSON.parse(localStorage.getItem('ecure_session'));
+      if (activeSession && activeSession.loggedIn) {
+        const btn = document.getElementById('navConsoleBtn');
+        if (btn) btn.href = 'dashboard.html';
+      }
+    } catch(e) {}
+
+    // 1. Subtle 3D Mouse Perspective Tilt
+    const specimenRig = document.getElementById('specimenRig');
+    if (specimenRig) {
+      document.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 1024) return;
+        const rect = specimenRig.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const rx = Math.max(-6, Math.min(6, -(e.clientY - cy) / 55));
+        const ry = Math.max(-8, Math.min(8, (e.clientX - cx) / 55));
+        specimenRig.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+    }
+
+    // 2. Navigation Active Link Indicator
+    function setActiveNav(key) {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('text-chocolate-900', 'border-chocolate-900');
+        link.classList.add('text-chocolate-600', 'border-transparent');
+      });
+      const active = document.querySelector(`[data-nav="${key}"]`);
+      if (active) {
+        active.classList.remove('text-chocolate-600', 'border-transparent');
+        active.classList.add('text-chocolate-900', 'border-chocolate-900');
+      }
+    }
+
+    function toggleMobileNav() {
+      document.getElementById('mobileDrawer').classList.toggle('hidden');
+    }
+
+    // 3. Editorial Capability Switcher
+    const editorialCapabilities = [
+      {
+        headline: 'CIRCULAR HARDWARE ECOSYSTEM',
+        desc: 'Track, trade, and extend the operational lifecycle of enterprise electronic assets through serialized hardware digital twins and verified disposition routing.',
+        plate: 'ARCHIVE PLATE // 01-A',
+        metric: '98.4% RECOVERY',
+        footerLeft: 'SERIALIZED DIGITAL TWIN',
+        footerRight: '14,820 ACTIVE NODES'
+      },
+      {
+        headline: 'CARBON INTELLIGENCE LEDGER',
+        desc: 'Quantify Scope 3 Category 5 & Category 12 emissions avoidance with ISO-14064 life-cycle assessment models anchored to immutable cryptographic proofs.',
+        plate: 'ARCHIVE PLATE // 02-B',
+        metric: '-6.2T CO2 VERIFIED',
+        footerLeft: 'GHG PROTOCOL ENGINE',
+        footerRight: 'ISO 14064-3 AUDITED'
+      },
+      {
+        headline: 'TRUSTED B2B MARKETPLACE',
+        desc: 'Liquidate decommissioned corporate laptops, servers, and networking fleets directly to vetted enterprise buyers with NIST 800-88 sanitization certificates.',
+        plate: 'ARCHIVE PLATE // 03-C',
+        metric: '3.4X RESIDUAL YIELD',
+        footerLeft: 'ESCROW SETTLEMENT',
+        footerRight: 'NIST 800-88 CERTIFIED'
+      },
+      {
+        headline: 'ENTERPRISE EPR GOVERNANCE',
+        desc: 'Automate statutory Extended Producer Responsibility filings, CPCB compliance ledgers, and multi-region ESG disclosures across global subsidiaries.',
+        plate: 'ARCHIVE PLATE // 04-D',
+        metric: '100% AUDIT COMPLIANCE',
+        footerLeft: 'STATUTORY EPR ENGINE',
+        footerRight: 'SOC2 TYPE II & CSRD'
+      }
+    ];
+
+    function selectEditorialCapability(idx) {
+      const data = editorialCapabilities[idx];
+      document.getElementById('capHeadline').textContent = data.headline;
+      document.getElementById('capDescription').textContent = data.desc;
+
+      document.querySelectorAll('.ed-tab').forEach((btn, i) => {
+        if (i === idx) {
+          btn.classList.add('bg-chocolate-900', 'text-parchment-100');
+          btn.classList.remove('text-chocolate-700');
+        } else {
+          btn.classList.remove('bg-chocolate-900', 'text-parchment-100');
+          btn.classList.add('text-chocolate-700');
+        }
+      });
+
+      const visualStage = document.getElementById('editorialVisualStage');
+      visualStage.innerHTML = `
+        <div class="w-full max-w-md bg-parchment-50 border border-parchment-400 p-6 shadow-editorial-card">
+          <div class="flex items-center justify-between border-b border-parchment-400 pb-3 mb-5">
+            <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-chocolate-700">${data.plate}</span>
+            <span class="font-mono text-[10px] text-burnt-500">${data.metric}</span>
+          </div>
+          <svg class="w-full h-44" viewBox="0 0 360 170" fill="none">
+            <rect x="30" y="132" width="300" height="14" fill="#E2D7C7" stroke="#BFB29F" stroke-width="1"/>
+            <rect x="65" y="42" width="230" height="90" fill="#241711" stroke="#3A251B" stroke-width="1.5"/>
+            <line x1="65" y1="72" x2="295" y2="72" stroke="#543A2D" stroke-width="1"/>
+            <line x1="65" y1="102" x2="295" y2="102" stroke="#543A2D" stroke-width="1"/>
+            <rect x="82" y="51" width="44" height="12" fill="#3A251B" stroke="#C85524" stroke-width="1"/>
+            <rect x="136" y="51" width="44" height="12" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.8"/>
+            <rect x="190" y="51" width="44" height="12" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.8"/>
+            <circle cx="272" cy="57" r="3" fill="#C85524"/>
+            <rect x="82" y="81" width="44" height="12" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.8"/>
+            <rect x="136" y="81" width="44" height="12" fill="#3A251B" stroke="#C85524" stroke-width="1"/>
+            <rect x="190" y="81" width="44" height="12" fill="#3A251B" stroke="#DCD3C6" stroke-width="0.8"/>
+            <circle cx="272" cy="87" r="3" fill="#E2D7C7"/>
+            <path d="M250 132 C250 96, 276 66, 316 44" stroke="#6E7B5B" stroke-width="1.5"/>
+            <path d="M276 86 C292 84, 304 76, 312 66 C296 68, 284 74, 276 86 Z" fill="#6E7B5B" fill-opacity="0.75"/>
+          </svg>
+          <div class="mt-4 pt-3 border-t border-parchment-400 flex items-center justify-between text-[11px] font-mono text-chocolate-700">
+            <span>${data.footerLeft}</span>
+            <span class="text-chocolate-900 font-semibold">${data.footerRight}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // 4. Scope 3 Carbon Calculator Logic
+    function updateCarbonLedger() {
+      const laptops = parseInt(document.getElementById('calcLaptops').value, 10);
+      const servers = parseInt(document.getElementById('calcServers').value, 10);
+      const network = parseInt(document.getElementById('calcNetwork').value, 10);
+      const mobile = parseInt(document.getElementById('calcMobile').value, 10);
+
+      document.getElementById('valLaptops').textContent = `${laptops.toLocaleString()} UNITS`;
+      document.getElementById('valServers').textContent = `${servers.toLocaleString()} UNITS`;
+      document.getElementById('valNetwork').textContent = `${network.toLocaleString()} UNITS`;
+      document.getElementById('valMobile').textContent = `${mobile.toLocaleString()} UNITS`;
+
+      const co2Avoided = ((laptops * 0.29) + (servers * 0.95) + (network * 0.14) + (mobile * 0.032)).toFixed(1);
+      const weightKg = Math.round((laptops * 2.1) + (servers * 23.0) + (network * 6.2) + (mobile * 0.25));
+      const metalsGrams = Math.round((laptops * 7.5) + (servers * 38.0) + (network * 5.2) + (mobile * 1.1));
+
+      document.getElementById('resCo2').textContent = `-${co2Avoided} t`;
+      document.getElementById('resWeight').textContent = `${weightKg.toLocaleString()} kg`;
+      document.getElementById('resMetals').textContent = `${metalsGrams.toLocaleString()} g`;
+    }
+
+    function resetCalculator() {
+      document.getElementById('calcLaptops').value = 320;
+      document.getElementById('calcServers').value = 48;
+      document.getElementById('calcNetwork').value = 85;
+      document.getElementById('calcMobile').value = 450;
+      updateCarbonLedger();
+      showEditorialToast('BATCH PARAMETERS RESTORED');
+    }
+
+    // 5. B2B Marketplace Lot Filter
+    function filterLots(category) {
+      document.querySelectorAll('.lot-filter').forEach(btn => {
+        if (btn.textContent.includes(category)) {
+          btn.classList.add('bg-chocolate-900', 'text-parchment-100');
+          btn.classList.remove('border', 'border-parchment-400', 'text-chocolate-800');
+        } else {
+          btn.classList.remove('bg-chocolate-900', 'text-parchment-100');
+          btn.classList.add('border', 'border-parchment-400', 'text-chocolate-800');
+        }
+      });
+
+      document.querySelectorAll('.lot-card').forEach(card => {
+        if (category === 'ALL' || card.dataset.category === category) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // 6. Hub Selector
+    const hubCatalog = {
+      chandigarh: {
+        code: 'NODE // IN-CHD-01',
+        title: 'Chandigarh Northern Consolidation Hub',
+        badge: 'R2v3 + CPCB TIER-1',
+        throughput: '420 Metric Tonnes',
+        fleet: '18 GPS Trucks'
+      },
+      bengaluru: {
+        code: 'NODE // IN-BLR-02',
+        title: 'Bengaluru Silicon Recovery Park',
+        badge: 'ISO-14064 + R2v3',
+        throughput: '680 Metric Tonnes',
+        fleet: '26 GPS Trucks'
+      },
+      mumbai: {
+        code: 'NODE // IN-BOM-03',
+        title: 'Mumbai Port & Precious Metal Refinery',
+        badge: 'LBMA + E-STEWARDS',
+        throughput: '810 Metric Tonnes',
+        fleet: '31 GPS Trucks'
+      },
+      pune: {
+        code: 'NODE // IN-PNQ-04',
+        title: 'Pune Industrial Battery & PCB Plant',
+        badge: 'CPCB EPR AUTHORIZED',
+        throughput: '390 Metric Tonnes',
+        fleet: '14 GPS Trucks'
+      },
+      chennai: {
+        code: 'NODE // IN-MAA-05',
+        title: 'Chennai Southern Export & Smelter',
+        badge: 'R2v3 + ISO-27001',
+        throughput: '540 Metric Tonnes',
+        fleet: '22 GPS Trucks'
+      }
+    };
+
+    function selectHub(key) {
+      const hub = hubCatalog[key];
+      if (!hub) return;
+
+      document.getElementById('activeHubCode').textContent = hub.code;
+      document.getElementById('activeHubTitle').textContent = hub.title;
+      document.getElementById('activeHubBadge').textContent = hub.badge;
+      document.getElementById('activeHubThroughput').textContent = hub.throughput;
+      document.getElementById('activeHubFleet').textContent = hub.fleet;
+
+      document.querySelectorAll('.hub-btn').forEach(btn => btn.classList.remove('bg-parchment-200/80'));
+      const activeBtn = document.getElementById(`hubBtn-${key}`) || document.getElementById(`hub-btn-${key}`);
+      if (activeBtn) activeBtn.classList.add('bg-parchment-200/80');
+
+      ['chandigarh', 'bengaluru', 'mumbai', 'pune', 'chennai'].forEach(node => {
+        const pin = document.getElementById(`pin-${node}`);
+        if (pin) {
+          pin.setAttribute('fill-opacity', node === key ? '0.35' : '0.15');
+          pin.setAttribute('r', node === key ? '12' : '8');
+        }
+      });
+    }
+
+    // 7. Modals
+    function openCertificatePreview() {
+      const co2 = document.getElementById('resCo2').textContent;
+      const weight = document.getElementById('resWeight').textContent;
+      const metals = document.getElementById('resMetals').textContent;
+
+      openModal(`
+        <div class="border border-chocolate-900 p-6 sm:p-8 bg-parchment-50">
+          <div class="flex items-center justify-between border-b border-parchment-400 pb-4 mb-6">
+            <div>
+              <span class="font-mono text-[10px] tracking-[0.24em] uppercase text-burnt-500">E-CURE.EARTH ARCHIVE</span>
+              <h3 class="font-serif text-2xl uppercase tracking-[0.06em] text-chocolate-900 mt-1">Scope 3 ESG Audit Certificate</h3>
+            </div>
+            <span class="font-mono text-[10px] px-2.5 py-1 bg-chocolate-900 text-parchment-100">VERIFIED</span>
+          </div>
+          <p class="font-serif italic text-base text-chocolate-700 leading-relaxed mb-6">
+            This cryptographic attestation certifies zero-landfill disposition and closed-loop material recovery in accordance with ISO 14064-3 and CPCB EPR guidelines.
+          </p>
+          <div class="grid grid-cols-3 gap-4 border-y border-parchment-400 py-4 mb-6 font-mono">
+            <div>
+              <span class="text-[9px] text-chocolate-600 block">AVOIDED CO&#8322;e</span>
+              <span class="text-base font-semibold text-burnt-500">${co2}</span>
+            </div>
+            <div>
+              <span class="text-[9px] text-chocolate-600 block">DIVERTED MASS</span>
+              <span class="text-base font-semibold text-chocolate-900">${weight}</span>
+            </div>
+            <div>
+              <span class="text-[9px] text-chocolate-600 block">METALS RECOVERED</span>
+              <span class="text-base font-semibold text-chocolate-900">${metals}</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[10px] text-chocolate-600">SHA-256: 0x8F4C92E1...B74A</span>
+            <div class="flex gap-3">
+              <button onclick="window.print()" class="px-4 py-2 border border-chocolate-900 text-[10px] font-mono tracking-[0.18em] uppercase hover:bg-chocolate-900 hover:text-parchment-100 transition-colors">PRINT PDF</button>
+              <button onclick="closeModal()" class="px-4 py-2 bg-burnt-500 text-parchment-50 text-[10px] font-mono tracking-[0.18em] uppercase">CLOSE</button>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    function openLotDrawer(lotName, lotCode, carbonYield, unitPrice) {
+      openModal(`
+        <span class="font-mono text-[10px] tracking-[0.24em] uppercase text-burnt-500">B2B ESCROW &amp; AUDIT DOSSIER</span>
+        <h3 class="font-serif text-3xl uppercase text-chocolate-900 mt-1">${lotName}</h3>
+        <p class="font-mono text-xs text-chocolate-600 mt-1">${lotCode} &bull; ${unitPrice} &bull; ${carbonYield}</p>
+        <form onsubmit="event.preventDefault(); closeModal(); showEditorialToast('AUDIT DOSSIER DISPATCHED FOR ${lotCode}');" class="mt-6 space-y-4">
+          <div>
+            <label class="block font-mono text-[10px] tracking-[0.18em] uppercase text-chocolate-700 mb-1.5">Corporate Procurement Email</label>
+            <input type="email" required value="procurement@enterprise.in" class="w-full px-3.5 py-2.5 bg-parchment-100 border border-parchment-400 text-sm text-chocolate-900 focus:outline-none focus:border-burnt-500">
+          </div>
+          <div>
+            <label class="block font-mono text-[10px] tracking-[0.18em] uppercase text-chocolate-700 mb-1.5">Required Compliance Artifacts</label>
+            <input type="text" readonly value="NIST 800-88 Wipe Logs + SMART Health + Scope 3 Split" class="w-full px-3.5 py-2.5 bg-parchment-200/70 border border-parchment-400 text-xs font-mono text-chocolate-700">
+          </div>
+          <div class="pt-2 flex justify-end gap-3">
+            <button type="button" onclick="closeModal()" class="px-5 py-2.5 border border-parchment-400 text-[10px] font-mono tracking-[0.2em] uppercase">CANCEL</button>
+            <button type="submit" class="px-6 py-2.5 bg-chocolate-900 hover:bg-burnt-500 text-parchment-100 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors">REQUEST AUDIT PACK &rarr;</button>
+          </div>
+        </form>
+      `);
+    }
+
+    function openAuditSearchModal() {
+      openModal(`
+        <span class="font-mono text-[10px] tracking-[0.24em] uppercase text-burnt-500">PUBLIC LEDGER VERIFIER</span>
+        <h3 class="font-serif text-3xl uppercase text-chocolate-900 mt-1">Verify Serial or Scope 3 Hash</h3>
+        <form onsubmit="event.preventDefault(); closeModal(); showEditorialToast('HASH 0x8F4C...92E1 VERIFIED: 100% ZERO LANDFILL');" class="mt-5 space-y-4">
+          <input type="text" required value="0x8F4C92E1B74A" placeholder="Enter Asset Serial or Certificate Hash..." class="w-full px-3.5 py-3 bg-parchment-100 border border-parchment-400 font-mono text-xs text-chocolate-900 focus:outline-none focus:border-burnt-500">
+          <div class="flex justify-end gap-3">
+            <button type="button" onclick="closeModal()" class="px-5 py-2.5 border border-parchment-400 text-[10px] font-mono tracking-[0.2em] uppercase">CANCEL</button>
+            <button type="submit" class="px-6 py-2.5 bg-burnt-500 text-parchment-50 text-[10px] font-mono tracking-[0.2em] uppercase">VERIFY PROOF &rarr;</button>
+          </div>
+        </form>
+      `);
+    }
+
+    function openMethodologyModal() {
+      openModal(`
+        <span class="font-mono text-[10px] tracking-[0.24em] uppercase text-burnt-500">WHITE PAPER // LCA-2026</span>
+        <h3 class="font-serif text-3xl uppercase text-chocolate-900 mt-1">Cryptographic Scope 3 Accounting</h3>
+        <p class="font-serif italic text-base text-chocolate-700 mt-3 leading-relaxed">
+          E-Cure.Earth combines component-level Bill of Materials (BoM) embodied carbon factors with weighbridge telemetry from R2v3 smelters to eliminate double-counting in Scope 3 Category 5 disclosures.
+        </p>
+        <div class="mt-6 pt-4 border-t border-parchment-400 flex justify-end">
+          <button onclick="closeModal()" class="px-6 py-2.5 bg-chocolate-900 text-parchment-100 text-[10px] font-mono tracking-[0.2em] uppercase">CLOSE PAPER</button>
+        </div>
+      `);
+    }
+
+    function openModal(innerHtml) {
+      const box = document.getElementById('editorialModalBox');
+      box.innerHTML = `
+        <button onclick="closeModal()" aria-label="Close Modal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-chocolate-700 hover:text-burnt-500 font-mono text-lg">&times;</button>
+        ${innerHtml}
+      `;
+      document.getElementById('editorialModalBackdrop').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('editorialModalBackdrop').classList.add('hidden');
+    }
+
+    function showEditorialToast(message) {
+      const toast = document.getElementById('editorialToast');
+      document.getElementById('editorialToastText').textContent = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3200);
+    }
+
+    // Initialize calculator
+    updateCarbonLedger();
+  </script>
 </body>
 </html>

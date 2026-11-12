@@ -1,141 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | E-Cure Earth</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise ESG Telemetry &amp; Disposition Ledger | E-CURE.EARTH</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            chocolate: {
+              950: '#190F0B',
+              900: '#241711',
+              800: '#2E1E16',
+              700: '#3A251B',
+              600: '#543A2D',
+            },
+            parchment: {
+              50: '#FAF7F2',
+              100: '#F4EFE8',
+              200: '#EDE5DA',
+              300: '#E2D7C7',
+              400: '#DCD3C6',
+              500: '#B8AB99',
+            },
+            burnt: {
+              400: '#DC6B3A',
+              500: '#C85524',
+              600: '#A64217',
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    // Auth Guard
+    (function() {
+      try {
+        var s = JSON.parse(localStorage.getItem('ecure_session'));
+        if (!s || !s.loggedIn) throw 0;
+      } catch(e) {
+        window.location.replace('auth.html');
+      }
+    })();
+  </script>
 </head>
-<body>
-    <div class="dashboard-wrapper">
-        <div class="dashboard-container">
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <div class="sidebar-header">
-                    <div class="logo">
-                        <img src="logo.png" alt="E-Cure Earth Logo" class="logo-img">
-                        E-Cure Earth
-                    </div>
-                    <div class="user-profile">
-                        <div class="avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="user-info">
-                            <h4 id="username">User</h4>
-                            <p>Member</p>
-                        </div>
-                    </div>
-                </div>
-                <nav class="sidebar-nav">
-                    <ul>
-                        <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
-                        <li><a href="marketplace.html"><i class="fas fa-exchange-alt"></i> Marketplace</a></li>
-                        <li><a href="collectors.html"><i class="fas fa-map-marker-alt"></i> Find Collectors</a></li>
-                        <li><a href="#"><i class="fas fa-history"></i> Recycling History</a></li>
-                        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-                        <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                    </ul>
-                </nav>
+<body class="bg-parchment-100 text-chocolate-900 font-sans min-h-screen">
+  <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
+    
+    <!-- Editorial Architectural Sidebar -->
+    <aside class="lg:col-span-3 bg-chocolate-900 text-parchment-100 p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-chocolate-800">
+      <div>
+        <a href="index.html" class="flex flex-col mb-10 group">
+          <span class="font-serif text-2xl font-semibold tracking-[0.24em] uppercase text-parchment-50 leading-none">
+            E-CURE<span class="text-burnt-500">.</span>EARTH
+          </span>
+          <span class="text-[8px] font-mono tracking-[0.34em] uppercase text-burnt-400 mt-1">
+            EXECUTIVE CONSOLE
+          </span>
+        </a>
+
+        <!-- User Badge -->
+        <div class="p-4 bg-chocolate-950/70 border border-chocolate-800 mb-8 rounded-[2px]">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-burnt-500 text-parchment-50 flex items-center justify-center font-mono font-bold text-xs rounded-[1px]">
+              <i class="fas fa-building"></i>
             </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <div class="dashboard-header">
-                    <h1>Welcome Back, <span id="user-greeting">User</span>!</h1>
-                    <div class="header-actions">
-                        <button class="btn btn-primary" id="add-device-btn"><i class="fas fa-plus"></i> Add Device</button>
-                    </div>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="stats-cards">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Devices Recycled</h3>
-                            <p id="devices-count">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-weight-hanging"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Total Weight</h3>
-                            <p id="weight-count">0 kg</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>CO₂ Saved</h3>
-                            <p id="co2-count">0 kg</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="quick-actions">
-                    <h2>Quick Actions</h2>
-                    <div class="action-buttons">
-                        <a href="collectors.html" class="action-btn">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Schedule Pickup</span>
-                        </a>
-                        <a href="marketplace.html" class="action-btn">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span>Sell Device</span>
-                        </a>
-                        <a href="impacts.html" class="action-btn">
-                            <i class="fas fa-question-circle"></i>
-                            <span>Learn Impacts</span>
-                        </a>
-                    </div>
-                </div>
+            <div class="overflow-hidden">
+              <h4 id="dash-org-name" class="font-serif text-base text-parchment-50 truncate leading-tight">Acme Global Technologies</h4>
+              <p id="dash-user-role" class="text-[9px] font-mono tracking-widest text-burnt-400 uppercase mt-0.5">DIRECTOR &bull; TIER 1</p>
             </div>
+          </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="new-footer">
-            <div class="container">
-                <div class="footer-grid">
-                    <div class="footer-section">
-                        <h3>E-Cure Earth</h3>
-                        <p>Committed to sustainable e-waste management since 2020.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Quick Links</h3>
-                        <ul>
-                            <li><a href="index.html#about">About Us</a></li>
-                            <li><a href="marketplace.html">Marketplace</a></li>
-                            <li><a href="collectors.html">Collectors</a></li>
-                            <li><a href="impacts.html">Impacts</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Follow Us</h3>
-                        <div class="social-links">
-                            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-                            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>E-Cure Earth © 2025 | Sustainable E-Waste Solutions</p>
-                </div>
-            </div>
-        </footer>
-    </div>
+        <!-- Navigation Links -->
+        <nav class="space-y-2">
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 bg-chocolate-800 text-parchment-50 text-[10px] font-mono tracking-[0.2em] uppercase border-l-2 border-burnt-500">
+            <i class="fas fa-chart-pie text-burnt-500 w-4"></i>
+            <span>ESG Telemetry</span>
+          </a>
+          <a href="index.html#marketplace-section" class="flex items-center gap-3 px-3 py-2.5 text-parchment-300 hover:text-parchment-50 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors">
+            <i class="fas fa-boxes-stacked w-4"></i>
+            <span>Secondary Exchange</span>
+          </a>
+          <a href="index.html#collectors-section" class="flex items-center gap-3 px-3 py-2.5 text-parchment-300 hover:text-parchment-50 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors">
+            <i class="fas fa-route w-4"></i>
+            <span>Collectors Hub</span>
+          </a>
+          <a href="index.html#carbon-ledger-section" class="flex items-center gap-3 px-3 py-2.5 text-parchment-300 hover:text-parchment-50 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors">
+            <i class="fas fa-calculator w-4"></i>
+            <span>Carbon Ledger</span>
+          </a>
+          <a href="index.html#manual-section" class="flex items-center gap-3 px-3 py-2.5 text-parchment-300 hover:text-parchment-50 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors">
+            <i class="fas fa-book-open w-4"></i>
+            <span>User Manual</span>
+          </a>
+          <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-parchment-300 hover:text-parchment-50 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors">
+            <i class="fas fa-arrow-left w-4"></i>
+            <span>Return to Site</span>
+          </a>
+        </nav>
+      </div>
 
-    <script src="script.js"></script>
+      <div class="pt-8 border-t border-chocolate-800">
+        <button id="dash-logout-btn" class="flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-burnt-400 hover:text-burnt-300 transition-colors">
+          <i class="fas fa-arrow-right-from-bracket"></i>
+          <span>Sign Out Node</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="lg:col-span-9 p-8 sm:p-12 lg:p-14 overflow-y-auto">
+      
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-parchment-400 mb-10">
+        <div>
+          <span class="text-[10px] font-mono tracking-[0.28em] uppercase text-burnt-500 block mb-2">
+            ENTERPRISE ARCHIVE COMMAND
+          </span>
+          <h1 class="font-serif text-3xl sm:text-5xl uppercase tracking-[0.02em] text-chocolate-900 leading-tight">
+            Welcome, <span id="dash-greeting-name" class="italic text-burnt-500 font-normal">Director</span>
+          </h1>
+          <p class="font-serif italic text-base text-chocolate-700 mt-2">
+            Live hardware disposition manifests, cryptowipe certifications, and Scope 3 avoidance ledger.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="dash-btn-cert" class="px-5 py-3 border border-chocolate-900 text-[10px] font-mono tracking-[0.2em] uppercase text-chocolate-900 hover:bg-chocolate-900 hover:text-parchment-100 transition-colors">
+            <i class="fas fa-file-pdf mr-2"></i> Audit Manifest
+          </button>
+          <button id="dash-btn-add-asset" class="px-5 py-3 bg-burnt-500 hover:bg-burnt-600 text-parchment-50 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors flex items-center gap-2">
+            <i class="fas fa-plus"></i> Disposed Lot
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 Editorial KPI Metrics -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-parchment-400 divide-y sm:divide-y-0 sm:divide-x divide-parchment-400 bg-parchment-50 mb-12">
+        <div class="p-6">
+          <span class="font-mono text-[9px] tracking-[0.22em] uppercase text-chocolate-600 block mb-2">TOTAL ASSETS AUDITED</span>
+          <div id="kpi-assets" class="font-serif text-3xl sm:text-4xl text-chocolate-900 font-semibold">167</div>
+          <span class="text-[10px] font-mono text-burnt-500 mt-2 block">+25 UNITS THIS CYCLE</span>
+        </div>
+        <div class="p-6">
+          <span class="font-mono text-[9px] tracking-[0.22em] uppercase text-chocolate-600 block mb-2">DIVERTED MASS</span>
+          <div id="kpi-weight" class="font-serif text-3xl sm:text-4xl text-chocolate-900 font-semibold">417.8 kg</div>
+          <span class="text-[10px] font-mono text-chocolate-700 mt-2 block">100% ZERO LANDFILL</span>
+        </div>
+        <div class="p-6">
+          <span class="font-mono text-[9px] tracking-[0.22em] uppercase text-chocolate-600 block mb-2">SCOPE 3 AVOIDANCE</span>
+          <div id="kpi-co2" class="font-serif text-3xl sm:text-4xl text-burnt-500 font-semibold">1,044.5 kg</div>
+          <span class="text-[10px] font-mono text-burnt-600 mt-2 block">ISO 14064-3 AUDITED</span>
+        </div>
+        <div class="p-6">
+          <span class="font-mono text-[9px] tracking-[0.22em] uppercase text-chocolate-600 block mb-2">SALVAGED RESIDUAL YIELD</span>
+          <div id="kpi-val" class="font-serif text-3xl sm:text-4xl text-chocolate-900 font-semibold">$28,700</div>
+          <span class="text-[10px] font-mono text-chocolate-700 mt-2 block">3.4X OVER SCRAP</span>
+        </div>
+      </div>
+
+      <!-- Verified Chain of Custody Table -->
+      <div class="bg-chocolate-900 text-parchment-100 border border-chocolate-800 p-8 mb-12 rounded-[2px]">
+        <div class="flex items-center justify-between border-b border-chocolate-700 pb-4 mb-6">
+          <div>
+            <span class="font-mono text-[9px] tracking-[0.26em] uppercase text-burnt-400">IMMUTABLE ARCHIVE RECORD</span>
+            <h3 class="font-serif text-2xl uppercase tracking-wider text-parchment-50 mt-1">Verified Chain-of-Custody Manifests</h3>
+          </div>
+          <span class="font-mono text-[9px] tracking-widest text-parchment-300 border border-chocolate-700 px-3 py-1 uppercase">
+            NIST 800-88 REV 1 COMPLIANT
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left font-mono text-xs">
+            <thead>
+              <tr class="border-b border-chocolate-700 text-parchment-400 text-[10px] uppercase tracking-wider">
+                <th class="pb-3">Batch ID</th>
+                <th class="pb-3">Equipment Disposed</th>
+                <th class="pb-3">Designated Recycler</th>
+                <th class="pb-3">Mass</th>
+                <th class="pb-3">Sanitization Status</th>
+                <th class="pb-3 text-right">Certificate</th>
+              </tr>
+            </thead>
+            <tbody id="dash-manifest-tbody" class="divide-y divide-chocolate-800 text-parchment-200">
+              <tr>
+                <td class="py-4 font-semibold text-burnt-400">#LOT-8924</td>
+                <td class="py-4">45x Dell Latitude 7400 Laptops</td>
+                <td class="py-4">EcoTech Metallurgy Hub (Chandigarh)</td>
+                <td class="py-4">112.5 kg</td>
+                <td class="py-4"><span class="text-burnt-400"><i class="fas fa-check-circle mr-1"></i> Cryptowipe Pass</span></td>
+                <td class="py-4 text-right"><button onclick="showToast('Downloading NIST Manifest for LOT-8924...')" class="border border-chocolate-700 hover:border-burnt-500 px-3 py-1 uppercase tracking-widest text-[9px]">PDF</button></td>
+              </tr>
+              <tr>
+                <td class="py-4 font-semibold text-burnt-400">#LOT-8925</td>
+                <td class="py-4">60x Samsung Galaxy S Fleet Handsets</td>
+                <td class="py-4">Bengaluru Silicon Recovery Park</td>
+                <td class="py-4">12.0 kg</td>
+                <td class="py-4"><span class="text-burnt-400"><i class="fas fa-check-circle mr-1"></i> Cryptowipe Pass</span></td>
+                <td class="py-4 text-right"><button onclick="showToast('Downloading NIST Manifest for LOT-8925...')" class="border border-chocolate-700 hover:border-burnt-500 px-3 py-1 uppercase tracking-widest text-[9px]">PDF</button></td>
+              </tr>
+              <tr>
+                <td class="py-4 font-semibold text-burnt-400">#LOT-8926</td>
+                <td class="py-4">18x Dell UltraSharp 24&quot; IPS Displays</td>
+                <td class="py-4">Mumbai Port &amp; Precious Metal Refinery</td>
+                <td class="py-4">81.0 kg</td>
+                <td class="py-4"><span class="text-burnt-400"><i class="fas fa-check-circle mr-1"></i> Secondary Tested</span></td>
+                <td class="py-4 text-right"><button onclick="showToast('Downloading NIST Manifest for LOT-8926...')" class="border border-chocolate-700 hover:border-burnt-500 px-3 py-1 uppercase tracking-widest text-[9px]">PDF</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Quick Action Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-parchment-50 border border-parchment-400 flex flex-col justify-between">
+          <div>
+            <i class="fas fa-truck-pickup text-2xl text-burnt-500 mb-3 block"></i>
+            <h4 class="font-serif text-xl uppercase tracking-wider text-chocolate-900 mb-2">Schedule Intake</h4>
+            <p class="font-serif italic text-sm text-chocolate-700 mb-6">Request direct pallet collection from your corporate data centers.</p>
+          </div>
+          <a href="index.html#collectors-section" class="px-4 py-2.5 bg-chocolate-900 text-parchment-100 text-[10px] font-mono tracking-widest uppercase hover:bg-burnt-500 transition-colors text-center">Dispatch Recycler &rarr;</a>
+        </div>
+
+        <div class="p-6 bg-parchment-50 border border-parchment-400 flex flex-col justify-between">
+          <div>
+            <i class="fas fa-boxes-stacked text-2xl text-burnt-500 mb-3 block"></i>
+            <h4 class="font-serif text-xl uppercase tracking-wider text-chocolate-900 mb-2">List on Marketplace</h4>
+            <p class="font-serif italic text-sm text-chocolate-700 mb-6">Directly liquidate tested company computers to peer organizations.</p>
+          </div>
+          <a href="index.html#marketplace-section" class="px-4 py-2.5 bg-chocolate-900 text-parchment-100 text-[10px] font-mono tracking-widest uppercase hover:bg-burnt-500 transition-colors text-center">Create Listing &rarr;</a>
+        </div>
+
+        <div class="p-6 bg-parchment-50 border border-parchment-400 flex flex-col justify-between">
+          <div>
+            <i class="fas fa-book-open text-2xl text-burnt-500 mb-3 block"></i>
+            <h4 class="font-serif text-xl uppercase tracking-wider text-chocolate-900 mb-2">User Manual</h4>
+            <p class="font-serif italic text-sm text-chocolate-700 mb-6">Step-by-step instructions for sustainability directors and fleet managers.</p>
+          </div>
+          <a href="index.html#manual-section" class="px-4 py-2.5 bg-chocolate-900 text-parchment-100 text-[10px] font-mono tracking-widest uppercase hover:bg-burnt-500 transition-colors text-center">Read Guide &rarr;</a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="dash-toast" class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 pointer-events-none transition-all duration-300 bg-chocolate-900 text-parchment-100 border border-burnt-500 px-5 py-3.5 shadow-xl flex items-center gap-3 text-xs font-mono tracking-wider">
+    <span class="w-2 h-2 bg-burnt-500"></span>
+    <span id="dash-toast-text">NOTIFICATION</span>
+  </div>
+
+  <script>
+    function showToast(message) {
+      const toast = document.getElementById('dash-toast');
+      document.getElementById('dash-toast-text').textContent = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3200);
+    }
+
+    // Load active session details
+    const session = JSON.parse(localStorage.getItem('ecure_session'));
+    if (session) {
+      document.getElementById('dash-org-name').textContent = session.name;
+      document.getElementById('dash-greeting-name').textContent = session.name.split(' ')[0];
+      document.getElementById('dash-user-role').textContent = session.role.toUpperCase() + ' • VERIFIED';
+    }
+
+    // Dynamic Lot Registration
+    let kpiAssets = 167;
+    let kpiWeight = 417.8;
+    let kpiCo2 = 1044.5;
+    let kpiVal = 28700;
+
+    const equipmentTypes = [
+      '15x Mixed Enterprise Workstations',
+      '30x HP EliteBook Ultrabooks',
+      '12x Cisco Core Switches',
+      '8x Dell PowerEdge R640 Blades',
+      '50x iPhone 13 Fleet Devices'
+    ];
+
+    const recyclerHubs = [
+      'EcoTech Metallurgy Hub (Chandigarh)',
+      'Bengaluru Silicon Recovery Park',
+      'Mumbai Port & Precious Metal Refinery',
+      'Pune Industrial Battery & PCB Plant',
+      'Chennai Southern Export & Smelter'
+    ];
+
+    document.getElementById('dash-btn-add-asset').addEventListener('click', () => {
+      const addQty = Math.floor(Math.random() * 20) + 10;
+      const addWt = +(Math.random() * 60 + 15).toFixed(1);
+      
+      kpiAssets += addQty;
+      kpiWeight += addWt;
+      kpiCo2 += +(addWt * 2.5).toFixed(1);
+      kpiVal += Math.floor(addWt * 68);
+
+      document.getElementById('kpi-assets').textContent = kpiAssets;
+      document.getElementById('kpi-weight').textContent = kpiWeight.toFixed(1) + ' kg';
+      document.getElementById('kpi-co2').textContent = kpiCo2.toFixed(1) + ' kg';
+      document.getElementById('kpi-val').textContent = '$' + kpiVal.toLocaleString();
+
+      const lotId = Math.floor(Math.random() * 800 + 9000);
+      const equip = equipmentTypes[Math.floor(Math.random() * equipmentTypes.length)];
+      const hub = recyclerHubs[Math.floor(Math.random() * recyclerHubs.length)];
+
+      const tbody = document.getElementById('dash-manifest-tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="py-4 font-semibold text-burnt-400">#LOT-${lotId}</td>
+        <td class="py-4">${equip}</td>
+        <td class="py-4">${hub}</td>
+        <td class="py-4">${addWt} kg</td>
+        <td class="py-4"><span class="text-burnt-400"><i class="fas fa-check-circle mr-1"></i> Certified Cryptowipe</span></td>
+        <td class="py-4 text-right"><button onclick="showToast('Manifest for LOT-${lotId} downloaded')" class="border border-chocolate-700 hover:border-burnt-500 px-3 py-1 uppercase tracking-widest text-[9px]">PDF</button></td>
+      `;
+      tbody.prepend(tr);
+      showToast(`Lot #LOT-${lotId} Registered and verified on Scope 3 Ledger.`);
+    });
+
+    document.getElementById('dash-btn-cert').addEventListener('click', () => {
+      showToast('Compiling Scope 3 GHG Audit Manifest...');
+      setTimeout(() => {
+        showToast(`ESG Certificate #${Math.floor(Math.random()*90000+10000)} verified and ready.`);
+      }, 1000);
+    });
+
+    // Logout
+    document.getElementById('dash-logout-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('ecure_session');
+      showToast('Signed out of console node.');
+      setTimeout(() => {
+        window.location.href = 'auth.html';
+      }, 600);
+    });
+  </script>
 </body>
 </html>

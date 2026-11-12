@@ -19,7 +19,7 @@ The React client runs at `http://localhost:5173` and proxies `/api` requests to 
 
 The original static pages and media remain in the repository as legacy references while the React client becomes the primary application experience.
 
-The sign-in modal includes a **Continue with demo account** action for presentations. It creates a clearly labeled demo session without requiring a database user.
+The dedicated sign-in page separates **Buyer** and **Lister** roles. It includes **Demo Buyer** and **Demo Lister** actions for presentations; both create clearly labeled demo sessions without requiring a database user. Buyers get marketplace discovery and reservations, while listers get listing management and publishing tools.
 
 ## Deploy
 

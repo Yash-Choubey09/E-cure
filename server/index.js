@@ -17,7 +17,8 @@ app.use(express.json({ limit: '1mb' }));
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  password: { type: String, required: true, select: false }
+  password: { type: String, required: true, select: false },
+  role: { type: String, enum: ['buyer', 'lister'], default: 'buyer' }
 }, { timestamps: true });
 
 const listingSchema = new mongoose.Schema({
@@ -40,7 +41,7 @@ const fallbackListings = [
 ];
 
 function createToken(user) {
-  return jwt.sign({ id: user._id.toString(), name: user.name, email: user.email }, process.env.JWT_SECRET || 'development-secret', { expiresIn: '7d' });
+  return jwt.sign({ id: user._id.toString(), name: user.name, email: user.email, role: user.role || 'buyer' }, process.env.JWT_SECRET || 'development-secret', { expiresIn: '7d' });
 }
 
 function requireAuth(req, res, next) {
@@ -87,7 +88,7 @@ app.post('/api/listings', requireAuth, async (req, res) => {
 });
 
 app.post('/api/auth/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role = 'buyer' } = req.body;
   if (!name || !email || !password || password.length < 8) {
     return res.status(400).json({ message: 'Name, email, and a password of 8+ characters are required.' });
   }
@@ -97,8 +98,8 @@ app.post('/api/auth/register', async (req, res) => {
   try {
     const existing = await User.findOne({ email: email.toLowerCase() });
     if (existing) return res.status(409).json({ message: 'An account with that email already exists.' });
-    const user = await User.create({ name, email, password: await bcrypt.hash(password, 12) });
-    res.status(201).json({ token: createToken(user), user: { name: user.name, email: user.email } });
+    const user = await User.create({ name, email, role: role === 'lister' ? 'lister' : 'buyer', password: await bcrypt.hash(password, 12) });
+    res.status(201).json({ token: createToken(user), user: { name: user.name, email: user.email, role: user.role } });
   } catch (error) {
     res.status(500).json({ message: 'Unable to create your account.', error: error.message });
   }
@@ -115,15 +116,21 @@ app.post('/api/auth/login', async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Email or password is incorrect.' });
     }
-    res.json({ token: createToken(user), user: { name: user.name, email: user.email } });
+    res.json({ token: createToken(user), user: { name: user.name, email: user.email, role: user.role } });
   } catch (error) {
     res.status(500).json({ message: 'Unable to sign you in.', error: error.message });
   }
 });
 
 app.post('/api/auth/demo-login', (req, res) => {
-  const user = { _id: 'demo-user', name: 'Demo Explorer', email: 'demo@ecure.earth' };
-  res.json({ token: createToken(user), user: { name: user.name, email: user.email }, demo: true });
+  const role = req.body?.role === 'lister' ? 'lister' : 'buyer';
+  const user = {
+    _id: `demo-${role}`,
+    name: role === 'lister' ? 'Demo Lister' : 'Demo Buyer',
+    email: role === 'lister' ? 'lister.demo@ecure.earth' : 'buyer.demo@ecure.earth',
+    role
+  };
+  res.json({ token: createToken(user), user: { name: user.name, email: user.email, role }, demo: true });
 });
 
 if (process.env.NODE_ENV === 'production') {

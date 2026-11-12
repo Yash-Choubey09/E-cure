@@ -17,7 +17,7 @@ const features = [
   [Sparkles, 'Earn green points', 'Turn every responsible hand-off into rewards for your next sustainable choice.']
 ];
 
-function App() {
+function HomePage({ navigate }) {
   const [listings, setListings] = useState(demoListings);
   const [menuOpen, setMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
@@ -112,14 +112,14 @@ function App() {
         <a className="brand" href="#home" onClick={() => setMenuOpen(false)}><span className="brand-mark"><Leaf size={19} /></span><span>E-Cure <em>Earth</em><small>smart e-waste management</small></span></a>
         <button className="menu-button" aria-label="Toggle navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'}>
-          <a href="#about" onClick={() => setMenuOpen(false)}>Why us</a><a href="#process" onClick={() => setMenuOpen(false)}>How it works</a><a href="#impact" onClick={() => setMenuOpen(false)}>Impact</a><a href="#marketplace" onClick={() => setMenuOpen(false)}>Marketplace</a>
-          {session ? <><span className="session-pill"><CircleUserRound size={15} /> {session.user.name}</span><button className="button button-secondary button-small" onClick={signOut}>Sign out</button></> : <button className="button button-primary button-small" onClick={() => setAuthOpen(true)}><CircleUserRound size={15} /> Sign in</button>}
+          <a href="#about" onClick={() => setMenuOpen(false)}>Why us</a><a href="#process" onClick={() => setMenuOpen(false)}>How it works</a><a href="#impact" onClick={() => setMenuOpen(false)}>Impact</a><a href="/marketplace" onClick={(event) => { event.preventDefault(); navigate('/marketplace'); }}>Marketplace</a>
+          {session ? <><button className="session-pill" onClick={() => navigate('/dashboard')}><CircleUserRound size={15} /> {session.user.name}</button><button className="button button-secondary button-small" onClick={signOut}>Sign out</button></> : <button className="button button-primary button-small" onClick={() => navigate('/login')}><CircleUserRound size={15} /> Sign in</button>}
         </nav>
       </header>
 
       <main>
         <section className="hero section-wrap" id="home">
-          <div className="hero-copy reveal"><p className="eyebrow"><span className="eyebrow-dot" /> India&apos;s smart e-waste management platform</p><h1>Turn e-waste into <span>sustainable</span> impact.</h1><p className="hero-text">Connect with certified recyclers, extend the life of your devices, and track your contribution to a greener planet — one device at a time.</p><div className="hero-actions"><button className="button button-primary button-large" onClick={() => setAuthOpen(true)}>Get started free <ArrowRight size={17} /></button><a className="button button-secondary button-large" href="#marketplace">View marketplace</a></div><div className="hero-stats"><div><strong>10,000+</strong><span>devices recycled</span></div><div><strong>25,000kg</strong><span>CO2 saved</span></div><div><strong>500</strong><span>green members</span></div></div></div>
+          <div className="hero-copy reveal"><p className="eyebrow"><span className="eyebrow-dot" /> India&apos;s smart e-waste management platform</p><h1>Turn e-waste into <span>sustainable</span> impact.</h1><p className="hero-text">Connect with certified recyclers, extend the life of your devices, and track your contribution to a greener planet — one device at a time.</p>          <div className="hero-actions"><button className="button button-primary button-large" onClick={() => navigate('/login')}>Get started free <ArrowRight size={17} /></button><a className="button button-secondary button-large" href="/marketplace" onClick={(event) => { event.preventDefault(); navigate('/marketplace'); }}>View marketplace</a></div><div className="hero-stats"><div><strong>10,000+</strong><span>devices recycled</span></div><div><strong>25,000kg</strong><span>CO2 saved</span></div><div><strong>500</strong><span>green members</span></div></div></div>
           <div className="hero-visual reveal" aria-label="E-waste recovery illustration"><div className="hero-image-card"><img src="/hero-image.jpg" alt="E-waste recycling" /><div className="hero-img-overlay" /></div><div className="hero-floating-badge"><span className="badge-orb">✦</span><div><strong>Carbon neutral</strong><small>Certified recycling process</small></div></div><div className="orbit orbit-one"><span className="orbit-dot"><Leaf size={15} /></span></div><div className="orbit orbit-two"><span className="orbit-dot"><Recycle size={16} /></span></div><div className="hero-cube cube-one" /><div className="hero-cube cube-two" /></div>
         </section>
 
@@ -131,9 +131,9 @@ function App() {
 
         <section className="impact-section section-block" id="impact"><div className="section-wrap impact-layout"><div className="section-intro reveal"><p className="eyebrow">Your live impact ledger</p><h2>See the good <span>add up.</span></h2><p>Model your next recovery cycle and turn avoided waste into a number your whole team can feel.</p></div><div className="calculator glass-card reveal">{Object.entries({ laptops: 'Laptops', phones: 'Phones', servers: 'Servers' }).map(([key, label]) => <label key={key}><span>{label}<b>{counts[key]} units</b></span><input type="range" min="0" max={key === 'servers' ? 10 : 50} value={counts[key]} onChange={(event) => setCounts({ ...counts, [key]: Number(event.target.value) })} /></label>)}<div className="metric-row"><div><strong>{impact.co2.toLocaleString()}</strong><small>kg CO2e avoided</small></div><div><strong>{impact.weight.toFixed(1)}</strong><small>kg materials recovered</small></div><div><strong>${impact.value.toLocaleString()}</strong><small>estimated value</small></div></div></div></div></section>
 
-        <section className="section-wrap section-block" id="marketplace"><div className="market-heading"><div className="section-intro reveal"><p className="eyebrow">Circular marketplace</p><h2>Buy & sell <span>used electronics.</span></h2><p>Give great tech a second life and make sustainable choices that feel effortless.</p></div><button className="button button-secondary" onClick={() => showToast('Marketplace is loading the latest verified devices.')}>Browse all <ArrowRight size={16} /></button></div><div className="listing-grid">{listings.map((item) => <article className="listing-card glass-card reveal" key={item._id}><div className="listing-image"><img src={`/${item.image}`} alt="" /><span>{item.condition}</span></div><div className="listing-body"><p>{item.category} / {item.seller}</p><h3>{item.title}</h3><div><strong>${item.price}</strong><small>{item.impact}</small></div><button onClick={() => showToast(`${item.title} added to your collection.`)}>Reserve piece <ArrowRight size={15} /></button></div></article>)}</div></section>
+        <section className="section-wrap section-block" id="marketplace"><div className="market-heading"><div className="section-intro reveal"><p className="eyebrow">Circular marketplace</p><h2>Buy & sell <span>used electronics.</span></h2><p>Give great tech a second life and make sustainable choices that feel effortless.</p></div><button className="button button-secondary" onClick={() => navigate('/marketplace')}>Browse all <ArrowRight size={16} /></button></div><div className="listing-grid">{listings.map((item) => <article className="listing-card glass-card reveal" key={item._id}><div className="listing-image"><img src={`/${item.image}`} alt="" /><span>{item.condition}</span></div><div className="listing-body"><p>{item.category} / {item.seller}</p><h3>{item.title}</h3><div><strong>${item.price}</strong><small>{item.impact}</small></div><button onClick={() => showToast(`${item.title} added to your collection.`)}>Reserve piece <ArrowRight size={15} /></button></div></article>)}</div></section>
 
-        <section className="cta-section"><div className="section-wrap reveal"><p className="eyebrow">The future is recoverable</p><h2>Ready to make a <span>difference?</span></h2><p>Join thousands of responsible people and businesses already building a greener planet.</p><button className="button button-primary button-large" onClick={() => setAuthOpen(true)}>Start for free <ArrowRight size={17} /></button></div></section>
+        <section className="cta-section"><div className="section-wrap reveal"><p className="eyebrow">The future is recoverable</p><h2>Ready to make a <span>difference?</span></h2><p>Join thousands of responsible people and businesses already building a greener planet.</p><button className="button button-primary button-large" onClick={() => navigate('/login')}>Start for free <ArrowRight size={17} /></button></div></section>
       </main>
 
       <footer className="site-footer section-wrap"><a className="brand" href="#home"><span className="brand-mark"><Leaf size={19} /></span><span>E-Cure <em>Earth</em><small>grow a circular future</small></span></a><p>© 2026 E-Cure Earth. Responsible technology, responsibly handled.</p><div className="footer-links"><a href="#about">About</a><a href="#process">Mission</a><a href="#marketplace">Marketplace</a></div></footer>
@@ -141,6 +141,118 @@ function App() {
       {authOpen && <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && setAuthOpen(false)}><form className="auth-card glass-card" onSubmit={submitAuth}><button type="button" className="modal-close" onClick={() => setAuthOpen(false)}><X /></button><p className="eyebrow"><Leaf size={15} /> Welcome to the green network</p><h2>{authMode === 'register' ? 'Plant your account.' : 'Welcome back.'}</h2>{authMode === 'register' && <input required placeholder="Your name" value={auth.name} onChange={(event) => setAuth({ ...auth, name: event.target.value })} />}<input required type="email" placeholder="Email address" value={auth.email} onChange={(event) => setAuth({ ...auth, email: event.target.value })} /><input required minLength="8" type="password" placeholder="Password (8+ characters)" value={auth.password} onChange={(event) => setAuth({ ...auth, password: event.target.value })} /><button className="button button-primary" type="submit">{authMode === 'register' ? 'Create account' : 'Sign in'} <ArrowRight size={16} /></button>{authMode === 'login' && <><div className="auth-divider"><span>or</span></div><button type="button" className="button demo-button" onClick={demoLogin}>Continue with demo account</button><p className="demo-hint">No database account required</p></>}<button type="button" className="switch-auth" onClick={() => setAuthMode(authMode === 'register' ? 'login' : 'register')}>{authMode === 'register' ? 'Already a member? Sign in' : 'New here? Register your org'}</button></form></div>}
     </div>
   );
+}
+
+function getStoredSession() {
+  try {
+    return JSON.parse(localStorage.getItem('eCureSession')) || null;
+  } catch {
+    return null;
+  }
+}
+
+function ProductCard({ item, onReserve }) {
+  return <article className="listing-card glass-card"><div className="listing-image"><img src={`/${item.image}`} alt="" /><span>{item.condition}</span></div><div className="listing-body"><p>{item.category} / {item.seller}</p><h3>{item.title}</h3><div><strong>${item.price}</strong><small>{item.impact}</small></div><button onClick={onReserve}>Reserve piece <ArrowRight size={15} /></button></div></article>;
+}
+
+function LoginPage({ navigate }) {
+  const [role, setRole] = useState('buyer');
+  const [mode, setMode] = useState('login');
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  async function submit(event) {
+    event.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
+      const endpoint = mode === 'register' ? '/api/auth/register' : '/api/auth/login';
+      const response = await fetch(apiUrl(endpoint), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, role }) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Unable to continue.');
+      localStorage.setItem('eCureSession', JSON.stringify(data));
+      navigate('/dashboard');
+    } catch (requestError) {
+      setError(requestError.message || 'The server is unavailable.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function demoLogin(demoRole) {
+    setBusy(true);
+    setError('');
+    try {
+      const response = await fetch(apiUrl('/api/auth/demo-login'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ role: demoRole }) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Demo login is unavailable.');
+      localStorage.setItem('eCureSession', JSON.stringify(data));
+      navigate('/dashboard');
+    } catch (requestError) {
+      setError(requestError.message || 'The server is unavailable.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return <div className="auth-page"><div className="auth-brand" onClick={() => navigate('/')}><span className="brand-mark"><Leaf size={19} /></span><span>E-Cure <em>Earth</em><small>smart e-waste management</small></span></div><div className="auth-layout"><div className="auth-visual"><p className="eyebrow"><Sparkles size={15} /> Join the circular network</p><h1>One login.<br /><span>Two ways</span> to make impact.</h1><p>Buy responsibly, list useful tech, and keep every device moving toward its next best life.</p><div className="auth-visual-orbit"><Recycle size={65} /></div></div><form className="auth-card glass-card auth-form" onSubmit={submit}><p className="eyebrow"><CircleUserRound size={15} /> {mode === 'register' ? 'Create your account' : 'Secure member access'}</p><h2>{mode === 'register' ? 'Create your account.' : 'Welcome back.'}</h2><div className="role-switch"><button type="button" className={role === 'buyer' ? 'active' : ''} onClick={() => setRole('buyer')}><Recycle size={16} /> Buyer</button><button type="button" className={role === 'lister' ? 'active' : ''} onClick={() => setRole('lister')}><Sparkles size={16} /> Lister</button></div>{mode === 'register' && <input required placeholder="Full name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />}<input required type="email" placeholder="Email address" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /><input required minLength="8" type="password" placeholder="Password (8+ characters)" value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} />{error && <p className="form-error">{error}</p>}<button disabled={busy} className="button button-primary button-large" type="submit">{busy ? 'Please wait...' : mode === 'register' ? 'Create account' : `Sign in as ${role}`} <ArrowRight size={16} /></button><div className="auth-divider"><span>demo access</span></div><div className="demo-actions"><button type="button" disabled={busy} className="button demo-button" onClick={() => demoLogin('buyer')}>Demo Buyer</button><button type="button" disabled={busy} className="button demo-button" onClick={() => demoLogin('lister')}>Demo Lister</button></div><button type="button" className="switch-auth" onClick={() => setMode(mode === 'register' ? 'login' : 'register')}>{mode === 'register' ? 'Already registered? Sign in' : 'New here? Create an account'}</button><button type="button" className="back-home" onClick={() => navigate('/')}>Back to home</button></form></div></div>;
+}
+
+function DashboardPage({ navigate }) {
+  const session = getStoredSession();
+  if (!session) return <LoginPage navigate={navigate} />;
+  const isLister = session.user.role === 'lister';
+  return <div className="workspace"><WorkspaceNav navigate={navigate} session={session} active="dashboard" /><main className="workspace-main"><div className="workspace-heading"><div><p className="eyebrow">Good morning, {session.user.name}</p><h1>Your impact <span>dashboard.</span></h1><p>Everything important about your circular activity, in one calm view.</p></div><span className="role-badge"><CircleUserRound size={15} /> {isLister ? 'Lister account' : 'Buyer account'}</span></div><div className="dashboard-stats"><div className="dashboard-stat"><span>Devices {isLister ? 'listed' : 'collected'}</span><strong>{isLister ? '18' : '24'}</strong><small>+12% this month</small></div><div className="dashboard-stat"><span>CO2 avoided</span><strong>{isLister ? '184' : '426'} kg</strong><small>Verified impact</small></div><div className="dashboard-stat"><span>Green points</span><strong>{isLister ? '2,840' : '1,260'}</strong><small>Redeemable rewards</small></div><div className="dashboard-stat"><span>Account status</span><strong>Active</strong><small>Since November 2026</small></div></div><div className="dashboard-grid"><section className="dashboard-panel glass-card"><div className="panel-heading"><div><p className="eyebrow">Latest activity</p><h2>Your circular rhythm</h2></div><button className="text-button">View all <ArrowRight size={14} /></button></div>{['Certified pickup completed', isLister ? 'New listing approved' : 'Marketplace reserve confirmed', 'Impact certificate generated'].map((activity, index) => <div className="activity-row" key={activity}><span className="activity-icon"><CheckCircle2 size={17} /></span><div><strong>{activity}</strong><small>{index === 0 ? 'Today, 10:42 AM' : `${index + 1} days ago`} · Verified by E-Cure Earth</small></div><span className="activity-status">Complete</span></div>)}</section><section className="dashboard-panel glass-card quick-panel"><p className="eyebrow">Quick actions</p><h2>Make your next move.</h2><button className="quick-action" onClick={() => navigate(isLister ? '/marketplace?create=1' : '/marketplace')}><span>{isLister ? <Sparkles /> : <Recycle />}</span><div><strong>{isLister ? 'List a device' : 'Explore marketplace'}</strong><small>{isLister ? 'Give hardware a new owner' : 'Find your next refurbished piece'}</small></div><ArrowRight size={16} /></button><button className="quick-action" onClick={() => navigate('/#impact')}><span><BarChart3 /></span><div><strong>Calculate impact</strong><small>Model your next recovery cycle</small></div><ArrowRight size={16} /></button></section></div></main></div>;
+}
+
+function WorkspaceNav({ navigate, session, active }) {
+  function signOut() {
+    localStorage.removeItem('eCureSession');
+    navigate('/');
+  }
+  return <header className="workspace-nav"><button className="workspace-brand" onClick={() => navigate('/')}><span className="brand-mark"><Leaf size={18} /></span>E-Cure <em>Earth</em></button><nav><button className={active === 'dashboard' ? 'active' : ''} onClick={() => navigate('/dashboard')}><BarChart3 size={15} /> Dashboard</button><button className={active === 'marketplace' ? 'active' : ''} onClick={() => navigate('/marketplace')}><Recycle size={15} /> Marketplace</button><button onClick={() => navigate('/')}><ArrowRight size={15} /> Home</button></nav><div className="workspace-user"><span>{session.user.name}</span><button onClick={signOut}>Sign out</button></div></header>;
+}
+
+function MarketplacePage({ navigate }) {
+  const session = getStoredSession();
+  const [listings, setListings] = useState(demoListings);
+  const [showForm, setShowForm] = useState(new URLSearchParams(window.location.search).get('create') === '1');
+  const [form, setForm] = useState({ title: '', category: 'Computing', condition: 'Grade A', price: '', impact: '' });
+  const [message, setMessage] = useState('');
+  useEffect(() => {
+    fetch(apiUrl('/api/listings')).then((response) => response.ok ? response.json() : demoListings).then(setListings).catch(() => setListings(demoListings));
+  }, []);
+  const isLister = session?.user?.role === 'lister';
+  async function publish(event) {
+    event.preventDefault();
+    const response = await fetch(apiUrl('/api/listings'), { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.token || ''}` }, body: JSON.stringify({ ...form, image: 'laptop.jpeg' }) });
+    const data = await response.json();
+    if (!response.ok) return setMessage(data.message || 'Unable to publish listing.');
+    setListings([data, ...listings]);
+    setForm({ title: '', category: 'Computing', condition: 'Grade A', price: '', impact: '' });
+    setShowForm(false);
+    setMessage('Your listing is now live.');
+  }
+  return <div className="workspace"><WorkspaceNav navigate={navigate} session={session || { user: { name: 'Guest' } }} active="marketplace" /><main className="workspace-main"><div className="workspace-heading marketplace-heading"><div><p className="eyebrow">Verified circular commerce</p><h1>The <span>marketplace.</span></h1><p>Quality devices, transparent impact, and a better next chapter for every piece of hardware.</p></div>{isLister ? <button className="button button-primary" onClick={() => setShowForm(!showForm)}><Sparkles size={16} /> {showForm ? 'Close form' : 'List a device'}</button> : <span className="role-badge"><Recycle size={15} /> Buyer view</span>}</div>{message && <div className="workspace-message">{message}</div>}{showForm && isLister && <form className="listing-form glass-card" onSubmit={publish}><p className="eyebrow">Lister studio</p><h2>Publish a new device.</h2><div className="form-grid"><input required placeholder="Listing title" value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} /><input required placeholder="Category" value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })} /><input required placeholder="Condition" value={form.condition} onChange={(event) => setForm({ ...form, condition: event.target.value })} /><input required type="number" min="0" placeholder="Price (USD)" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} /><input required className="wide-input" placeholder="Impact statement, e.g. 8.5 kg CO2e avoided" value={form.impact} onChange={(event) => setForm({ ...form, impact: event.target.value })} /></div><button className="button button-primary" type="submit">Publish listing <ArrowRight size={15} /></button></form>}<div className="marketplace-toolbar"><span>{listings.length} verified pieces</span><span>Secure chain of custody · 30-day support</span></div><div className="listing-grid workspace-listings">{listings.map((item) => <ProductCard key={item._id} item={item} onReserve={() => setMessage(session ? `${item.title} reserved for ${session.user.name}.` : 'Sign in as a buyer to reserve a piece.')} />)}</div></main></div>;
+}
+
+function App() {
+  const [path, setPath] = useState(window.location.pathname);
+  useEffect(() => {
+    const onPopState = () => setPath(window.location.pathname);
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+  function navigate(nextPath) {
+    window.history.pushState({}, '', nextPath);
+    setPath(nextPath.split('?')[0]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  if (path === '/login') return <LoginPage navigate={navigate} />;
+  if (path === '/dashboard') return <DashboardPage navigate={navigate} />;
+  if (path === '/marketplace') return <MarketplacePage navigate={navigate} />;
+  return <HomePage navigate={navigate} />;
 }
 
 export default App;

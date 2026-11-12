@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, BarChart3, BookOpen, CalendarCheck, CheckCircle2, CircleUserRound, ExternalLink, FlaskConical, Leaf, LocateFixed, MapPinned, Menu, Moon, Recycle, Search, ShieldCheck, Sparkles, Sun, Truck, X } from 'lucide-react';
+import { ArrowRight, BarChart3, BookOpen, CalendarCheck, CheckCircle2, CircleUserRound, ExternalLink, FlaskConical, Leaf, LocateFixed, MapPinned, Menu, Recycle, Search, ShieldCheck, Sparkles, Truck, X } from 'lucide-react';
 import { apiUrl } from './config';
 
 const demoListings = [
@@ -156,13 +156,6 @@ function HomePage({ navigate }) {
     }
   });
 
-  const [theme, setTheme] = useState(() => localStorage.getItem('eCureTheme') || 'light');
-
-  useEffect(() => {
-    document.body.classList.toggle('light-theme', theme === 'light');
-    localStorage.setItem('eCureTheme', theme);
-  }, [theme]);
-
   useEffect(() => {
     fetch(apiUrl('/api/listings'))
       .then((response) => response.ok ? response.json() : demoListings)
@@ -243,7 +236,6 @@ function HomePage({ navigate }) {
         <button className="menu-button" aria-label="Toggle navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'}>
           <a href="#manual" onClick={() => setMenuOpen(false)}>Manual</a><a href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</a><a href="#carbon-calculator" onClick={() => setMenuOpen(false)}>Carbon Calculator</a><a href="/marketplace" onClick={(event) => { event.preventDefault(); navigate('/marketplace'); }}>Marketplace</a><a href="#collectors-map" onClick={() => setMenuOpen(false)}>Collectors Map</a><a href="#science" onClick={() => setMenuOpen(false)}>Science</a>
-          <button className="theme-toggle" aria-label="Toggle color theme" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}</button>
           {session ? <><button className="session-pill" onClick={() => navigate('/dashboard')}><CircleUserRound size={15} /> {session.user.name}</button><button className="button button-secondary button-small" onClick={signOut}>Sign out</button></> : <button className="button button-primary button-small" onClick={() => navigate('/login')}><CircleUserRound size={15} /> Sign in</button>}
         </nav>
       </header>
@@ -286,15 +278,6 @@ function getStoredSession() {
   } catch {
     return null;
   }
-}
-
-function ThemeToggle() {
-  const [theme, setTheme] = useState(() => localStorage.getItem('eCureTheme') || 'light');
-  useEffect(() => {
-    document.body.classList.toggle('light-theme', theme === 'light');
-    localStorage.setItem('eCureTheme', theme);
-  }, [theme]);
-  return <button className="theme-toggle" aria-label="Toggle color theme" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}</button>;
 }
 
 function ProductCard({ item, onReserve }) {
@@ -342,7 +325,7 @@ function LoginPage({ navigate }) {
     }
   }
 
-  return <div className="auth-page"><div className="auth-topbar"><div className="auth-brand" onClick={() => navigate('/')}><span className="brand-mark"><Leaf size={19} /></span><span>E-Cure <em>Earth</em><small>smart e-waste management</small></span></div><ThemeToggle /></div><div className="auth-layout"><div className="auth-visual"><p className="eyebrow"><Sparkles size={15} /> Join the circular network</p><h1>One login.<br /><span>Two ways</span> to make impact.</h1><p>Buy responsibly, list useful tech, and keep every device moving toward its next best life.</p><div className="auth-visual-orbit"><Recycle size={65} /></div></div><form className="auth-card glass-card auth-form" onSubmit={submit}><p className="eyebrow"><CircleUserRound size={15} /> {mode === 'register' ? 'Create your account' : 'Secure member access'}</p><h2>{mode === 'register' ? 'Create your account.' : 'Welcome back.'}</h2><div className="role-switch"><button type="button" className={role === 'buyer' ? 'active' : ''} onClick={() => setRole('buyer')}><Recycle size={16} /> Buyer</button><button type="button" className={role === 'lister' ? 'active' : ''} onClick={() => setRole('lister')}><Sparkles size={16} /> Lister</button></div>{mode === 'register' && <input required placeholder="Full name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />}<input required type="email" placeholder="Email address" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /><input required minLength="8" type="password" placeholder="Password (8+ characters)" value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} />{error && <p className="form-error">{error}</p>}<button disabled={busy} className="button button-primary button-large" type="submit">{busy ? 'Please wait...' : mode === 'register' ? 'Create account' : `Sign in as ${role}`} <ArrowRight size={16} /></button><div className="auth-divider"><span>demo access</span></div><div className="demo-actions"><button type="button" disabled={busy} className="button demo-button" onClick={() => demoLogin('buyer')}>Demo Buyer</button><button type="button" disabled={busy} className="button demo-button" onClick={() => demoLogin('lister')}>Demo Lister</button></div><button type="button" className="switch-auth" onClick={() => setMode(mode === 'register' ? 'login' : 'register')}>{mode === 'register' ? 'Already registered? Sign in' : 'New here? Create an account'}</button><button type="button" className="back-home" onClick={() => navigate('/')}>Back to home</button></form></div></div>;
+  return <div className="auth-page"><div className="auth-topbar"><div className="auth-brand" onClick={() => navigate('/')}><span className="brand-mark"><Leaf size={19} /></span><span>E-Cure <em>Earth</em><small>smart e-waste management</small></span></div></div><div className="auth-layout"><div className="auth-visual"><p className="eyebrow"><Sparkles size={15} /> Join the circular network</p><h1>One login.<br /><span>Two ways</span> to make impact.</h1><p>Buy responsibly, list useful tech, and keep every device moving toward its next best life.</p><div className="auth-visual-orbit"><Recycle size={65} /></div></div><form className="auth-card glass-card auth-form" onSubmit={submit}><p className="eyebrow"><CircleUserRound size={15} /> {mode === 'register' ? 'Create your account' : 'Secure member access'}</p><h2>{mode === 'register' ? 'Create your account.' : 'Welcome back.'}</h2><div className="role-switch"><button type="button" className={role === 'buyer' ? 'active' : ''} onClick={() => setRole('buyer')}><Recycle size={16} /> Buyer</button><button type="button" className={role === 'lister' ? 'active' : ''} onClick={() => setRole('lister')}><Sparkles size={16} /> Lister</button></div>{mode === 'register' && <input required placeholder="Full name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />}<input required type="email" placeholder="Email address" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /><input required minLength="8" type="password" placeholder="Password (8+ characters)" value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} />{error && <p className="form-error">{error}</p>}<button disabled={busy} className="button button-primary button-large" type="submit">{busy ? 'Please wait...' : mode === 'register' ? 'Create account' : `Sign in as ${role}`} <ArrowRight size={16} /></button><div className="auth-divider"><span>demo access</span></div><div className="demo-actions"><button type="button" disabled={busy} className="button demo-button" onClick={() => demoLogin('buyer')}>Demo Buyer</button><button type="button" disabled={busy} className="button demo-button" onClick={() => demoLogin('lister')}>Demo Lister</button></div><button type="button" className="switch-auth" onClick={() => setMode(mode === 'register' ? 'login' : 'register')}>{mode === 'register' ? 'Already registered? Sign in' : 'New here? Create an account'}</button><button type="button" className="back-home" onClick={() => navigate('/')}>Back to home</button></form></div></div>;
 }
 
 function DashboardPage({ navigate }) {
@@ -357,7 +340,7 @@ function WorkspaceNav({ navigate, session, active }) {
     localStorage.removeItem('eCureSession');
     navigate('/');
   }
-  return <header className="workspace-nav"><button className="workspace-brand" onClick={() => navigate('/')}><span className="brand-mark"><Leaf size={18} /></span>E-Cure <em>Earth</em></button><nav><button className={active === 'dashboard' ? 'active' : ''} onClick={() => navigate('/dashboard')}><BarChart3 size={15} /> Dashboard</button><button className={active === 'marketplace' ? 'active' : ''} onClick={() => navigate('/marketplace')}><Recycle size={15} /> Marketplace</button><button onClick={() => navigate('/')}><ArrowRight size={15} /> Home</button></nav><ThemeToggle /><div className="workspace-user"><span>{session.user.name}</span><button onClick={signOut}>Sign out</button></div></header>;
+  return <header className="workspace-nav"><button className="workspace-brand" onClick={() => navigate('/')}><span className="brand-mark"><Leaf size={18} /></span>E-Cure <em>Earth</em></button><nav><button className={active === 'dashboard' ? 'active' : ''} onClick={() => navigate('/dashboard')}><BarChart3 size={15} /> Dashboard</button><button className={active === 'marketplace' ? 'active' : ''} onClick={() => navigate('/marketplace')}><Recycle size={15} /> Marketplace</button><button onClick={() => navigate('/')}><ArrowRight size={15} /> Home</button></nav><div className="workspace-user"><span>{session.user.name}</span><button onClick={signOut}>Sign out</button></div></header>;
 }
 
 function MarketplacePage({ navigate }) {

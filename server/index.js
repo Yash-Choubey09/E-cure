@@ -142,4 +142,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/e-cure-ea
   .then(() => console.log('MongoDB connected'))
   .catch(() => console.warn('MongoDB unavailable: running read-only marketplace demo mode'));
 
-app.listen(port, () => console.log(`E-Cure Earth API listening on http://localhost:${port}`));
+if (!process.env.VERCEL) {
+  app.listen(port, () => console.log(`E-Cure Earth API listening on http://localhost:${port}`));
+}
+
+module.exports = app;

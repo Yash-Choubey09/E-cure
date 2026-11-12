@@ -231,7 +231,7 @@ function HomePage({ navigate }) {
   return (
     <div className="app-shell">
       <div className="ambient ambient-one" /><div className="ambient ambient-two" /><div className="grid-glow" />
-      <header className="site-header">
+      <header className="site-header reference-header">
         <a className="brand" href="#home" onClick={() => setMenuOpen(false)}><span className="brand-mark"><Leaf size={19} /></span><span>E-Cure <em>Earth</em><small>smart e-waste management</small></span></a>
         <button className="menu-button" aria-label="Toggle navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         <nav className={menuOpen ? 'main-nav is-open' : 'main-nav'}>
@@ -240,13 +240,40 @@ function HomePage({ navigate }) {
         </nav>
       </header>
 
-      <main>
-        <section className="hero section-wrap" id="home">
-          <div className="hero-copy reveal"><p className="eyebrow"><span className="eyebrow-dot" /> India&apos;s smart e-waste management platform</p><h1>Turn e-waste into <span>sustainable</span> impact.</h1><p className="hero-text">Connect with certified recyclers, extend the life of your devices, and track your contribution to a greener planet — one device at a time.</p>          <div className="hero-actions"><button className="button button-primary button-large" onClick={() => navigate('/login')}>Get started free <ArrowRight size={17} /></button><a className="button button-secondary button-large" href="/marketplace" onClick={(event) => { event.preventDefault(); navigate('/marketplace'); }}>View marketplace</a></div><div className="hero-stats"><div><strong>10,000+</strong><span>devices recycled</span></div><div><strong>25,000kg</strong><span>CO2 saved</span></div><div><strong>500</strong><span>green members</span></div></div></div>
-          <div className="hero-visual reveal" aria-label="E-waste recovery illustration"><div className="hero-image-card"><img src="/hero-image.jpg" alt="E-waste recycling" /><div className="hero-img-overlay" /></div><div className="hero-floating-badge"><span className="badge-orb">✦</span><div><strong>Carbon neutral</strong><small>Certified recycling process</small></div></div><div className="orbit orbit-one"><span className="orbit-dot"><Leaf size={15} /></span></div><div className="orbit orbit-two"><span className="orbit-dot"><Recycle size={16} /></span></div><div className="hero-cube cube-one" /><div className="hero-cube cube-two" /></div>
+      <main className="reference-home">
+        <div className="ruler-strip" aria-hidden="true"><div><span>0</span><span>100</span><span>200</span><span>300</span><span>400</span><span>500</span><span>600</span><span>700</span><span>800</span><span>900</span><span>1000</span><span>1100</span><span>1200</span></div></div>
+        <section className="reference-hero section-wrap" id="home">
+          <div className="reference-kicker">02:28:00 AM IST · UTC+05:30</div>
+          <div className="reference-script">circular architecture for</div>
+          <div className="reference-stage">
+            <span className="reference-sticker sticker-mint">● <b>100% Zero Landfill Certified</b></span>
+            <span className="reference-sticker sticker-gold"><b>-6.2t CO₂</b> Scope 3 Mitigated</span>
+            <span className="reference-node node-chd">CHD</span>
+            <span className="reference-node node-blr">BLR</span>
+            <div className="reference-frame">
+              <span className="frame-label">● FRAME // E-CURE.SPEC [HOVER TO X-RAY]</span>
+              <div className="reference-inner-frame"><span className="reference-wordmark">E-CURE</span><i>●</i></div>
+              <span className="scanner-pill">● SCANNER // VERIFIED</span>
+            </div>
+            <span className="reference-sticker sticker-sage">◈ 2,400 KG TRACKED</span>
+            <span className="reference-sticker sticker-orange">SCOPE 3 LEDGER ↗</span>
+          </div>
+          <div className="reference-lockup">
+            <div className="reference-status">● VERIFIED SCOPE 3 TELEMETRY &amp; CIRCULAR HARDWARE</div>
+            <h1>We build <span>◎</span> regenerative hardware <b>✣</b> lifecycles.</h1>
+            <div className="reference-actions"><button className="button button-dark" onClick={() => navigate('/login')}><b>»</b> Enter console</button><a href="#capabilities">Explore platform →</a></div>
+          </div>
         </section>
 
-        <section className="stats-strip"><div className="section-wrap stats-grid"><div><strong>10,000+</strong><span>Devices processed</span></div><div><strong>50+</strong><span>Certified recyclers</span></div><div><strong>25,000kg</strong><span>CO2 emissions saved</span></div><div><strong>98%</strong><span>Customer satisfaction</span></div></div></section>
+        <section className="reference-about section-wrap" id="about">
+          <div className="reference-about-heading"><div><div className="reference-status">● 01 // MISSION &amp; VERIFIED TELEMETRY</div><h2>about e-cure!</h2><p>E-Cure.Earth is an enterprise platform bridging high-compliance electronic asset disposition, secondary exchange, and verified Scope 3 carbon telemetry.</p></div><a href="#manual">Operating manual →</a></div>
+          <div className="reference-metrics">
+            <article><span>METRIC // 01</span><strong>100% Zero Landfill</strong><p>Certified closed-loop material recovery across Tier-1 CPCB &amp; R2v3 smelters.</p></article>
+            <article><span>-6.2t CO₂</span><strong>Scope 3 Mitigated</strong><p>Cryptographically verified emissions avoidance per batch.</p></article>
+            <article><span>METRIC // 03</span><strong>Verified ESG Certificate</strong><p>Audit-ready ISO 14064-3 &amp; EPR compliance certificates.</p></article>
+            <article><span>2,400 KG</span><strong>Corporate E-Waste Tracked</strong><p>Live chain-of-custody corporate e-waste telemetry.</p></article>
+          </div>
+        </section>
 
         <section className="section-wrap section-block manual-section" id="manual"><div className="section-intro reveal"><p className="eyebrow"><BookOpen size={15} /> User manual</p><h2>A calmer way to <span>recycle right.</span></h2><p>Start with a device, choose the right next step, and let E-Cure Earth keep the evidence organized.</p></div><div className="manual-grid">{[['01', 'Register your device', 'Add a device or choose one from the marketplace. Every item gets a simple, traceable identity.'], ['02', 'Choose its next life', 'Book a certified pickup, list it for reuse, or find a local drop-off point.'], ['03', 'Read your impact', 'Return to your dashboard for a clear report on carbon, materials, and circular value.']].map(([number, title, copy]) => <article className="manual-step glass-card reveal" key={number}><span>{number}</span><div><h3>{title}</h3><p>{copy}</p></div><ArrowRight size={17} /></article>)}</div></section>
 

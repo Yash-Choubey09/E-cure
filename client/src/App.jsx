@@ -156,7 +156,7 @@ function HomePage({ navigate }) {
     }
   });
 
-  const [theme, setTheme] = useState(() => localStorage.getItem('eCureTheme') || 'dark');
+  const [theme, setTheme] = useState(() => localStorage.getItem('eCureTheme') || 'light');
 
   useEffect(() => {
     document.body.classList.toggle('light-theme', theme === 'light');
@@ -289,7 +289,7 @@ function getStoredSession() {
 }
 
 function ThemeToggle() {
-  const [theme, setTheme] = useState(() => localStorage.getItem('eCureTheme') || 'dark');
+  const [theme, setTheme] = useState(() => localStorage.getItem('eCureTheme') || 'light');
   useEffect(() => {
     document.body.classList.toggle('light-theme', theme === 'light');
     localStorage.setItem('eCureTheme', theme);
